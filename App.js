@@ -19,7 +19,8 @@ import {
 } from 'native-base';
 
 export default function App() {
-    const [email, setEmail] = React.useState();
+    const [email, setEmail] = React.useState(); /*En email se guardara el email que se ha escrito */
+    const [password, setPassword] = React.useState();
     return (
         <NativeBaseProvider>
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
@@ -60,13 +61,17 @@ export default function App() {
                             }}>
                             Password
                         </FormControl.Label>
-                        <Input type="password" />
+                        <Input
+                            type="password"
+                            value={password}
+                            onChangeText={(anything) => setPassword(anything)}
+                        />
                     </FormControl>
                     <Button
                         mt="2"
                         colorScheme="indigo"
                         _text={{ color: 'white' }}
-                        onPress={() => window.alert(email)}
+                        /*onPress={() => window.alert(password)} */
                     >
                         Sign in
                     </Button>
