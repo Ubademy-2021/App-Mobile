@@ -1,6 +1,6 @@
 # App-Mobile
 
-Installation of Native Base library:
+### Installation of Native Base library:
 
 In the root of the project execute the following commands:
 
