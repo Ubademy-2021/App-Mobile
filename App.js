@@ -22,17 +22,19 @@ export default function App() {
     return (
         <NativeBaseProvider>
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
-                <Image
-                    source={logo}
-                    style={{height: 100, width:156 }}
-                />
-                <Heading size="lg" fontWeight="600" color="coolGray.800">
-                    Welcome to Ubademy!
-                </Heading>
-                <Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
-                    Sign in to continue
-                </Heading>
+                <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                    <Image
+                        source={logo}
+                        style={{height: 100, width:156 }}
+                    />
 
+                    <Heading size="lg" fontWeight="600" color="coolGray.800">
+                        Welcome to Ubademy!
+                    </Heading>
+                    <Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
+                        Sign in to continue
+                    </Heading>
+                </View>
                 <VStack space={3} mt="5">
                     <FormControl>
                         <FormControl.Label
