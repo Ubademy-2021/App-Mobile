@@ -67,6 +67,10 @@ export default function App() {
                     <Button mt="2" colorScheme="indigo" _text={{ color: 'white' }}>
                         Sign in
                     </Button>
+
+                    <Button mt="2" colorScheme="blue" _text={{ color: 'white' }}>
+                        Sign in with Facebook
+                    </Button>
                     <HStack mt="6" justifyContent="center">
                         <Text fontSize="sm" color="muted.700" fontWeight={400}>
                             I'm a new user.{' '}
