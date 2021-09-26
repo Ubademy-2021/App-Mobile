@@ -57,17 +57,10 @@ export default function App() {
                             Password
                         </FormControl.Label>
                         <Input type="password" />
-                        <Link
-                            _text={{ fontSize: 'xs', fontWeight: '500', color: 'indigo.500' }}
-                            alignSelf="flex-end"
-                            mt="1">
-                            Forget Password?
-                        </Link>
                     </FormControl>
                     <Button mt="2" colorScheme="indigo" _text={{ color: 'white' }}>
                         Sign in
                     </Button>
-
                     <Button mt="2" colorScheme="blue" _text={{ color: 'white' }}>
                         Sign in with Facebook
                     </Button>
