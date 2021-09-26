@@ -18,6 +18,7 @@ import {
     Divider,
 } from 'native-base';
 
+
 export default function App() {
     const [email, setEmail] = React.useState(); /*En email se guardara el email que se ha escrito */
     const [password, setPassword] = React.useState();
@@ -71,7 +72,15 @@ export default function App() {
                         mt="2"
                         colorScheme="indigo"
                         _text={{ color: 'white' }}
-                        /*onPress={() => window.alert(password)} */
+                        onPress={() =>{
+                            if(email){
+                                console.log("Navego a la siguiente pantalla");
+                            }
+                            else{
+                                window.alert("Invalid log in. Please provide a valid username");
+                            }
+                        }
+                        }
                     >
                         Sign in
                     </Button>
