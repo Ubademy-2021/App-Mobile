@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import logo from './assets/ubademy.png'
-import { View, StyleSheet, Image} from 'react-native'
+import {View, StyleSheet, Image} from 'react-native'
 import {
     NativeBaseProvider,
     Box,
@@ -19,6 +19,7 @@ import {
 } from 'native-base';
 
 export default function App() {
+    const [email, setEmail] = React.useState();
     return (
         <NativeBaseProvider>
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
@@ -45,7 +46,10 @@ export default function App() {
                             }}>
                             Email ID
                         </FormControl.Label>
-                        <Input />
+                        <Input
+                            value={email}
+                            onChangeText={(anything) => setEmail(anything)}
+                        />
                     </FormControl>
                     <FormControl>
                         <FormControl.Label
@@ -58,10 +62,20 @@ export default function App() {
                         </FormControl.Label>
                         <Input type="password" />
                     </FormControl>
-                    <Button mt="2" colorScheme="indigo" _text={{ color: 'white' }}>
+                    <Button
+                        mt="2"
+                        colorScheme="indigo"
+                        _text={{ color: 'white' }}
+                        onPress={() => window.alert(email)}
+                    >
                         Sign in
                     </Button>
-                    <Button mt="2" colorScheme="blue" _text={{ color: 'white' }}>
+                    <Button
+                        mt="2"
+                        colorScheme="blue"
+                        _text={{ color: 'white' }}
+                        onPress={() => window.alert("Not implemented yet")}
+                    >
                         Sign in with Facebook
                     </Button>
                     <HStack mt="6" justifyContent="center">
