@@ -17,6 +17,8 @@ import {
     HStack,
     Divider,
 } from 'native-base';
+//TODO: Pasar todos los estilos a la style_sheet
+
 
 /* Se fija si el log in es valido o no, en la practica la condicion
 va a ser distinta obviamente
@@ -40,7 +42,7 @@ export default function LogInScreen() {
                 <View style={{justifyContent: 'center',alignItems: 'center'}}>
                     <Image
                         source={logo}
-                        style={{height: 100, width:156 }}
+                        style={styles.image}
                     />
 
                     <Heading size="lg" fontWeight="600" color="coolGray.800">
@@ -53,11 +55,7 @@ export default function LogInScreen() {
                 <VStack space={3} mt="5">
                     <FormControl>
                         <FormControl.Label
-                            _text={{
-                                color: 'coolGray.800',
-                                fontSize: 'xs',
-                                fontWeight: 500,
-                            }}>
+                            _text={styles.textDefault}>
                             Email ID
                         </FormControl.Label>
                         <Input
@@ -67,11 +65,7 @@ export default function LogInScreen() {
                     </FormControl>
                     <FormControl>
                         <FormControl.Label
-                            _text={{
-                                color: 'coolGray.800',
-                                fontSize: 'xs',
-                                fontWeight: 500,
-                            }}>
+                            _text={styles.textDefault}>
                             Password
                         </FormControl.Label>
                         <Input
@@ -83,7 +77,7 @@ export default function LogInScreen() {
                     <Button
                         mt="2"
                         colorScheme="indigo"
-                        _text={{ color: 'white' }}
+                        _text={styles.buttonText}
                         onPress={() =>{
                             verifyLogIn(email,password);
                         }
@@ -94,7 +88,7 @@ export default function LogInScreen() {
                     <Button
                         mt="2"
                         colorScheme="blue"
-                        _text={{ color: 'white' }}
+                        _text={styles.buttonText}
                         onPress={() => window.alert("Not implemented yet")}
                     >
                         Sign in with Facebook
@@ -118,3 +112,9 @@ export default function LogInScreen() {
         </NativeBaseProvider>
     );
 }
+
+const styles= StyleSheet.create({
+    textDefault: {color: '#444444',fontWeight: 'normal'},
+    image: {height: 100, width:156 },
+    buttonText: {color: '#ffffff'}
+})
