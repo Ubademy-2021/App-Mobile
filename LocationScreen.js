@@ -1,3 +1,6 @@
+
+
+/*
 import React from 'react';
 import {
     VStack,
@@ -31,7 +34,7 @@ function BuildingAFormExample() {
     const [errors, setErrors] = React.useState({});
 
     const onSubmit = () => {
-        validation(formData,errors,setErrors) ? window.alert('Submitted') : window.alert('Validation Failed');
+        validation(formData,errors,setErrors) ? console.log('Submitted') : console.log('Validation Failed');
     };
 
     return (
@@ -75,4 +78,41 @@ export default function () {
             </Center>
         </NativeBaseProvider>
     );
+}
+*/
+
+import React from "react"
+import {
+    FormControl,
+    Input,
+    Stack,
+    Center,
+    NativeBaseProvider,
+} from "native-base"
+export const Example = () => {
+    return (
+        // Con FormControl isRequired isInvalid=true> , seteo tod.o lo del error
+        // Con FormControl isDisabled>,o  Con FormControl isRequired isInvalid=false>
+        // deshabilito to.do lo que se seteaba con el error
+        <FormControl isRequired isInvalid={false}>
+            <Stack mx={4}>
+                <FormControl.Label>Favorite framework</FormControl.Label>
+                <Input p={2} placeholder="Is it react?" />
+                <FormControl.HelperText>
+                    We'll keep this between us.
+                </FormControl.HelperText>
+                <FormControl.ErrorMessage>Something is wrong.</FormControl.ErrorMessage>
+            </Stack>
+        </FormControl>
+    )
+}
+
+export default () => {
+    return (
+        <NativeBaseProvider>
+            <Center flex={1} px="3">
+                <Example />
+            </Center>
+        </NativeBaseProvider>
+    )
 }
