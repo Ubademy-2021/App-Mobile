@@ -8,9 +8,6 @@ import {
     Center
 } from 'native-base';
 
-/* Se fija si el log in es valido o no, en la practica la condicion
-va a ser distinta obviamente
- */
 function validation(formData,errors,setErrors){
     if (formData.name === undefined) {
         setErrors({
@@ -40,9 +37,19 @@ function BuildingAFormExample() {
     return (
         <VStack width="90%" mx="3">
             <FormControl isRequired isInvalid={'name' in errors}>
-                <FormControl.Label _text={{bold: true}}>Name</FormControl.Label>
+                <FormControl.Label _text={{bold: true}}>Country/Region</FormControl.Label>
                 <Input
-                    placeholder="John"
+                    placeholder="Argentina"
+                    onChangeText={(value) => setData({ ...formData, name: value })}
+                />
+                <FormControl.Label _text={{bold: true}}>Locality</FormControl.Label>
+                <Input
+                    placeholder="C.A.B.A"
+                    onChangeText={(value) => setData({ ...formData, name: value })}
+                />
+                <FormControl.Label _text={{bold: true}}>Street</FormControl.Label>
+                <Input
+                    placeholder="Moldes"
                     onChangeText={(value) => setData({ ...formData, name: value })}
                 />
                 {'name' in errors ?
