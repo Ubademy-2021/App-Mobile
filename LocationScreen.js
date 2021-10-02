@@ -31,7 +31,7 @@ function BuildingAFormExample() {
     const [errors, setErrors] = React.useState({});
 
     const onSubmit = () => {
-        validation(formData,errors,setErrors) ? console.log('Submitted') : console.log('Validation Failed');
+        validation(formData,errors,setErrors) ? window.alert('Submitted') : window.alert('Validation Failed');
     };
 
     return (
@@ -45,12 +45,12 @@ function BuildingAFormExample() {
                 <FormControl.Label _text={{bold: true}}>Locality</FormControl.Label>
                 <Input
                     placeholder="C.A.B.A"
-                    onChangeText={(value) => setData({ ...formData, name: value })}
+                    onChangeText={(value) => setData({ ...formData, locality: value })}
                 />
                 <FormControl.Label _text={{bold: true}}>Street</FormControl.Label>
                 <Input
                     placeholder="Moldes"
-                    onChangeText={(value) => setData({ ...formData, name: value })}
+                    onChangeText={(value) => setData({ ...formData, street: value })}
                 />
                 {'name' in errors ?
                     <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>Error</FormControl.ErrorMessage>
