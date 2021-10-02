@@ -8,28 +8,33 @@ import {
     Center
 } from 'native-base';
 
+/* Se fija si el log in es valido o no, en la practica la condicion
+va a ser distinta obviamente
+ */
+function validation(formData,errors,setErrors){
+    if (formData.name === undefined) {
+        setErrors({
+            ...errors,
+            name: 'Name is required',
+        });
+        return false;
+    } else if (formData.name.length < 3) {
+        setErrors({
+            ...errors,
+            name: 'Name is too short',
+        });
+        return false;
+    }
+    return true;
+}
+
+
 function BuildingAFormExample() {
     const [formData, setData] = React.useState({});
     const [errors, setErrors] = React.useState({});
-    const validate = () => {
-        if (formData.name === undefined) {
-            setErrors({
-                ...errors,
-                name: 'Name is required',
-            });
-            return false;
-        } else if (formData.name.length < 3) {
-            setErrors({
-                ...errors,
-                name: 'Name is too short',
-            });
-            return false;
-        }
-        return true;
-    };
 
     const onSubmit = () => {
-        validate() ? console.log('Submitted') : console.log('Validation Failed');
+        validation(formData,errors,setErrors) ? console.log('Submitted') : console.log('Validation Failed');
     };
 
     return (
@@ -45,7 +50,7 @@ function BuildingAFormExample() {
                     :
 
                     <FormControl.HelperText _text={{fontSize: 'xs'}}>
-                        Name should contain atleast 3 character.
+                        Name should contain at least 3 character.
                     </FormControl.HelperText>
                 }
             </FormControl>
