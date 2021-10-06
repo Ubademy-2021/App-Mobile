@@ -1,45 +1,38 @@
-import * as React from 'react';
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-import logo from './assets/ubademy.png'
-import {View, StyleSheet, Image} from 'react-native'
+import * as React from 'react'
+import logo from '../assets/ubademy.png'
+import { View, StyleSheet, Image } from 'react-native'
 import {
-    NativeBaseProvider,
-    Box,
-    Text,
-    Heading,
-    VStack,
-    FormControl,
-    Input,
-    Link,
-    Button,
-    Icon,
-    IconButton,
-    HStack,
-    Divider,
-} from 'native-base';
-//TODO: Pasar todos los estilos a la style_sheet
-
+  NativeBaseProvider,
+  Box,
+  Text,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Link,
+  Button,
+  HStack
+} from 'native-base'
+// TODO: Pasar todos los estilos a la style_sheet
 
 /* Se fija si el log in es valido o no, en la practica la condicion
 va a ser distinta obviamente
  */
-function verifyLogIn(email,password){
-    if(email){
-        window.alert("Valid Log in.")
-    }
-    else{
-        window.alert("Invalid log in. Please provide a valid username");
-    }
+function verifyLogIn (email, password) {
+  if (email) {
+    window.alert('Valid Log in.')
+  } else {
+    window.alert('Invalid log in. Please provide a valid username')
+  }
 }
 
-
-export default function LogInScreen() {
-    const [email, setEmail] = React.useState(); /*En email se guardara el email que se ha escrito */
-    const [password, setPassword] = React.useState();
-    return (
+export default function LogInScreen () {
+  const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
+  const [password, setPassword] = React.useState()
+  return (
         <NativeBaseProvider>
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
-                <View style={{justifyContent: 'center',alignItems: 'center'}}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <Image
                         source={logo}
                         style={styles.image}
@@ -78,8 +71,8 @@ export default function LogInScreen() {
                         mt="2"
                         colorScheme="indigo"
                         _text={styles.buttonText}
-                        onPress={() =>{
-                            verifyLogIn(email,password);
+                        onPress={() => {
+                          verifyLogIn(email, password)
                         }
                         }
                     >
@@ -89,7 +82,7 @@ export default function LogInScreen() {
                         mt="2"
                         colorScheme="blue"
                         _text={styles.buttonText}
-                        onPress={() => window.alert("Not implemented yet")}
+                        onPress={() => window.alert('Not implemented yet')}
                     >
                         Sign in with Facebook
                     </Button>
@@ -99,9 +92,9 @@ export default function LogInScreen() {
                         </Text>
                         <Link
                             _text={{
-                                color: 'indigo.500',
-                                fontWeight: 'medium',
-                                fontSize: 'sm',
+                              color: 'indigo.500',
+                              fontWeight: 'medium',
+                              fontSize: 'sm'
                             }}
                             href="#">
                             Sign Up
@@ -110,11 +103,11 @@ export default function LogInScreen() {
                 </VStack>
             </Box>
         </NativeBaseProvider>
-    );
+  )
 }
 
-const styles= StyleSheet.create({
-    textDefault: {color: '#444444',fontWeight: 'normal'},
-    image: {height: 100, width:156 },
-    buttonText: {color: '#ffffff'}
+const styles = StyleSheet.create({
+  textDefault: { color: '#444444', fontWeight: 'normal' },
+  image: { height: 100, width: 156 },
+  buttonText: { color: '#ffffff' }
 })

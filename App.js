@@ -1,17 +1,15 @@
-import LogInScreen from "./LogInScreen";
-
+import LogInScreen from './screens/LogInScreen'
 
 import React from 'react'
-import {Text, View, StyleSheet, Image} from 'react-native'
 
 import logo from './assets/ubademy.png'
+import SignUpForm from './screens/SignUpForm'
 
-const App =() =>{
-    return (
-        LogInScreen()
-    );
-};
+const App = () => {
+  return (
+    SignUpForm()
+    // LogInScreen()
+  )
+}
 
-export default App;
-
-
+export default App
