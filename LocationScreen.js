@@ -134,20 +134,16 @@ import {
 
 import { StyleSheet } from 'react-native'
 
+function isEmpty(str) {
+    return (!str || str.length === 0 );
+}
+
 export default function SignUpForm () {
 
-    const [country, setCountry] = React.useState();
-    const [location, setLocation] = React.useState();
-    const [streetName, setStreetName] = React.useState();
-    const [streetNumber, setStreetNumber] = React.useState();
-    const [locationData, setLocationData] = React.useState({});
-    const [errors, setErrors] = React.useState({});
-/*
-    const validateData = (country) => {
-        var logInSucessful = country ? true : false;
-        return logInSucessful;
-    }
-    */
+    const [locationData, setLocationData] = React.useState({
+    });
+    const [errors, setErrors] = React.useState({
+    });
 
 
     const validate = () => {
@@ -157,10 +153,25 @@ export default function SignUpForm () {
                 country: 'Country is required',
             });
             return false;
-        } else if (locationData.streetName == undefined) {
+        }
+        if (locationData.location === undefined) {
             setErrors({
                 ...errors,
-                name: 'Street name is required',
+                location: 'Location is required',
+            });
+            return false;
+        }
+        if (locationData.streetName === undefined) {
+            setErrors({
+                ...errors,
+                streetName: 'Street Name is required',
+            });
+            return false;
+        }
+        if (locationData.streetNumber === undefined) {
+            setErrors({
+                ...errors,
+                streetNumber: 'streetNumber is required',
             });
             return false;
         }
@@ -198,7 +209,7 @@ export default function SignUpForm () {
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'location' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Locality
@@ -207,8 +218,14 @@ export default function SignUpForm () {
                                 placeholder="C.A.B.A"
                                 onChangeText={(value) => setLocationData({ ...locationData, location: value })}
                             />
+                            {'location' in errors ?
+                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
+                                :
+                                <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'streetName' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Street Name
@@ -218,8 +235,14 @@ export default function SignUpForm () {
                                 //onChangeText={(streetNameInput) => setLocation(streetNameInput)}
                                 onChangeText={(value) => setLocationData({ ...locationData, streetName: value })}
                             />
+                            {'streetName' in errors ?
+                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
+                                :
+                                <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'streetNumber' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Street Address
@@ -229,6 +252,12 @@ export default function SignUpForm () {
                                 //onChangeText={(streetNumberInput) => setLocation(streetNumberInput)}
                                 onChangeText={(value) => setLocationData({ ...locationData, streetNumber: value })}
                             />
+                            {'streetNumber' in errors ?
+                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
+                                :
+                                <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <Button.Group
                             direction="column"
@@ -238,6 +267,7 @@ export default function SignUpForm () {
                                     /*window.alert(locationData.country);
                                     validateData(country) ? window.alert("It's all fine") :
                                         window.alert("Fill the fields");*/
+                                    window.alert(locationData.country);
                                     validate();
                                 }
                                 }
