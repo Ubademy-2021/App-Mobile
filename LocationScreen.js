@@ -173,21 +173,27 @@ export default function SignUpForm () {
                                 _text={styles.formControlText}>
                                 Locality
                             </FormControl.Label>
-                            <Input/>
+                            <Input
+                                placeholder="C.A.B.A"
+                            />
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Street Name
                             </FormControl.Label>
-                            <Input/>
+                            <Input
+                                placeholder="Gorostiaga"
+                            />
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Street Address
                             </FormControl.Label>
-                            <Input/>
+                            <Input
+                                placeholder="2324"
+                            />
                         </FormControl>
                         <Button.Group
                             direction="column"
