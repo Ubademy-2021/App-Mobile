@@ -142,29 +142,31 @@ export default function SignUpForm () {
     const [streetNumber, setStreetNumber] = React.useState();
     const [locationData, setLocationData] = React.useState({});
     const [errors, setErrors] = React.useState({});
-
+/*
     const validateData = (country) => {
         var logInSucessful = country ? true : false;
         return logInSucessful;
     }
-/*
+    */
+
+
     const validate = () => {
-        if (formData.name === undefined) {
+        if (locationData.country === undefined) {
             setErrors({
                 ...errors,
-                name: 'Name is required',
+                country: 'Country is required',
             });
             return false;
-        } else if (formData.name.length < 3) {
+        } else if (locationData.streetName == undefined) {
             setErrors({
                 ...errors,
-                name: 'Name is too short',
+                name: 'Street name is required',
             });
             return false;
         }
         return true;
     };
-*/
+
     return (
         <NativeBaseProvider>
             <ScrollView>
@@ -179,7 +181,7 @@ export default function SignUpForm () {
                     </VStack>
 
                     <VStack space={3} mt="5">
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'country' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Country
@@ -189,6 +191,12 @@ export default function SignUpForm () {
                                 //onChangeText={(countryInput) => setCountry(countryInput)}
                                 onChangeText={(value) => setLocationData({ ...locationData, country: value })}
                             />
+                            {'country' in errors ?
+                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
+                                :
+                                <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
@@ -227,9 +235,10 @@ export default function SignUpForm () {
                         >
                             <Button
                                 onPress={() => {
-                                    window.alert(locationData.country);
+                                    /*window.alert(locationData.country);
                                     validateData(country) ? window.alert("It's all fine") :
-                                        window.alert("Fill the fields");
+                                        window.alert("Fill the fields");*/
+                                    validate();
                                 }
                                 }
                             >
