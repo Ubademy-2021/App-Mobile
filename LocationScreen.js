@@ -60,7 +60,7 @@ function BuildingAFormExample() {
                     :
 
                     <FormControl.HelperText _text={{fontSize: 'xs'}}>
-                        Name should contain at least 3 character.
+                        Name should contain at least 3 characters.
                     </FormControl.HelperText>
                 }
             </FormControl>
@@ -118,6 +118,7 @@ export default () => {
 }
 */
 
+//TODO: Si pongo mal un campo pedir que lo vuelva a llenar
 import * as React from 'react'
 
 import {
@@ -139,12 +140,31 @@ export default function SignUpForm () {
     const [location, setLocation] = React.useState();
     const [streetName, setStreetName] = React.useState();
     const [streetNumber, setStreetNumber] = React.useState();
+    const [locationData, setLocationData] = React.useState({});
+    const [errors, setErrors] = React.useState({});
 
     const validateData = (country) => {
         var logInSucessful = country ? true : false;
         return logInSucessful;
     }
-
+/*
+    const validate = () => {
+        if (formData.name === undefined) {
+            setErrors({
+                ...errors,
+                name: 'Name is required',
+            });
+            return false;
+        } else if (formData.name.length < 3) {
+            setErrors({
+                ...errors,
+                name: 'Name is too short',
+            });
+            return false;
+        }
+        return true;
+    };
+*/
     return (
         <NativeBaseProvider>
             <ScrollView>
@@ -166,7 +186,8 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="Argentina"
-                                onChangeText={(countryInput) => setCountry(countryInput)}
+                                //onChangeText={(countryInput) => setCountry(countryInput)}
+                                onChangeText={(value) => setLocationData({ ...locationData, country: value })}
                             />
                         </FormControl>
                         <FormControl isRequired>
@@ -176,7 +197,7 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="C.A.B.A"
-                                onChangeText={(localityInput) => setLocation(localityInput)}
+                                onChangeText={(value) => setLocationData({ ...locationData, location: value })}
                             />
                         </FormControl>
                         <FormControl isRequired>
@@ -186,7 +207,8 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="Gorostiaga"
-                                onChangeText={(streetNameInput) => setLocation(streetNameInput)}
+                                //onChangeText={(streetNameInput) => setLocation(streetNameInput)}
+                                onChangeText={(value) => setLocationData({ ...locationData, streetName: value })}
                             />
                         </FormControl>
                         <FormControl isRequired>
@@ -196,7 +218,8 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="2324"
-                                onChangeText={(streetNumberInput) => setLocation(streetNumberInput)}
+                                //onChangeText={(streetNumberInput) => setLocation(streetNumberInput)}
+                                onChangeText={(value) => setLocationData({ ...locationData, streetNumber: value })}
                             />
                         </FormControl>
                         <Button.Group
@@ -204,7 +227,7 @@ export default function SignUpForm () {
                         >
                             <Button
                                 onPress={() => {
-
+                                    window.alert(locationData.country);
                                     validateData(country) ? window.alert("It's all fine") :
                                         window.alert("Fill the fields");
                                 }
