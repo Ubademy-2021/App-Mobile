@@ -199,7 +199,6 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="Argentina"
-                                //onChangeText={(countryInput) => setCountry(countryInput)}
                                 onChangeText={(value) => setLocationData({ ...locationData, country: value })}
                             />
                             {'country' in errors ?
@@ -232,7 +231,6 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="Gorostiaga"
-                                //onChangeText={(streetNameInput) => setLocation(streetNameInput)}
                                 onChangeText={(value) => setLocationData({ ...locationData, streetName: value })}
                             />
                             {'streetName' in errors ?
@@ -249,7 +247,6 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="2324"
-                                //onChangeText={(streetNumberInput) => setLocation(streetNumberInput)}
                                 onChangeText={(value) => setLocationData({ ...locationData, streetNumber: value })}
                             />
                             {'streetNumber' in errors ?
@@ -264,10 +261,6 @@ export default function SignUpForm () {
                         >
                             <Button
                                 onPress={() => {
-                                    /*window.alert(locationData.country);
-                                    validateData(country) ? window.alert("It's all fine") :
-                                        window.alert("Fill the fields");*/
-                                    window.alert(locationData.country);
                                     validate();
                                 }
                                 }
