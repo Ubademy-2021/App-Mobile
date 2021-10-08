@@ -154,7 +154,7 @@ export default function SignUpForm () {
                             Sign Up
                         </Heading>
                         <Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs" textalign="center">
-                            Step 1: Personal data
+                            Step 2: Location data
                         </Heading>
                     </VStack>
 
@@ -204,12 +204,9 @@ export default function SignUpForm () {
                         >
                             <Button
                                 onPress={() => {
-                                    if(validateData(country)){
-                                        window.alert("It's all fine");
-                                    }
-                                    else{
-                                        window.alert("Fill the fields!")
-                                    }
+
+                                    validateData(country) ? window.alert("It's all fine") :
+                                        window.alert("Fill the fields");
                                 }
                                 }
                             >
