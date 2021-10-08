@@ -140,6 +140,11 @@ export default function SignUpForm () {
     const [streetName, setStreetName] = React.useState();
     const [streetNumber, setStreetNumber] = React.useState();
 
+    const validateData = (country) => {
+        var logInSucessful = country ? true : false;
+        return logInSucessful;
+    }
+
     return (
         <NativeBaseProvider>
             <ScrollView>
@@ -199,7 +204,12 @@ export default function SignUpForm () {
                         >
                             <Button
                                 onPress={() => {
-                                    console.log(country);
+                                    if(validateData(country)){
+                                        window.alert("It's all fine");
+                                    }
+                                    else{
+                                        window.alert("Fill the fields!")
+                                    }
                                 }
                                 }
                             >
