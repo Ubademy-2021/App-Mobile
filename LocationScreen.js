@@ -80,7 +80,7 @@ export default function () {
     );
 }
 */
-
+/*
 import React from "react"
 import {
     FormControl,
@@ -116,3 +116,92 @@ export default () => {
         </NativeBaseProvider>
     )
 }
+*/
+
+import * as React from 'react'
+
+import {
+    NativeBaseProvider,
+    Box,
+    Heading,
+    VStack,
+    FormControl,
+    Input,
+    Button,
+    ScrollView
+} from 'native-base'
+
+import { StyleSheet } from 'react-native'
+
+export default function SignUpForm () {
+    const [newUser, setNewUser] = React.useState({
+        name: '',
+        surname: '',
+        username: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+        phoneNumber: ''
+    })
+
+
+    return (
+        <NativeBaseProvider>
+            <ScrollView>
+                <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
+                    <VStack alignItems="center">
+                        <Heading size="lg" color="coolGray.800" fontWeight="600" textalign="center">
+                            Sign Up
+                        </Heading>
+                        <Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs" textalign="center">
+                            Step 1: Personal data
+                        </Heading>
+                    </VStack>
+
+                    <VStack space={3} mt="5">
+                        <FormControl isRequired>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                Country
+                            </FormControl.Label>
+                            <Input
+                                placeholder="Argentina"
+                            />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                Locality
+                            </FormControl.Label>
+                            <Input/>
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                Street Name
+                            </FormControl.Label>
+                            <Input/>
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                Street Address
+                            </FormControl.Label>
+                            <Input/>
+                        </FormControl>
+                        <Button.Group
+                            direction="column"
+                        >
+                            <Button >Continue</Button>
+                            <Button>Cancel</Button>
+                        </Button.Group>
+                    </VStack>
+                </Box>
+            </ScrollView>
+        </NativeBaseProvider>
+    )
+}
+
+const styles = StyleSheet.create({
+    formControlText: { color: '#444444', fontWeight: '500' }
+})
