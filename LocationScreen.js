@@ -134,16 +134,11 @@ import {
 import { StyleSheet } from 'react-native'
 
 export default function SignUpForm () {
-    const [newUser, setNewUser] = React.useState({
-        name: '',
-        surname: '',
-        username: '',
-        email: '',
-        password: '',
-        repeatPassword: '',
-        phoneNumber: ''
-    })
 
+    const [country, setCountry] = React.useState();
+    const [location, setLocation] = React.useState();
+    const [streetName, setStreetName] = React.useState();
+    const [streetNumber, setStreetNumber] = React.useState();
 
     return (
         <NativeBaseProvider>
@@ -166,6 +161,7 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="Argentina"
+                                onChangeText={(countryInput) => setCountry(countryInput)}
                             />
                         </FormControl>
                         <FormControl isRequired>
@@ -175,6 +171,7 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="C.A.B.A"
+                                onChangeText={(localityInput) => setLocation(localityInput)}
                             />
                         </FormControl>
                         <FormControl isRequired>
@@ -184,6 +181,7 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="Gorostiaga"
+                                onChangeText={(streetNameInput) => setLocation(streetNameInput)}
                             />
                         </FormControl>
                         <FormControl isRequired>
@@ -193,12 +191,20 @@ export default function SignUpForm () {
                             </FormControl.Label>
                             <Input
                                 placeholder="2324"
+                                onChangeText={(streetNumberInput) => setLocation(streetNumberInput)}
                             />
                         </FormControl>
                         <Button.Group
                             direction="column"
                         >
-                            <Button >Continue</Button>
+                            <Button
+                                onPress={() => {
+                                    console.log(country);
+                                }
+                                }
+                            >
+                                Continue
+                            </Button>
                             <Button>Cancel</Button>
                         </Button.Group>
                     </VStack>
