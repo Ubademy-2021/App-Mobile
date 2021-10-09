@@ -23,12 +23,31 @@ import {
 
 export default function ProfilesScreen() {
     return(
+        /*
         <Icon.Button
             name="chalkboard-teacher"
             //backgroundColor="#3b5998"
             size={30}
         >
             Student Profile
-        </Icon.Button>
+        </Icon.Button>*/
+    <NativeBaseProvider>
+        <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
+            <View style={{justifyContent: 'center',alignItems: 'center'}}>
+
+                <Heading size="lg" fontWeight="600" color="coolGray.800">
+                    Choose the profile you want to use
+                </Heading>
+            </View>
+            <Icon.Button
+                name="chalkboard-teacher"
+                //backgroundColor="#3b5998"
+                size={30}
+            >
+                Student Profile
+            </Icon.Button>
+
+        </Box>
+    </NativeBaseProvider>
     )
 }
