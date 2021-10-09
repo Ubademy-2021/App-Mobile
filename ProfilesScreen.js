@@ -40,23 +40,35 @@ export default function ProfilesScreen() {
                 </Heading>
             </View>
             <Icon.Button
+                onPress={() => {
+                    window.alert("Student profile")
+                }
+                }
                 name="book"
                 //backgroundColor="#3b5998"
-                size={30}
+                size={100}
             >
                 Student Profile
             </Icon.Button>
             <Icon.Button
+                onPress={() => {
+                    window.alert("Collaborator profile")
+                }
+                }
                 name="book-reader"
                 //backgroundColor="#3b5998"
-                size={30}
+                size={100}
             >
                 Collaborator Profile
             </Icon.Button>
             <Icon.Button
+                onPress={() => {
+                    window.alert("Creator profile")
+                }
+                }
                 name="chalkboard-teacher"
                 //backgroundColor="#3b5998"
-                size={30}
+                size={100}
             >
                 Creator Profile
             </Icon.Button>
