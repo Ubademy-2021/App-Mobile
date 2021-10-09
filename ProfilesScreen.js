@@ -40,11 +40,25 @@ export default function ProfilesScreen() {
                 </Heading>
             </View>
             <Icon.Button
-                name="chalkboard-teacher"
+                name="book"
                 //backgroundColor="#3b5998"
                 size={30}
             >
                 Student Profile
+            </Icon.Button>
+            <Icon.Button
+                name="book-reader"
+                //backgroundColor="#3b5998"
+                size={30}
+            >
+                Collaborator Profile
+            </Icon.Button>
+            <Icon.Button
+                name="chalkboard-teacher"
+                //backgroundColor="#3b5998"
+                size={30}
+            >
+                Creator Profile
             </Icon.Button>
 
         </Box>
