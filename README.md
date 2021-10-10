@@ -12,8 +12,16 @@ expo install react-native-safe-area-context
 
 
 For installing the icon-button library, please execute these commands:
+
 npm install --save react-native-vector-icons
 
 yarn install
+
+-----
+
+Pagina donde estan los iconos que use:
+
+https://fontawesome.com/v5.15/icons
+
 
 
