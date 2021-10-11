@@ -1,14 +1,10 @@
-import LogInScreen from "./LogInScreen";
-
 
 import React from 'react'
-import {Text, View, StyleSheet, Image} from 'react-native'
-
-import logo from './assets/ubademy.png'
+import ProfilesScreen from "./ProfilesScreen";
 
 const App =() =>{
     return (
-        LogInScreen()
+        ProfilesScreen()
     );
 };
 
