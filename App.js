@@ -1,17 +1,21 @@
-import LogInScreen from "./LogInScreen";
-
+import LogInScreen from './screens/LogInScreen'
+import SignUpScreen from './screens/SignUpScreen'
 
 import React from 'react'
-import {Text, View, StyleSheet, Image} from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import logo from './assets/ubademy.png'
+const Stack = createNativeStackNavigator()
 
-const App =() =>{
-    return (
-        LogInScreen()
-    );
-};
+const App = () => {
+  return (
+   <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LogInScreen} options={{ title: 'Welcome' }}/>
+        <Stack.Screen name="Signup" component={SignUpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
 
-export default App;
-
-
+export default App
