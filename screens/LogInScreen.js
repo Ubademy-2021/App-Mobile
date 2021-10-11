@@ -76,6 +76,7 @@ export default function LogInScreen ({ navigation }) {
                             _text={styles.buttonText}
                             onPress={() => {
                               verifyLogIn(email, password)
+                              navigation.navigate('ProfileSelection')
                             }
                             }
                         >
