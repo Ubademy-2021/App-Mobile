@@ -13,6 +13,7 @@ import {
   Button,
   HStack
 } from 'native-base'
+
 // TODO: Pasar todos los estilos a la style_sheet
 
 /* Se fija si el log in es valido o no, en la practica la condicion
@@ -26,9 +27,10 @@ function verifyLogIn (email, password) {
   }
 }
 
-export default function LogInScreen () {
+export default function LogInScreen ({ navigation }) {
   const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
   const [password, setPassword] = React.useState()
+
   return (
         <NativeBaseProvider>
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
@@ -96,7 +98,9 @@ export default function LogInScreen () {
                               fontWeight: 'medium',
                               fontSize: 'sm'
                             }}
-                            href="#">
+                            href="#"
+                            onPress= {() => navigation.navigate('Signup')}
+                        >
                             Sign Up
                         </Link>
                     </HStack>

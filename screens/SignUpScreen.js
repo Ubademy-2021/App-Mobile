@@ -13,7 +13,7 @@ import {
 
 import { StyleSheet } from 'react-native'
 
-export default function SignUpForm () {
+export default function SignUpScreen ({ navigation }) {
   const [newUser, setNewUser] = React.useState({
     name: '',
     surname: '',
@@ -106,7 +106,7 @@ export default function SignUpForm () {
                             direction="column"
                         >
                             <Button >Continue</Button>
-                            <Button onPress={handleSubmit} colorScheme="danger">Cancel</Button>
+                            <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
                         </Button.Group>
                     </VStack>
                 </Box>
