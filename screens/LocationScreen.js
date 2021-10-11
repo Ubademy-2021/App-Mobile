@@ -1,5 +1,4 @@
 
-
 /*
 import React from 'react';
 import {
@@ -27,7 +26,6 @@ function validation(formData,errors,setErrors){
     }
     return true;
 }
-
 
 function BuildingAFormExample() {
     const [formData, setData] = React.useState({});
@@ -118,67 +116,65 @@ export default () => {
 }
 */
 
-//TODO: Si pongo mal un campo pedir que lo vuelva a llenar
+// TODO: Si pongo mal un campo pedir que lo vuelva a llenar
 import * as React from 'react'
 
 import {
-    NativeBaseProvider,
-    Box,
-    Heading,
-    VStack,
-    FormControl,
-    Input,
-    Button,
-    ScrollView
+  NativeBaseProvider,
+  Box,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Button,
+  ScrollView
 } from 'native-base'
 
 import { StyleSheet } from 'react-native'
 
-function isEmpty(str) {
-    return (!str || str.length === 0 );
+function isEmpty (str) {
+  return (!str || str.length === 0)
 }
 
 export default function SignUpForm () {
+  const [locationData, setLocationData] = React.useState({
+  })
+  const [errors, setErrors] = React.useState({
+  })
 
-    const [locationData, setLocationData] = React.useState({
-    });
-    const [errors, setErrors] = React.useState({
-    });
+  const validate = () => {
+    if (locationData.country === undefined) {
+      setErrors({
+        ...errors,
+        country: 'Country is required'
+      })
+      return false
+    }
+    if (locationData.location === undefined) {
+      setErrors({
+        ...errors,
+        location: 'Location is required'
+      })
+      return false
+    }
+    if (locationData.streetName === undefined) {
+      setErrors({
+        ...errors,
+        streetName: 'Street Name is required'
+      })
+      return false
+    }
+    if (locationData.streetNumber === undefined) {
+      setErrors({
+        ...errors,
+        streetNumber: 'streetNumber is required'
+      })
+      return false
+    }
+    return true
+  }
 
-
-    const validate = () => {
-        if (locationData.country === undefined) {
-            setErrors({
-                ...errors,
-                country: 'Country is required',
-            });
-            return false;
-        }
-        if (locationData.location === undefined) {
-            setErrors({
-                ...errors,
-                location: 'Location is required',
-            });
-            return false;
-        }
-        if (locationData.streetName === undefined) {
-            setErrors({
-                ...errors,
-                streetName: 'Street Name is required',
-            });
-            return false;
-        }
-        if (locationData.streetNumber === undefined) {
-            setErrors({
-                ...errors,
-                streetNumber: 'streetNumber is required',
-            });
-            return false;
-        }
-        return true;
-    };
-
-    return (
+  return (
         <NativeBaseProvider>
             <ScrollView>
                 <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
@@ -201,10 +197,9 @@ export default function SignUpForm () {
                                 placeholder="Argentina"
                                 onChangeText={(value) => setLocationData({ ...locationData, country: value })}
                             />
-                            {'country' in errors ?
-                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
-                                :
-                                <FormControl.HelperText>
+                            {'country' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
                         </FormControl>
@@ -217,10 +212,9 @@ export default function SignUpForm () {
                                 placeholder="C.A.B.A"
                                 onChangeText={(value) => setLocationData({ ...locationData, location: value })}
                             />
-                            {'location' in errors ?
-                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
-                                :
-                                <FormControl.HelperText>
+                            {'location' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
                         </FormControl>
@@ -233,10 +227,9 @@ export default function SignUpForm () {
                                 placeholder="Gorostiaga"
                                 onChangeText={(value) => setLocationData({ ...locationData, streetName: value })}
                             />
-                            {'streetName' in errors ?
-                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
-                                :
-                                <FormControl.HelperText>
+                            {'streetName' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
                         </FormControl>
@@ -249,10 +242,9 @@ export default function SignUpForm () {
                                 placeholder="2324"
                                 onChangeText={(value) => setLocationData({ ...locationData, streetNumber: value })}
                             />
-                            {'streetNumber' in errors ?
-                                <FormControl.ErrorMessage _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>You must fill your country field</FormControl.ErrorMessage>
-                                :
-                                <FormControl.HelperText>
+                            {'streetNumber' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
                         </FormControl>
@@ -261,7 +253,7 @@ export default function SignUpForm () {
                         >
                             <Button
                                 onPress={() => {
-                                    validate();
+                                  validate()
                                 }
                                 }
                             >
@@ -273,9 +265,9 @@ export default function SignUpForm () {
                 </Box>
             </ScrollView>
         </NativeBaseProvider>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
-    formControlText: { color: '#444444', fontWeight: '500' }
+  formControlText: { color: '#444444', fontWeight: '500' }
 })

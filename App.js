@@ -1,5 +1,6 @@
 import LogInScreen from './screens/LogInScreen'
 import SignUpScreen from './screens/SignUpScreen'
+import LocationScreen from './screens/LocationScreen'
 
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
@@ -14,6 +15,7 @@ const App = () => {
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LogInScreen} options={{ title: 'Welcome' }}/>
         <Stack.Screen name="Signup" component={SignUpScreen} />
+          <Stack.Screen name="Location" component={LocationScreen} />
           <Stack.Screen name="ProfileSelection" component={ProfileSelectionScreen} />
       </Stack.Navigator>
     </NavigationContainer>

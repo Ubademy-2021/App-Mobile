@@ -105,7 +105,12 @@ export default function SignUpScreen ({ navigation }) {
                         <Button.Group
                             direction="column"
                         >
-                            <Button >Continue</Button>
+                            <Button
+                                onPress={() => {
+                                  navigation.navigate('Location')
+                                }
+                                }
+                            >Continue</Button>
                             <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
                         </Button.Group>
                     </VStack>
