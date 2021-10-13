@@ -195,10 +195,10 @@ export default function SignUpScreen ({ navigation }) {
                             direction="column"
                         >
                             <Button
-                            onPress={() => {
-                              if (validateData()) navigation.navigate('Location')
-                            }
-                            }
+                              onPress={() => {
+                                if (validateData()) navigation.navigate('Location')
+                              }
+                              }
                             >Continue</Button>
                             <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
                         </Button.Group>

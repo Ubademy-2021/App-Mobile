@@ -11,7 +11,7 @@ import {
   Input,
   Link,
   Button,
-  HStack
+  HStack, ScrollView
 } from 'native-base'
 
 // TODO: Pasar todos los estilos a la style_sheet
@@ -33,79 +33,82 @@ export default function LogInScreen ({ navigation }) {
 
   return (
         <NativeBaseProvider>
-            <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Image
-                        source={logo}
-                        style={styles.image}
-                    />
+            <ScrollView>
+                <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Image
+                            source={logo}
+                            style={styles.image}
+                        />
 
-                    <Heading size="lg" fontWeight="600" color="coolGray.800">
-                        Welcome to Ubademy!
-                    </Heading>
-                    <Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
-                        Sign in to continue
-                    </Heading>
-                </View>
-                <VStack space={3} mt="5">
-                    <FormControl>
-                        <FormControl.Label
-                            _text={styles.textDefault}>
-                            Email ID
-                        </FormControl.Label>
-                        <Input
-                            value={email}
-                            onChangeText={(anything) => setEmail(anything)}
-                        />
-                    </FormControl>
-                    <FormControl>
-                        <FormControl.Label
-                            _text={styles.textDefault}>
-                            Password
-                        </FormControl.Label>
-                        <Input
-                            type="password"
-                            value={password}
-                            onChangeText={(anything) => setPassword(anything)}
-                        />
-                    </FormControl>
-                    <Button
-                        mt="2"
-                        colorScheme="indigo"
-                        _text={styles.buttonText}
-                        onPress={() => {
-                          verifyLogIn(email, password)
-                        }
-                        }
-                    >
-                        Sign in
-                    </Button>
-                    <Button
-                        mt="2"
-                        colorScheme="blue"
-                        _text={styles.buttonText}
-                        onPress={() => window.alert('Not implemented yet')}
-                    >
-                        Sign in with Facebook
-                    </Button>
-                    <HStack mt="6" justifyContent="center">
-                        <Text fontSize="sm" color="muted.700" fontWeight={400}>
-                            I'm a new user.{' '}
-                        </Text>
-                        <Link
-                            _text={{
-                              color: 'indigo.500',
-                              fontWeight: 'medium',
-                              fontSize: 'sm'
-                            }}
-                            href="#"
-                            onPress= {() => navigation.navigate('Signup')}
+                        <Heading size="lg" fontWeight="600" color="coolGray.800">
+                            Welcome to Ubademy!
+                        </Heading>
+                        <Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs">
+                            Sign in to continue
+                        </Heading>
+                    </View>
+                    <VStack space={3} mt="5">
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.textDefault}>
+                                Email ID
+                            </FormControl.Label>
+                            <Input
+                                value={email}
+                                onChangeText={(anything) => setEmail(anything)}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.textDefault}>
+                                Password
+                            </FormControl.Label>
+                            <Input
+                                type="password"
+                                value={password}
+                                onChangeText={(anything) => setPassword(anything)}
+                            />
+                        </FormControl>
+                        <Button
+                            mt="2"
+                            colorScheme="indigo"
+                            _text={styles.buttonText}
+                            onPress={() => {
+                              verifyLogIn(email, password)
+                              navigation.navigate('ProfileSelection')
+                            }
+                            }
                         >
-                            Sign Up
-                        </Link>
-                    </HStack>
-                </VStack>
-            </Box>
+                            Sign in
+                        </Button>
+                        <Button
+                            mt="2"
+                            colorScheme="blue"
+                            _text={styles.buttonText}
+                            onPress={() => window.alert('Not implemented yet')}
+                        >
+                            Sign in with Facebook
+                        </Button>
+                        <HStack mt="6" justifyContent="center">
+                            <Text fontSize="sm" color="muted.700" fontWeight={400}>
+                                I'm a new user.{' '}
+                            </Text>
+                            <Link
+                                _text={{
+                                  color: 'indigo.500',
+                                  fontWeight: 'medium',
+                                  fontSize: 'sm'
+                                }}
+                                href="#"
+                                onPress= {() => navigation.navigate('Signup')}
+                            >
+                                Sign Up
+                            </Link>
+                        </HStack>
+                    </VStack>
+                </Box>
+            </ScrollView>
         </NativeBaseProvider>
   )
 }
