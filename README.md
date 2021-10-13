@@ -1,5 +1,13 @@
 # App-Mobile
 
+# Install all dependencies
+
+First install firebase with expo : expo install firebase
+
+Install all dependencies : yarn install
+
+## Details
+
 ### Installation of Native Base library:
 
 In the root of the project execute the following commands:
@@ -18,18 +26,18 @@ Installing dependencies into an Expo managed project: expo install react-native-
 
 Installing the native stack navigator library: yarn add @react-navigation/native-stack
 
+### installation of React native selectMultiple button library
 
-For installing the icon-button library, please execute these commands:
+npm install react-native-selectmultiple-button --save
+
+### For installing the icon-button library, please execute these commands:
 
 npm install --save react-native-vector-icons
 
 yarn install
 
------
-
-Pagina donde estan los iconos que use:
+### Pagina donde estan los iconos que use:
 
 https://fontawesome.com/v5.15/icons
-
 
 

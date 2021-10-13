@@ -15,22 +15,61 @@ import { StyleSheet } from 'react-native'
 
 export default function SignUpScreen ({ navigation }) {
   const [newUser, setNewUser] = React.useState({
-    name: '',
-    surname: '',
-    username: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
-    phoneNumber: ''
+    name: undefined,
+    surname: undefined,
+    username: undefined,
+    email: undefined,
+    password: undefined,
+    repeatPassword: undefined,
+    phoneNumber: undefined
   })
-
-  const handleChange = e => {
-    const { name, value } = e.target
-  }
+  const [errors, setErrors] = React.useState({})
 
   const validateData = () => {
-    // Validar que ambas contrasenias coincidan
-    // Valida que el mail contenga '@'
+    if (newUser.name === undefined) {
+      setErrors({
+        ...errors,
+        name: 'name is required'
+      })
+      return false
+    }
+    if (newUser.surname === undefined) {
+      setErrors({
+        ...errors,
+        surname: 'Surname is required'
+      })
+      return false
+    }
+    if (newUser.username === undefined) {
+      setErrors({
+        ...errors,
+        username: 'Username is required'
+      })
+      return false
+    }
+    if (newUser.email === undefined) {
+      setErrors({
+        ...errors,
+        email: 'Email is required'
+      })
+      return false
+    }
+    if (newUser.password === undefined) {
+      setErrors({
+        ...errors,
+        password: 'Password is required'
+      })
+      return false
+    }
+    if (newUser.repeatPassword === undefined) {
+      setErrors({
+        ...errors,
+        repeatPassword: 'Please type your password again'
+      })
+      return false
+    }
+
+    return true
   }
 
   const handleSubmit = e => {
@@ -57,59 +96,109 @@ export default function SignUpScreen ({ navigation }) {
                                 _text={styles.formControlText}>
                                 Name
                             </FormControl.Label>
-                            <Input onChangeText={handleChange}/>
+                            <Input
+                                placeholder='Jamie'
+                                onChangeText={(value) => setNewUser({ ...newUser, name: value })}
+                            />
+                            {'name' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must enter your name</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Surname
                             </FormControl.Label>
-                            <Input onChangeText={handleChange} />
+                            <Input
+                                placeholder='Banks'
+                                onChangeText={(value) => setNewUser({ ...newUser, surname: value })}
+                            />
+                            {'surname' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must enter your surname</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Username
                             </FormControl.Label>
-                            <Input onChangeText={handleChange} />
+                            <Input
+                                placeholder='Jamie_13'
+                                onChangeText={(value) => setNewUser({ ...newUser, username: value })}
+                            />
+                            {'username' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must include a username</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Email
                             </FormControl.Label>
-                            <Input onChangeText={handleChange} />
+                            <Input
+                                placeholder='jamiebanks@example.com'
+                                onChangeText={(value) => setNewUser({ ...newUser, email: value })}
+                            />
+                            {'email' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must enter your email</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Password
                             </FormControl.Label>
-                            <Input type="password" onChangeText={handleChange}/>
+                            <Input
+                                type="password"
+                                onChangeText={(value) => setNewUser({ ...newUser, password: value })}
+                            />
+                            {'password' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must create a password</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <FormControl isRequired>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Confirm Password
                             </FormControl.Label>
-                            <Input type="password" onChangeText={handleChange} />
+                            <Input
+                                type="password"
+                                onChangeText={(value) => setNewUser({ ...newUser, repeatPassword: value })}
+                            />
+                            {'repeatPassword' in errors
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>Please enter your password again</FormControl.ErrorMessage>
+                              : <FormControl.HelperText>
+                                </FormControl.HelperText>
+                            }
                         </FormControl>
                         <FormControl>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Phone number
                             </FormControl.Label>
-                            <Input onChangeText={handleChange} />
+                            <Input
+                                onChangeText={(value) => setNewUser({ ...newUser, phoneNumber: value })}
+                            />
                         </FormControl>
 
                         <Button.Group
                             direction="column"
                         >
                             <Button
-                                onPress={() => {
-                                  navigation.navigate('Location')
-                                }
-                                }
+                              onPress={() => {
+                                if (validateData()) navigation.navigate('Location')
+                              }
+                              }
                             >Continue</Button>
                             <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
                         </Button.Group>
