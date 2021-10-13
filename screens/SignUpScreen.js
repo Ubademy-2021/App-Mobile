@@ -78,23 +78,16 @@ export default function SignUpScreen ({ navigation }) {
     // Validar la informacion ingresada por el usuario
     // Enviar el formulario
   }
-  /*
-  const Example = () => {
-    const onHandleSignup = async () => {
-      try {
-        await auth.createUserWithEmailAndPassword('damian1@gmail.com', '1234567')
-        window.alert('Authentication successful')
-      } catch (error) {
-        window.alert(error.message)
-      }
+
+  const onHandleSignup = async () => {
+    try {
+      await auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
+      window.alert('Authentication successful')
+    } catch (error) {
+      window.alert(error.message)
     }
-    return (
-            <>
-                <Button onPress={onHandleSignup}>Primary</Button>
-            </>
-    )
   }
-*/
+
   return (
         <NativeBaseProvider>
             <ScrollView>
@@ -214,7 +207,10 @@ export default function SignUpScreen ({ navigation }) {
                         >
                             <Button
                             onPress={() => {
-                              if (validateData()) navigation.navigate('Location')
+                              if (validateData()) {
+                                onHandleSignup()
+                                navigation.navigate('Location')
+                              }
                             }
                             }
                             >Continue</Button>
