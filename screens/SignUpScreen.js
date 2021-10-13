@@ -10,8 +10,10 @@ import {
   Button,
   ScrollView
 } from 'native-base'
-
 import { StyleSheet } from 'react-native'
+import Firebase from '../config/firebase.js'
+
+const auth = Firebase.auth()
 
 export default function SignUpScreen ({ navigation }) {
   const [newUser, setNewUser] = React.useState({
@@ -76,7 +78,23 @@ export default function SignUpScreen ({ navigation }) {
     // Validar la informacion ingresada por el usuario
     // Enviar el formulario
   }
-
+  /*
+  const Example = () => {
+    const onHandleSignup = async () => {
+      try {
+        await auth.createUserWithEmailAndPassword('damian1@gmail.com', '1234567')
+        window.alert('Authentication successful')
+      } catch (error) {
+        window.alert(error.message)
+      }
+    }
+    return (
+            <>
+                <Button onPress={onHandleSignup}>Primary</Button>
+            </>
+    )
+  }
+*/
   return (
         <NativeBaseProvider>
             <ScrollView>
