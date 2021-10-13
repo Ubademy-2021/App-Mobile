@@ -1,5 +1,13 @@
 # App-Mobile
 
+# Install all dependencies
+
+First install firebase with expo : expo install firebase
+
+Install all dependencies : yarn install
+
+## Details
+
 ### Installation of Native Base library:
 
 In the root of the project execute the following commands:
@@ -17,4 +25,5 @@ Install the required packages in your React Native project: yarn add @react-navi
 Installing dependencies into an Expo managed project: expo install react-native-screens react-native-safe-area-context
 
 Installing the native stack navigator library: yarn add @react-navigation/native-stack
+
 

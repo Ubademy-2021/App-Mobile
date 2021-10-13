@@ -23,14 +23,62 @@ export default function SignUpScreen ({ navigation }) {
     repeatPassword: '',
     phoneNumber: ''
   })
+  const [errors, setErrors] = React.useState({})
 
   const handleChange = e => {
     const { name, value } = e.target
+
+    setNewUser({
+      ...newUser,
+      [name]: value
+    })
   }
 
   const validateData = () => {
-    // Validar que ambas contrasenias coincidan
-    // Valida que el mail contenga '@'
+    if (newUser.name === undefined) {
+      setErrors({
+        ...errors,
+        name: 'name is required'
+      })
+      return false
+    }
+    if (newUser.surname === undefined) {
+      setErrors({
+        ...errors,
+        surname: 'Surname is required'
+      })
+      return false
+    }
+    if (newUser.username === undefined) {
+      setErrors({
+        ...errors,
+        username: 'Username is required'
+      })
+      return false
+    }
+    if (newUser.email === undefined) {
+      setErrors({
+        ...errors,
+        email: 'Email is required'
+      })
+      return false
+    }
+    if (newUser.password === undefined) {
+      setErrors({
+        ...errors,
+        password: 'Password is required'
+      })
+      return false
+    }
+    if (newUser.repeatPassword === undefined) {
+      setErrors({
+        ...errors,
+        repeatPassword: 'Please type your password again'
+      })
+      return false
+    }
+
+    return true
   }
 
   const handleSubmit = e => {
