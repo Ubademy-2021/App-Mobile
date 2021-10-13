@@ -26,4 +26,8 @@ Installing dependencies into an Expo managed project: expo install react-native-
 
 Installing the native stack navigator library: yarn add @react-navigation/native-stack
 
+### installation of React native selectMultiple button library
+
+npm install react-native-selectmultiple-button --save
+
 
