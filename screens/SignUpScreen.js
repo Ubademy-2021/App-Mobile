@@ -88,6 +88,37 @@ export default function SignUpScreen ({ navigation }) {
     }
   }
 
+  const postUser = () => {
+    fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: 'sadfsfPRUEBA1',
+        userName: 'zscsaa',
+        name: 'asdad',
+        surname: 'asdada',
+        phoneNumber: 'JORGE',
+        city: '',
+        state: 's',
+        country: '',
+        address: ''
+      })
+    }).then((response) => {
+      if (!response) {
+        console.log('VACIO RESPONSE')
+      }
+      console.log('PROBANDO', response)
+    })
+      .catch(error => {
+        console.log('Catcheo')
+        // this.setState({ errorMessage: error.toString() })
+        console.error('There was an error!', error)
+      })
+  }
+
   return (
         <NativeBaseProvider>
             <ScrollView>
@@ -209,6 +240,7 @@ export default function SignUpScreen ({ navigation }) {
                             onPress={() => {
                               if (validateData()) {
                                 onHandleSignup()
+                                postUser()
                                 navigation.navigate('Location')
                               }
                             }
