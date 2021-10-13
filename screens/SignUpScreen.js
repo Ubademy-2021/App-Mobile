@@ -101,10 +101,10 @@ export default function SignUpScreen ({ navigation }) {
         name: 'asdad',
         surname: 'asdada',
         phoneNumber: 'JORGE',
-        city: '',
+        city: 'ads',
         state: 's',
-        country: '',
-        address: ''
+        country: 'asd',
+        address: 'asd'
       })
     }).then((response) => {
       if (!response) {
