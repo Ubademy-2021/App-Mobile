@@ -96,15 +96,15 @@ export default function SignUpScreen ({ navigation }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: 'sadfsfPRUEBA1',
-        userName: 'zscsaa',
-        name: 'asdad',
-        surname: 'asdada',
-        phoneNumber: 'JORGE',
-        city: 'ads',
-        state: 's',
-        country: 'asd',
-        address: 'asd'
+        email: newUser.email,
+        userName: newUser.username,
+        name: newUser.name,
+        surname: newUser.surname,
+        phoneNumber: newUser.phoneNumber,
+        city: 'null',
+        state: 'null',
+        country: 'null',
+        address: 'null'
       })
     }).then((response) => {
       if (!response) {
