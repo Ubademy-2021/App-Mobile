@@ -116,7 +116,6 @@ export default () => {
 }
 */
 
-// TODO: Si pongo mal un campo pedir que lo vuelva a llenar
 import * as React from 'react'
 
 import {
@@ -136,11 +135,36 @@ function isEmpty (str) {
   return (!str || str.length === 0)
 }
 
-export default function LocationScreen ({ navigation }) {
+export default function SignUpForm ({ navigation, route }) {
+  const { user } = route.params
+  // window.alert(user.id)
+
   const [locationData, setLocationData] = React.useState({
   })
   const [errors, setErrors] = React.useState({
   })
+  // window.alert(locationData.location)
+  const putLocation = () => {
+    fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + user.id, {
+      method: 'PUT',
+      mode: 'no-cors',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: user.email,
+        userName: user.userName,
+        name: user.name,
+        surname: user.surname,
+        phoneNumber: user.phoneNumber,
+        city: locationData.streetNumber,
+        state: locationData.streetName,
+        country: locationData.country,
+        address: locationData.location
+      })
+    })
+  }
 
   const validate = () => {
     if (locationData.country === undefined) {
@@ -253,13 +277,15 @@ export default function LocationScreen ({ navigation }) {
                         >
                             <Button
                                 onPress={() => {
-                                  if (validate()) navigation.navigate('Interests')
+                                  if (validate()) {
+                                    putLocation()
+                                  }
                                 }
                                 }
                             >
                                 Continue
                             </Button>
-                            <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
+                            <Button>Cancel</Button>
                         </Button.Group>
                     </VStack>
                 </Box>

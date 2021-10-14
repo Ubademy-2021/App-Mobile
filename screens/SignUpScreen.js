@@ -87,13 +87,14 @@ export default function SignUpScreen ({ navigation }) {
       window.alert(error.message)
     }
   }
-
-  const postUser = () => {
+  let response
+  const postUser = (callback) => {
     if (newUser.phoneNumber === undefined) {
       newUser.phoneNumber = 'null'
     }
     fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users', {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -109,12 +110,11 @@ export default function SignUpScreen ({ navigation }) {
         country: 'null',
         address: 'null'
       })
-    }).then((response) => {
-      if (!response) {
-        console.log('VACIO RESPONSE')
-      }
-      console.log('PROBANDO', response)
-    })
+    }).then(response => response.json())
+      .then(data => {
+        window.alert(data)
+        callback(data)
+      })
       .catch(error => {
         console.log('Catcheo')
         // this.setState({ errorMessage: error.toString() })
@@ -243,8 +243,8 @@ export default function SignUpScreen ({ navigation }) {
                             onPress={() => {
                               if (validateData()) {
                                 onHandleSignup()
-                                postUser()
-                                navigation.navigate('Location')
+
+                                postUser((response) => { navigation.navigate('Location', { user: response }) })
                               }
                             }
                             }
