@@ -39,7 +39,7 @@ export default function InterestsScreen ({ navigation }) {
         })
       })
     }
-    navigation.navigate('Login')
+    navigation.navigate('Login', { signupStatus: 'success' })
   }
 
   getCategoriesFromApi()

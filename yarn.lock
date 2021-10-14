@@ -3535,29 +3535,6 @@ cliui@^7.0.2:
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
 
-clix-logger@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/clix-logger/-/clix-logger-1.0.2.tgz#4c543db73d8537ef7a79fa519ce2a135c51e98af"
-  integrity sha512-6APxcAFFCPE/plUK7uZ/UjQdz7EECRlN8vhzw0ustWvdhClTmzA6Fuyi99ItMhJEuPuEHGuq9mONtuXbAIhLOQ==
-  dependencies:
-    chalk "1.1.3"
-    extend "3.0.0"
-    moment "2.22.2"
-
-clix@^2.0.16:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/clix/-/clix-2.2.2.tgz#652673a1d9233958cf1f7954b9deea82b26c203f"
-  integrity sha512-KMfcKwuxAnK4Pz3s6DBxKxOyv77cPVgsVgELtyy2RLX7uekqHaxxOqtiMiu9th0e0YSkTxwk/dFkdXlQLek1NQ==
-  dependencies:
-    clix-logger "1.0.2"
-    extend "3.0.0"
-    glob-expand "0.2.1"
-    jq-trim "0.1.2"
-    optionator "0.8.2"
-    os-homedir "1.0.2"
-    path-is-absolute "1.0.1"
-    read-json-sync "1.1.1"
-
 clone-deep@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/clone-deep/-/clone-deep-4.0.1.tgz"
@@ -5866,11 +5843,6 @@ lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.3.
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-lodash@^4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
-  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
-
 log-symbols@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/log-symbols/-/log-symbols-2.2.0.tgz"
@@ -6920,7 +6892,7 @@ prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
-protobufjs@^6.8.6:
+protobufjs@^6.10.0, protobufjs@^6.8.6:
   version "6.11.2"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.2.tgz#de39fabd4ed32beaa08e9bb1e30d08544c1edf8b"
   integrity sha512-4BQJoPooKJl2G9j3XftkIXjoC9C0Av2NOrWmbLWT1vH32GcSUHjM0Arra6UfTsVyfMAuFzaLucXn1sadxJydAw==

@@ -136,7 +136,7 @@ function isEmpty (str) {
   return (!str || str.length === 0)
 }
 
-export default function SignUpForm () {
+export default function LocationScreen ({ navigation }) {
   const [locationData, setLocationData] = React.useState({
   })
   const [errors, setErrors] = React.useState({
@@ -253,13 +253,13 @@ export default function SignUpForm () {
                         >
                             <Button
                                 onPress={() => {
-                                  validate()
+                                  if (validate()) navigation.navigate('Interests')
                                 }
                                 }
                             >
                                 Continue
                             </Button>
-                            <Button>Cancel</Button>
+                            <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
                         </Button.Group>
                     </VStack>
                 </Box>

@@ -91,7 +91,7 @@ export default function SignUpScreen ({ navigation }) {
                     </VStack>
 
                     <VStack space={3} mt="5">
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'name' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Name
@@ -106,7 +106,7 @@ export default function SignUpScreen ({ navigation }) {
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'surname' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Surname
@@ -121,7 +121,7 @@ export default function SignUpScreen ({ navigation }) {
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'username' in errors} >
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Username
@@ -136,7 +136,7 @@ export default function SignUpScreen ({ navigation }) {
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'email' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Email
@@ -151,7 +151,7 @@ export default function SignUpScreen ({ navigation }) {
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'password' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Password
@@ -166,7 +166,7 @@ export default function SignUpScreen ({ navigation }) {
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl isRequired isInvalid={'repeatPassword' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
                                 Confirm Password

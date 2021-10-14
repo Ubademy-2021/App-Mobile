@@ -27,9 +27,10 @@ function verifyLogIn (email, password) {
   }
 }
 
-export default function LogInScreen ({ navigation }) {
+export default function LogInScreen ({ route, navigation }) {
   const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
   const [password, setPassword] = React.useState()
+  const signupStatus = route.params
 
   return (
         <NativeBaseProvider>

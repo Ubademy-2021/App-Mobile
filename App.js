@@ -2,11 +2,11 @@ import LogInScreen from './screens/LogInScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import InterestsScreen from './screens/InterestsScreen'
 import LocationScreen from './screens/LocationScreen'
+import ProfileSelectionScreen from './screens/ProfileSelectionScreen'
 
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import ProfileSelectionScreen from './screens/ProfileSelectionScreen'
 
 const Stack = createNativeStackNavigator()
 
