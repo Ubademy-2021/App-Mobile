@@ -74,11 +74,6 @@ export default function SignUpScreen ({ navigation }) {
     return true
   }
 
-  const handleSubmit = e => {
-    // Validar la informacion ingresada por el usuario
-    // Enviar el formulario
-  }
-
   const onHandleSignup = async () => {
     try {
       await auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
@@ -112,7 +107,6 @@ export default function SignUpScreen ({ navigation }) {
       })
     }).then(response => response.json())
       .then(data => {
-        window.alert(data)
         callback(data)
       })
       .catch(error => {

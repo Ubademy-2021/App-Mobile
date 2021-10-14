@@ -137,13 +137,12 @@ function isEmpty (str) {
 
 export default function SignUpForm ({ navigation, route }) {
   const { user } = route.params
-  // window.alert(user.id)
 
   const [locationData, setLocationData] = React.useState({
   })
   const [errors, setErrors] = React.useState({
   })
-  // window.alert(locationData.location)
+
   const putLocation = () => {
     fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + user.id, {
       method: 'PUT',
@@ -158,10 +157,10 @@ export default function SignUpForm ({ navigation, route }) {
         name: user.name,
         surname: user.surname,
         phoneNumber: user.phoneNumber,
-        city: locationData.streetNumber,
-        state: locationData.streetName,
+        city: locationData.city,
+        state: locationData.state,
         country: locationData.country,
-        address: locationData.location
+        address: locationData.address
       })
     })
   }
@@ -174,24 +173,24 @@ export default function SignUpForm ({ navigation, route }) {
       })
       return false
     }
-    if (locationData.location === undefined) {
+    if (locationData.address === undefined) {
       setErrors({
         ...errors,
-        location: 'Location is required'
+        address: 'Address is required'
       })
       return false
     }
-    if (locationData.streetName === undefined) {
+    if (locationData.state === undefined) {
       setErrors({
         ...errors,
-        streetName: 'Street Name is required'
+        state: 'State is required'
       })
       return false
     }
-    if (locationData.streetNumber === undefined) {
+    if (locationData.city === undefined) {
       setErrors({
         ...errors,
-        streetNumber: 'streetNumber is required'
+        city: 'City is required'
       })
       return false
     }
@@ -227,46 +226,46 @@ export default function SignUpForm ({ navigation, route }) {
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired isInvalid={'location' in errors}>
+                        <FormControl isRequired isInvalid={'state' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
-                                Locality
+                                State/Province
                             </FormControl.Label>
                             <Input
-                                placeholder="C.A.B.A"
-                                onChangeText={(value) => setLocationData({ ...locationData, location: value })}
+                                placeholder="Buenos Aires"
+                                onChangeText={(value) => setLocationData({ ...locationData, state: value })}
                             />
-                            {'location' in errors
+                            {'state' in errors
                               ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired isInvalid={'streetName' in errors}>
+                        <FormControl isRequired isInvalid={'city' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
-                                Street Name
+                                City
                             </FormControl.Label>
                             <Input
-                                placeholder="Gorostiaga"
-                                onChangeText={(value) => setLocationData({ ...locationData, streetName: value })}
+                                placeholder="CABA"
+                                onChangeText={(value) => setLocationData({ ...locationData, city: value })}
                             />
-                            {'streetName' in errors
+                            {'city' in errors
                               ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
                         </FormControl>
-                        <FormControl isRequired isInvalid={'streetNumber' in errors}>
+                        <FormControl isRequired isInvalid={'address' in errors}>
                             <FormControl.Label
                                 _text={styles.formControlText}>
-                                Street Address
+                                Address Line
                             </FormControl.Label>
                             <Input
-                                placeholder="2324"
-                                onChangeText={(value) => setLocationData({ ...locationData, streetNumber: value })}
+                                placeholder="Juncal 521"
+                                onChangeText={(value) => setLocationData({ ...locationData, address: value })}
                             />
-                            {'streetNumber' in errors
+                            {'address' in errors
                               ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
