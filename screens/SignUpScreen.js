@@ -243,7 +243,6 @@ export default function SignUpScreen ({ navigation }) {
                             onPress={() => {
                               if (validateData()) {
                                 onHandleSignup()
-
                                 postUser((response) => { navigation.navigate('Location', { user: response }) })
                               }
                             }

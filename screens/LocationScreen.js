@@ -279,6 +279,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 onPress={() => {
                                   if (validate()) {
                                     putLocation()
+                                    navigation.navigate('Interests', { userId: user.id })
                                   }
                                 }
                                 }

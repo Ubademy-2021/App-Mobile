@@ -11,7 +11,7 @@ import {
   Input,
   Link,
   Button,
-  HStack, ScrollView
+  HStack, ScrollView, Alert, IconButton, CloseIcon, Collapse
 } from 'native-base'
 
 // TODO: Pasar todos los estilos a la style_sheet
@@ -30,7 +30,9 @@ function verifyLogIn (email, password) {
 export default function LogInScreen ({ route, navigation }) {
   const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
   const [password, setPassword] = React.useState()
-  const signupStatus = route.params
+  // const signupStatus = route.params
+  // TODO add notification behaviour
+  const [show, setShow] = React.useState(false)
 
   return (
         <NativeBaseProvider>
@@ -108,6 +110,27 @@ export default function LogInScreen ({ route, navigation }) {
                             </Link>
                         </HStack>
                     </VStack>
+                </Box>
+                <Box>
+                    <Collapse isOpen={show}>
+                        <Alert w="100%" status={'success'}>
+                            <VStack space={2} flexShrink={1} w="100%">
+                                <HStack flexShrink={1} space={2} justifyContent="space-between">
+                                    <HStack space={2} flexShrink={1}>
+                                        <Alert.Icon mt="1" />
+                                        <Text fontSize="md" color="coolGray.800">
+                                            User registered successfully
+                                        </Text>
+                                    </HStack>
+                                    <IconButton
+                                        variant="unstyled"
+                                        icon={<CloseIcon size="3" color="coolGray.600" />}
+                                        onPress={() => setShow(false)}
+                                    />
+                                </HStack>
+                            </VStack>
+                        </Alert>
+                    </Collapse>
                 </Box>
             </ScrollView>
         </NativeBaseProvider>
