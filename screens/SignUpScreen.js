@@ -10,8 +10,10 @@ import {
   Button,
   ScrollView
 } from 'native-base'
-
 import { StyleSheet } from 'react-native'
+import Firebase from '../config/firebase.js'
+
+const auth = Firebase.auth()
 
 export default function SignUpScreen ({ navigation }) {
   const [newUser, setNewUser] = React.useState({
@@ -75,6 +77,49 @@ export default function SignUpScreen ({ navigation }) {
   const handleSubmit = e => {
     // Validar la informacion ingresada por el usuario
     // Enviar el formulario
+  }
+
+  const onHandleSignup = async () => {
+    try {
+      await auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
+      window.alert('Authentication successful')
+    } catch (error) {
+      window.alert(error.message)
+    }
+  }
+
+  const postUser = () => {
+    if (newUser.phoneNumber === undefined) {
+      newUser.phoneNumber = 'null'
+    }
+    fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: newUser.email,
+        userName: newUser.username,
+        name: newUser.name,
+        surname: newUser.surname,
+        phoneNumber: newUser.phoneNumber,
+        city: 'null',
+        state: 'null',
+        country: 'null',
+        address: 'null'
+      })
+    }).then((response) => {
+      if (!response) {
+        console.log('VACIO RESPONSE')
+      }
+      console.log('PROBANDO', response)
+    })
+      .catch(error => {
+        console.log('Catcheo')
+        // this.setState({ errorMessage: error.toString() })
+        console.error('There was an error!', error)
+      })
   }
 
   return (
@@ -195,10 +240,14 @@ export default function SignUpScreen ({ navigation }) {
                             direction="column"
                         >
                             <Button
-                              onPress={() => {
-                                if (validateData()) navigation.navigate('Location')
+                            onPress={() => {
+                              if (validateData()) {
+                                onHandleSignup()
+                                postUser()
+                                navigation.navigate('Location')
                               }
-                              }
+                            }
+                            }
                             >Continue</Button>
                             <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
                         </Button.Group>
