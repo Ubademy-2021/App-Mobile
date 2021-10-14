@@ -89,6 +89,9 @@ export default function SignUpScreen ({ navigation }) {
   }
 
   const postUser = () => {
+    if (newUser.phoneNumber === undefined) {
+      newUser.phoneNumber = 'null'
+    }
     fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users', {
       method: 'POST',
       headers: {
@@ -96,15 +99,15 @@ export default function SignUpScreen ({ navigation }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: 'sadfsfPRUEBA1',
-        userName: 'zscsaa',
-        name: 'asdad',
-        surname: 'asdada',
-        phoneNumber: 'JORGE',
-        city: '',
-        state: 's',
-        country: '',
-        address: ''
+        email: newUser.email,
+        userName: newUser.username,
+        name: newUser.name,
+        surname: newUser.surname,
+        phoneNumber: newUser.phoneNumber,
+        city: 'null',
+        state: 'null',
+        country: 'null',
+        address: 'null'
       })
     }).then((response) => {
       if (!response) {
