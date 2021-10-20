@@ -16,15 +16,7 @@ import Firebase from '../config/firebase.js'
 const auth = Firebase.auth()
 
 export default function SignUpScreen ({ navigation }) {
-  const [newUser, setNewUser] = React.useState({
-    name: undefined,
-    surname: undefined,
-    username: undefined,
-    email: undefined,
-    password: undefined,
-    repeatPassword: undefined,
-    phoneNumber: undefined
-  })
+  const [newUser, setNewUser] = React.useState({})
   const [errors, setErrors] = React.useState({})
 
   const validateData = () => {
@@ -67,6 +59,13 @@ export default function SignUpScreen ({ navigation }) {
       setErrors({
         ...errors,
         repeatPassword: 'Please type your password again'
+      })
+      return false
+    }
+    if (newUser.password !== newUser.repeatPassword) {
+      setErrors({
+        ...errors,
+        password: 'Passwords did not match'
       })
       return false
     }
@@ -140,7 +139,7 @@ export default function SignUpScreen ({ navigation }) {
                                 onChangeText={(value) => setNewUser({ ...newUser, name: value })}
                             />
                             {'name' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must enter your name</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.name}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -155,7 +154,7 @@ export default function SignUpScreen ({ navigation }) {
                                 onChangeText={(value) => setNewUser({ ...newUser, surname: value })}
                             />
                             {'surname' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must enter your surname</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.surname}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -170,7 +169,7 @@ export default function SignUpScreen ({ navigation }) {
                                 onChangeText={(value) => setNewUser({ ...newUser, username: value })}
                             />
                             {'username' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must include a username</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.username}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -185,7 +184,7 @@ export default function SignUpScreen ({ navigation }) {
                                 onChangeText={(value) => setNewUser({ ...newUser, email: value })}
                             />
                             {'email' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must enter your email</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.email}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -200,7 +199,7 @@ export default function SignUpScreen ({ navigation }) {
                                 onChangeText={(value) => setNewUser({ ...newUser, password: value })}
                             />
                             {'password' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must create a password</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.password}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -215,7 +214,7 @@ export default function SignUpScreen ({ navigation }) {
                                 onChangeText={(value) => setNewUser({ ...newUser, repeatPassword: value })}
                             />
                             {'repeatPassword' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>Please enter your password again</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.repeatPassword}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }

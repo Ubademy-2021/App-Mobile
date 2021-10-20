@@ -173,13 +173,6 @@ export default function SignUpForm ({ navigation, route }) {
       })
       return false
     }
-    if (locationData.address === undefined) {
-      setErrors({
-        ...errors,
-        address: 'Address is required'
-      })
-      return false
-    }
     if (locationData.state === undefined) {
       setErrors({
         ...errors,
@@ -191,6 +184,13 @@ export default function SignUpForm ({ navigation, route }) {
       setErrors({
         ...errors,
         city: 'City is required'
+      })
+      return false
+    }
+    if (locationData.address === undefined) {
+      setErrors({
+        ...errors,
+        address: 'Address is required'
       })
       return false
     }
@@ -221,7 +221,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 onChangeText={(value) => setLocationData({ ...locationData, country: value })}
                             />
                             {'country' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.country}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -236,7 +236,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 onChangeText={(value) => setLocationData({ ...locationData, state: value })}
                             />
                             {'state' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.state}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -251,7 +251,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 onChangeText={(value) => setLocationData({ ...locationData, city: value })}
                             />
                             {'city' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.city}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
@@ -266,7 +266,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 onChangeText={(value) => setLocationData({ ...locationData, address: value })}
                             />
                             {'address' in errors
-                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>You must fill your country field</FormControl.ErrorMessage>
+                              ? <FormControl.ErrorMessage _text={{ fontSize: 'xs', color: 'error.500', fontWeight: 500 }}>{errors.address}</FormControl.ErrorMessage>
                               : <FormControl.HelperText>
                                 </FormControl.HelperText>
                             }
