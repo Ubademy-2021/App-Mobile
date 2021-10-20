@@ -18,6 +18,11 @@ import {
 
 export default function SignUpOptionsScreen ({ navigation }) {
   return (
-        <Text>hola </Text>
+      <NativeBaseProvider>
+        <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
+          <Text> Sign up with facebook </Text>
+
+        </Box>
+      </NativeBaseProvider>
   )
 }
