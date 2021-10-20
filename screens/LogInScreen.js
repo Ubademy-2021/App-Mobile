@@ -103,7 +103,6 @@ export default function LogInScreen ({ route, navigation }) {
                                   fontWeight: 'medium',
                                   fontSize: 'sm'
                                 }}
-                                href="#"
                                 onPress= {() => navigation.navigate('Signup')}
                             >
                                 Sign Up
