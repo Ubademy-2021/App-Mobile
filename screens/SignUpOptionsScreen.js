@@ -16,7 +16,7 @@ import {
   Divider
 } from 'native-base'
 
-export default function RegisterOptionsScreen ({ navigation }) {
+export default function SignUpOptionsScreen ({ navigation }) {
   return (
         <Text>hola </Text>
   )
