@@ -40,4 +40,8 @@ yarn install
 
 https://fontawesome.com/v5.15/icons
 
+### For Facebook integration:
 
+yarn add react-native-fbsdk-next
+
+expo install expo-facebook

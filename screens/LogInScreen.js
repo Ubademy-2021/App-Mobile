@@ -1,6 +1,7 @@
 import * as React from 'react'
 import logo from '../assets/ubademy.png'
 import { View, StyleSheet, Image } from 'react-native'
+import * as Facebook from 'expo-facebook';
 import {
   NativeBaseProvider,
   Box,
@@ -33,8 +34,34 @@ export default function LogInScreen ({ route, navigation }) {
   // const signupStatus = route.params
   // TODO add notification behaviour
   const [show, setShow] = React.useState(false)
+    async function logIn() {
+        try {
+            await Facebook.initializeAsync({
+                appId: '396374185541511',
+            });
+            const {
+                type,
+                token,
+                expirationDate,
+                permissions,
+                declinedPermissions,
+            } = await Facebook.logInWithReadPermissionsAsync({
+                permissions: ['public_profile'],
+            });
+            if (type === 'success') {
+                // Get the user's name using Facebook's Graph API
+                const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+                Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+            } else {
+                // type === 'cancel'
+            }
+        } catch ({ message }) {
+            alert(`Facebook Login Error: ${message}`);
+        }
+    }
 
-  return (
+
+    return (
         <NativeBaseProvider>
             <ScrollView>
                 <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
@@ -89,7 +116,7 @@ export default function LogInScreen ({ route, navigation }) {
                             mt="2"
                             colorScheme="blue"
                             _text={styles.buttonText}
-                            onPress={() => window.alert('Not implemented yet')}
+                            onPress={logIn}
                         >
                             Sign in with Facebook
                         </Button>
