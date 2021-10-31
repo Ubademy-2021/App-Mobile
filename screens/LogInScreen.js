@@ -4,6 +4,8 @@ import { View, StyleSheet, Image } from 'react-native'
 import * as Facebook from 'expo-facebook';
 import Firebase from '../config/firebase.js'
 
+import session from '../session/token';
+
 const auth = Firebase.auth()
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import {
@@ -24,10 +26,29 @@ import {
 export default function LogInScreen ({ route, navigation }) {
   const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
   const [password, setPassword] = React.useState()
-  // const signupStatus = route.params
   // TODO add notification behaviour
   const [show, setShow] = React.useState(false)
-    let  facebookToken;
+    const [loginError, setLoginError] = React.useState('')
+
+    Firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            console.log('User email: ', user.email)
+        }
+    })
+    const onLogin = async (email, password) => {
+        try {
+            if (email !== '' && password !== '') {
+                await auth.signInWithEmailAndPassword(email, password)
+            }
+        } catch (error) {
+            setLoginError(error.message)
+        }
+        /* OBTENGO EL TOKEN */
+        //const idTokenResult = await Firebase.auth().currentUser.getIdTokenResult()
+        //console.log('User JWT: ', idTokenResult.token)
+        session.token = await Firebase.auth().currentUser.getIdTokenResult()
+        console.log('User JWT: ', session.token)
+    }
 
     const onLoginWithFacebookPress = async () => {
         await Facebook.initializeAsync({
@@ -45,9 +66,10 @@ export default function LogInScreen ({ route, navigation }) {
             });
             if (type === 'success') {
                 /* TODO: Este token lo tiene que recibir el back */
-                facebookToken = token;
+                //facebookToken = token;
+                session.facebookToken = token;
                 /* En esta url, con el token, obtengo los datos del usuario */
-                const response = await fetch(`https://graph.facebook.com/me?access_token=${facebookToken}`);
+                const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`);
                 window.alert(`Hi ${(await response.json()).name}!`);
             } else {
                 // type === 'cancel'
@@ -101,7 +123,8 @@ export default function LogInScreen ({ route, navigation }) {
                             colorScheme="indigo"
                             _text={styles.buttonText}
                             onPress={() => {
-                              verifyLogIn(email, password)
+                              //verifyLogIn(email, password)
+                                onLogin(email, password)
                               navigation.navigate('ProfileSelection')
                             }
                             }
@@ -114,8 +137,6 @@ export default function LogInScreen ({ route, navigation }) {
 
                             _text={styles.buttonText}
                             onPress={onLoginWithFacebookPress}
-                            //onPress={logIn}
-                            //onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
                         >
                             Sign in with Facebook
                         </Button>
