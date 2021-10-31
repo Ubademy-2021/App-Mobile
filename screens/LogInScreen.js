@@ -2,6 +2,10 @@ import * as React from 'react'
 import logo from '../assets/ubademy.png'
 import { View, StyleSheet, Image } from 'react-native'
 import * as Facebook from 'expo-facebook';
+import Firebase from '../config/firebase.js'
+
+const auth = Firebase.auth()
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import {
   NativeBaseProvider,
   Box,
@@ -15,18 +19,7 @@ import {
   HStack, ScrollView, Alert, IconButton, CloseIcon, Collapse
 } from 'native-base'
 
-// TODO: Pasar todos los estilos a la style_sheet
 
-/* Se fija si el log in es valido o no, en la practica la condicion
-va a ser distinta obviamente
- */
-function verifyLogIn (email, password) {
-  if (email) {
-    window.alert('Valid Log in.')
-  } else {
-    window.alert('Invalid log in. Please provide a valid username')
-  }
-}
 
 export default function LogInScreen ({ route, navigation }) {
   const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
@@ -34,11 +27,13 @@ export default function LogInScreen ({ route, navigation }) {
   // const signupStatus = route.params
   // TODO add notification behaviour
   const [show, setShow] = React.useState(false)
-    async function logIn() {
+    let  facebookToken;
+
+    const onLoginWithFacebookPress = async () => {
+        await Facebook.initializeAsync({
+            appId: '396374185541511',
+        });
         try {
-            await Facebook.initializeAsync({
-                appId: '396374185541511',
-            });
             const {
                 type,
                 token,
@@ -46,20 +41,21 @@ export default function LogInScreen ({ route, navigation }) {
                 permissions,
                 declinedPermissions,
             } = await Facebook.logInWithReadPermissionsAsync({
-                permissions: ['public_profile'],
+                permissions: ['public_profile', 'email'],
             });
             if (type === 'success') {
-                // Get the user's name using Facebook's Graph API
-                const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-                Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+                /* TODO: Este token lo tiene que recibir el back */
+                facebookToken = token;
+                /* En esta url, con el token, obtengo los datos del usuario */
+                const response = await fetch(`https://graph.facebook.com/me?access_token=${facebookToken}`);
+                window.alert(`Hi ${(await response.json()).name}!`);
             } else {
                 // type === 'cancel'
             }
-        } catch ({ message }) {
+        } catch ({message}) {
             alert(`Facebook Login Error: ${message}`);
         }
     }
-
 
     return (
         <NativeBaseProvider>
@@ -115,8 +111,11 @@ export default function LogInScreen ({ route, navigation }) {
                         <Button
                             mt="2"
                             colorScheme="blue"
+
                             _text={styles.buttonText}
-                            onPress={logIn}
+                            onPress={onLoginWithFacebookPress}
+                            //onPress={logIn}
+                            //onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
                         >
                             Sign in with Facebook
                         </Button>
