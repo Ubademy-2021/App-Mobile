@@ -1584,9 +1584,9 @@
     tslib "^2.1.0"
 
 "@grpc/grpc-js@^1.0.0":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.4.1.tgz#799063a4ff7395987d4fceb2aab133629b003840"
-  integrity sha512-/chkA48TdAvATHA7RXJPeHQLdfFhpu51974s8htjO/XTDHA41j5+SkR5Io+lr9XsLmkZD6HxLyRAFGmA9wjO2w==
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.4.3.tgz#68ba322eacf810bb74b6822155aa6e0d8eaa0ce4"
+  integrity sha512-SVt7zp7OjNp/t5p0dGjP+O6FdWnbkq80sVTvW4dYRQaXV261wzTvjEt8wrW0KQ+X0vC/kvzQJWvHcIU9wej3uQ==
   dependencies:
     "@grpc/proto-loader" "^0.6.4"
     "@types/node" ">=12.12.47"

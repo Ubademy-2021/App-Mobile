@@ -285,7 +285,6 @@ export default function SignUpForm ({ navigation, route }) {
                             >
                                 Continue
                             </Button>
-                            <Button>Cancel</Button>
                         </Button.Group>
                     </VStack>
                 </Box>

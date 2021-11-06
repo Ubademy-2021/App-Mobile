@@ -11,9 +11,6 @@ import SignUpOptionsScreen from './screens/SignUpOptionsScreen'
 
 const Stack = createNativeStackNavigator()
 
-
-
-
 const App = () => {
   return (
    <NavigationContainer>
