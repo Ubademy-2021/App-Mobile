@@ -1,6 +1,18 @@
 import * as React from 'react'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
-import { Box, Button, Heading, ScrollView, VStack } from 'native-base'
+import {
+  Alert,
+  Box,
+  Button,
+  CloseIcon,
+  Collapse,
+  Heading,
+  HStack,
+  IconButton,
+  ScrollView,
+  Text,
+  VStack
+} from 'native-base'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
 
 const getCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories'
@@ -10,6 +22,8 @@ export default function InterestsScreen ({ navigation, route }) {
   const [selectedCateogries, setSelectedCategories] = React.useState([])
   const [categories, setCategories] = React.useState([])
   const { userId } = route.params
+  const [showNotificaction, setShowNotification] = React.useState(false)
+  const [disableHomeButton, setDisableHomeButton] = React.useState(true)
 
   const getCategoriesFromApi = () => {
     return fetch(getCategoriesURL)
@@ -40,7 +54,10 @@ export default function InterestsScreen ({ navigation, route }) {
         })
       })
     }
-    navigation.navigate('Login', { signupStatus: 'success' })
+
+    // navigation.navigate('Login', { signupStatus: 'success' })
+    setDisableHomeButton(false)
+    setShowNotification(true)
   }
 
   getCategoriesFromApi()
@@ -75,8 +92,33 @@ export default function InterestsScreen ({ navigation, route }) {
                         <Button
                             onPress={handleSubmit}
                         >Finish</Button>
-                        <Button onPress={() => navigation.navigate('Login')} colorScheme="danger">Cancel</Button>
+                        <Button
+                            onPress={() => navigation.navigate('Login')}
+                            colorScheme="success"
+                            isDisabled={disableHomeButton}
+                        >Home</Button>
                     </Button.Group>
+                </Box>
+                <Box>
+                  <Collapse isOpen={showNotificaction}>
+                    <Alert w="100%" status='success'>
+                      <VStack space={2} flexShrink={1} w="100%">
+                      <HStack flexShrink={1} space={2} justifyContent="space-between">
+                      <HStack space={2} flexShrink={1}>
+                        <Alert.Icon mt="1" />
+                          <Text fontSize="md" color="coolGray.800">
+                            User registered successfully
+                          </Text>
+                      </HStack>
+                        <IconButton
+                          variant="unstyled"
+                          icon={<CloseIcon size="3" color="coolGray.600" />}
+                          onPress={() => setShowNotification(false)}
+                        />
+                      </HStack>
+                      </VStack>
+                    </Alert>
+                  </Collapse>
                 </Box>
             </ScrollView>
         </NativeBaseProvider>
