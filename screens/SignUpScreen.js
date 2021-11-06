@@ -81,7 +81,6 @@ export default function SignUpScreen ({ navigation }) {
       window.alert(error.message)
     }
   }
-  let response
   const postUser = (callback) => {
     if (newUser.phoneNumber === undefined) {
       newUser.phoneNumber = 'null'
@@ -109,7 +108,6 @@ export default function SignUpScreen ({ navigation }) {
         callback(data)
       })
       .catch(error => {
-        console.log('Catcheo')
         // this.setState({ errorMessage: error.toString() })
         console.error('There was an error!', error)
       })

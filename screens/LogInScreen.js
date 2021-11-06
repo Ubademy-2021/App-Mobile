@@ -2,9 +2,10 @@ import * as React from 'react'
 import logo from '../assets/ubademy.png'
 import { View, StyleSheet, Image } from 'react-native'
 import * as Facebook from 'expo-facebook';
+import session from '../session/token';
 import Firebase from '../config/firebase.js'
 
-import session from '../session/token';
+
 
 const auth = Firebase.auth()
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
@@ -69,8 +70,9 @@ export default function LogInScreen ({ route, navigation }) {
                 //facebookToken = token;
                 session.facebookToken = token;
                 /* En esta url, con el token, obtengo los datos del usuario */
+                console.log(token);
                 const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`);
-                window.alert(`Hi ${(await response.json()).name}!`);
+                window.alert(`Hi ${(await response.json().name)}!`);
             } else {
                 // type === 'cancel'
             }
@@ -150,7 +152,7 @@ export default function LogInScreen ({ route, navigation }) {
                                   fontWeight: 'medium',
                                   fontSize: 'sm'
                                 }}
-                                onPress= {() => navigation.navigate('Signup')}
+                                onPress= {() => navigation.navigate('SignupOptions')}
                             >
                                 Sign Up
                             </Link>
