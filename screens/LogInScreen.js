@@ -27,6 +27,22 @@ export default function LogInScreen ({ route, navigation }) {
     // TODO add notification behaviour
     const [loginError, setLoginError] = React.useState('')
 
+    const getLogInFacebook  = () =>{
+        return fetch("https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login",
+            {headers:{"facebook_authentication":session.facebookToken}})
+            .then((response) => response.json())
+            .then((json) => {
+                session.userData=json;
+                navigation.navigate('ProfileSelection')
+            })
+            .catch((error) => {
+                /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
+                window.alert("Invalid user");
+                console.error(error)
+            })
+    }
+
+
     Firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             console.log('User email: ', user.email)
@@ -36,15 +52,30 @@ export default function LogInScreen ({ route, navigation }) {
         try {
             if (email !== '' && password !== '') {
                 await auth.signInWithEmailAndPassword(email, password)
+                var aux = await Firebase.auth().currentUser.getIdTokenResult()
+                session.token=aux.token;
+                getLogIn();
             }
         } catch (error) {
             setLoginError(error.message)
+            window.alert("Invalid user");
         }
-        /* OBTENGO EL TOKEN */
-        // const idTokenResult = await Firebase.auth().currentUser.getIdTokenResult()
-        // console.log('User JWT: ', idTokenResult.token)
-        session.token = await Firebase.auth().currentUser.getIdTokenResult()
-        console.log('User JWT: ', session.token)
+    }
+
+    const getLogIn  = () =>{
+        return fetch("https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login",
+            {headers:{"firebase_authentication":session.token}})
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json);
+                session.userData=json;
+                navigation.navigate('ProfileSelection')
+            })
+            .catch((error) => {
+                /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
+                window.alert("Invalid user");
+                console.error(error)
+            })
     }
 
     const onLoginWithFacebookPress = async () => {
@@ -62,12 +93,11 @@ export default function LogInScreen ({ route, navigation }) {
                 permissions: ['public_profile', 'email']
             })
             if (type === 'success') {
-                /* TODO: Este token lo tiene que recibir el back */
-                // facebookToken = token;
                 session.facebookToken = token
                 /* En esta url, con el token, obtengo los datos del usuario */
                 const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`)
-                window.alert(`Hi ${(await response.json()).name}!`)
+                //window.alert(`Hi ${(await response.json()).name}!`)
+                getLogInFacebook();
             } else {
                 // type === 'cancel'
             }
@@ -120,9 +150,11 @@ export default function LogInScreen ({ route, navigation }) {
                             colorScheme="indigo"
                             _text={styles.buttonText}
                             onPress={() => {
+                                session.token='invalid';
                                 // verifyLogIn(email, password)
                                 onLogin(email, password)
-                                navigation.navigate('ProfileSelection')
+                                //get login con el token -> ERROR O USUARIO
+                                //navigation.navigate('ProfileSelection')
                             }
                             }
                         >
@@ -134,6 +166,8 @@ export default function LogInScreen ({ route, navigation }) {
 
                             _text={styles.buttonText}
                             onPress={onLoginWithFacebookPress}
+
+                            //get login con el token -> ERROR O USUARIO
                         >
                             Sign in with Facebook
                         </Button>

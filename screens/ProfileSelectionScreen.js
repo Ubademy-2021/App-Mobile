@@ -31,6 +31,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
             <Text numberOfLines={3}></Text>
             <Icon.Button
                 onPress={() => {
+                    navigation.navigate("ProfileInfo");
                   window.alert('Student profile')
                 }
                 }
