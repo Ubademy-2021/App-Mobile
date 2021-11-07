@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import { ImageBackground, View, StyleSheet, Image } from 'react-native'
 import session from '../session/token'
 import "./AvatarLetters"
+import logo from '../assets/backgroundProfile.jpg'
 import {
     Avatar,
     Box,
@@ -26,8 +27,10 @@ export default function ProfileInfo ({ navigation }) {
     var capitalLetters=getCapitalLetters(session.userData[0].userName);
     return (
         <NativeBaseProvider>
+            <ImageBackground source={logo} resizeMode="cover" style={styles.image}>
             <HStack>
                 <Center flex={1} px="3">
+
                     <Avatar
                         mr={1}
                         source={{
@@ -37,19 +40,39 @@ export default function ProfileInfo ({ navigation }) {
                     >
                         {capitalLetters}
                     </Avatar>
-                </Center>
 
+                </Center>
             </HStack>
+            </ImageBackground>
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
                 <Text numberOfLines={1}></Text>
-                <Text> Profile Information</Text>
-                <Text>{session.userData[0].email}</Text>
-                <Text>{session.userData[0].address}</Text>
-                <Text>{session.userData[0].country}</Text>
-                <Text>{session.userData[0].userName}</Text>
-                <Text>{session.userData[0].city}</Text>
+
+                    <Text> Profile Information</Text>
+                    <Text>{session.userData[0].email}</Text>
+                    <Text>{session.userData[0].address}</Text>
+                    <Text>{session.userData[0].country}</Text>
+                    <Text>{session.userData[0].userName}</Text>
+                    <Text>{session.userData[0].city}</Text>
 
             </Box>
         </NativeBaseProvider>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    image: {
+        flex: 1,
+        justifyContent: "center"
+    },
+    text: {
+        color: "white",
+        fontSize: 42,
+        lineHeight: 84,
+        fontWeight: "bold",
+        textAlign: "center",
+        backgroundColor: "#000000c0"
+    }
+});
