@@ -16,7 +16,7 @@ import {
 } from 'native-base'
 
 
-export default function SignUpOptionsScreen ({ navigation }) {
+export default function ProfileInfo ({ navigation }) {
     return (
         <NativeBaseProvider>
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
