@@ -22,8 +22,8 @@ import getCapitalLetters from "./AvatarLetters";
 
 
 export default function ProfileInfo ({ navigation }) {
-    console.log(session.userData[0].email);
-    var capitalLetters=getCapitalLetters(session.userData[0].username);
+    console.log(session.userData[0]);
+    var capitalLetters=getCapitalLetters(session.userData[0].userName);
     return (
         <NativeBaseProvider>
             <HStack>
@@ -33,7 +33,7 @@ export default function ProfileInfo ({ navigation }) {
                         source={{
                             uri: "https://bit.ly/broken-link",
                         }}
-                        size={100}
+                        size="2xl"
                     >
                         {capitalLetters}
                     </Avatar>
