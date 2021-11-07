@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Image } from 'react-native'
 import session from '../session/token'
+import "./AvatarLetters"
 import {
     Avatar,
     Box,
@@ -17,10 +18,12 @@ import {
     NativeBaseProvider,
     Divider
 } from 'native-base'
+import getCapitalLetters from "./AvatarLetters";
 
 
 export default function ProfileInfo ({ navigation }) {
     console.log(session.userData[0].email);
+    var capitalLetters=getCapitalLetters(session.userData[0].username);
     return (
         <NativeBaseProvider>
             <HStack>
@@ -32,7 +35,7 @@ export default function ProfileInfo ({ navigation }) {
                         }}
                         size={100}
                     >
-                        DG
+                        {capitalLetters}
                     </Avatar>
                 </Center>
 
