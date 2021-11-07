@@ -74,8 +74,6 @@ export default function SignUpOptionsScreen ({ navigation }) {
         var jsonData=(await response.json());
         email=jsonData.email;
         username=jsonData.name;
-        //window.alert(username);
-        //window.alert(email);
         postUser((response) => { navigation.navigate('Location', { user: response }) })
       } else {
         // type === 'cancel'
@@ -110,8 +108,6 @@ export default function SignUpOptionsScreen ({ navigation }) {
 
               onPress={() => {
                 onLoginWithFacebookPress();
-                //window.alert(email);
-                //postUser((response) => { navigation.navigate('Location', { user: response }) })
               }
               }
           >
