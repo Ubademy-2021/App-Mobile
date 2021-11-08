@@ -17,7 +17,7 @@ import {
     IconButton,
     HStack,
     NativeBaseProvider,
-    Divider
+    Divider, ScrollView
 } from 'native-base'
 import getCapitalLetters from "./AvatarLetters";
 
@@ -41,46 +41,48 @@ export default function ProfileInfo ({ navigation }) {
 
     return (
         <NativeBaseProvider>
-            <ImageBackground source={logo} resizeMode="cover" style={styles.image}>
-            <HStack>
-                <Center flex={1} px="3">
-                    <View style={styles.headerColumn}>
-                    <Avatar
-                        mr={1}
-                        source={{
-                            uri: "https://bit.ly/broken-link",
-                        }}
-                        size="2xl"
-                    >
-                        {capitalLetters}
-                    </Avatar>
-                        <Text style={styles.userNameText}>{session.userData[0].userName}</Text>
-                        <View style={styles.userAddressRow}>
-                            <View style={styles.userCityRow}>
-                                <Text style={styles.userCityText}>
-                                    {session.userData[0].city}, {session.userData[0].country}
-                                </Text>
+            <ScrollView>
+                <ImageBackground source={logo} resizeMode="cover" style={styles.image}>
+                <HStack>
+                    <Center flex={1} px="3">
+                        <View style={styles.headerColumn}>
+                        <Avatar
+                            mr={1}
+                            source={{
+                                uri: "https://bit.ly/broken-link",
+                            }}
+                            size="2xl"
+                        >
+                            {capitalLetters}
+                        </Avatar>
+                            <Text style={styles.userNameText}>{session.userData[0].userName}</Text>
+                            <View style={styles.userAddressRow}>
+                                <View style={styles.userCityRow}>
+                                    <Text style={styles.userCityText}>
+                                        {session.userData[0].city}, {session.userData[0].country}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                </Center>
-            </HStack>
-            </ImageBackground>
-            <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
-                <Text numberOfLines={1}></Text>
+                    </Center>
+                </HStack>
+                </ImageBackground>
+                <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
+                    <Text numberOfLines={1}></Text>
 
-                    <Text style={styles.headerText}> Profile Information</Text>
-                <Text numberOfLines={1}></Text>
-                    <Text style={styles.informationText}>{session.userData[0].email}</Text>
-                <Text numberOfLines={1}></Text>
-                    <Text style={styles.informationText}>{session.userData[0].address}</Text>
-                <Text numberOfLines={1}></Text>
-                    <Text style={styles.informationText}>{session.userData[0].userName}</Text>
-                {session.userData[0].name!=='null' ? helloMessage : renderField(session.userData[0].name)}
-                {session.userData[0].surname!=='null' ? helloMessage : renderField(session.userData[0].surname)}
-                {session.userData[0].phoneNumber!=='null' ? helloMessage : renderField(session.userData[0].phoneNumber)}
+                        <Text style={styles.headerText}> Profile Information</Text>
+                    <Text numberOfLines={1}></Text>
+                        <Text style={styles.informationText}>{session.userData[0].email}</Text>
+                    <Text numberOfLines={1}></Text>
+                        <Text style={styles.informationText}>{session.userData[0].address}</Text>
+                    <Text numberOfLines={1}></Text>
+                        <Text style={styles.informationText}>{session.userData[0].userName}</Text>
+                    {session.userData[0].name!=='null' ? helloMessage : renderField(session.userData[0].name)}
+                    {session.userData[0].surname!=='null' ? helloMessage : renderField(session.userData[0].surname)}
+                    {session.userData[0].phoneNumber!=='null' ? helloMessage : renderField(session.userData[0].phoneNumber)}
 
-            </Box>
+                </Box>
+            </ScrollView>
         </NativeBaseProvider>
     )
 }
