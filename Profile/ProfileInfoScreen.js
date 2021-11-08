@@ -69,7 +69,7 @@ export default function ProfileInfo ({ navigation }) {
             <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
                 <Text numberOfLines={1}></Text>
 
-                    <Text> Profile Information</Text>
+                    <Text style={styles.headerText}> Profile Information</Text>
                 <Text numberOfLines={1}></Text>
                     <Text style={styles.informationText}>{session.userData[0].email}</Text>
                 <Text numberOfLines={1}></Text>
@@ -159,6 +159,12 @@ const styles = StyleSheet.create({
     informationText:{
         color: '#000000',
         fontSize: 22,
+        fontWeight: '600',
+    },
+    headerText:{
+        textAlign: "center",
+        color: '#000000',
+        fontSize: 28,
         fontWeight: '600',
     },
     userImage: {
