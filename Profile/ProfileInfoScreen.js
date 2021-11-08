@@ -25,6 +25,20 @@ import getCapitalLetters from "./AvatarLetters";
 export default function ProfileInfo ({ navigation }) {
     console.log(session.userData[0]);
     var capitalLetters=getCapitalLetters(session.userData[0].userName);
+
+    const helloMessage= <Text> Hello, JSX!</Text>
+    const goodbyeMessage= <Text>Goodbye, JSX!</Text>
+
+    function renderField(fieldToRender){
+
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.informationText}> {fieldToRender}</Text>
+            </View>
+        )
+    }
+
     return (
         <NativeBaseProvider>
             <ImageBackground source={logo} resizeMode="cover" style={styles.image}>
@@ -41,6 +55,13 @@ export default function ProfileInfo ({ navigation }) {
                         {capitalLetters}
                     </Avatar>
                         <Text style={styles.userNameText}>{session.userData[0].userName}</Text>
+                        <View style={styles.userAddressRow}>
+                            <View style={styles.userCityRow}>
+                                <Text style={styles.userCityText}>
+                                    {session.userData[0].city}, {session.userData[0].country}
+                                </Text>
+                            </View>
+                        </View>
                     </View>
                 </Center>
             </HStack>
@@ -49,11 +70,15 @@ export default function ProfileInfo ({ navigation }) {
                 <Text numberOfLines={1}></Text>
 
                     <Text> Profile Information</Text>
-                    <Text>{session.userData[0].email}</Text>
-                    <Text>{session.userData[0].address}</Text>
-                    <Text>{session.userData[0].country}</Text>
-                    <Text>{session.userData[0].userName}</Text>
-                    <Text>{session.userData[0].city}</Text>
+                <Text numberOfLines={1}></Text>
+                    <Text style={styles.informationText}>{session.userData[0].email}</Text>
+                <Text numberOfLines={1}></Text>
+                    <Text style={styles.informationText}>{session.userData[0].address}</Text>
+                <Text numberOfLines={1}></Text>
+                    <Text style={styles.informationText}>{session.userData[0].userName}</Text>
+                {session.userData[0].name!=='null' ? helloMessage : renderField(session.userData[0].name)}
+                {session.userData[0].surname!=='null' ? helloMessage : renderField(session.userData[0].surname)}
+                {session.userData[0].phoneNumber!=='null' ? helloMessage : renderField(session.userData[0].phoneNumber)}
 
             </Box>
         </NativeBaseProvider>
@@ -130,6 +155,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: '600',
         textAlign: 'center',
+    },
+    informationText:{
+        color: '#000000',
+        fontSize: 22,
+        fontWeight: '600',
     },
     userImage: {
         borderColor: '#FFF',
