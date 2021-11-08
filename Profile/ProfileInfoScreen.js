@@ -30,13 +30,15 @@ export default function ProfileInfo ({ navigation }) {
     const goodbyeMessage= <Text>Goodbye, JSX!</Text>
 
     function renderField(fieldToRender){
-
         return (
             <View>
                 <Text numberOfLines={1}></Text>
                 <Text style={styles.informationText}> {fieldToRender}</Text>
             </View>
         )
+    }
+    function renderVoid(){
+        return ;
     }
 
     return (
@@ -66,20 +68,24 @@ export default function ProfileInfo ({ navigation }) {
                         </View>
                     </Center>
                 </HStack>
-                </ImageBackground>
-                <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
+                    <Text numberOfLines={1}></Text>
                     <Text numberOfLines={1}></Text>
 
+                </ImageBackground>
+                <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
                         <Text style={styles.headerText}> Profile Information</Text>
                     <Text numberOfLines={1}></Text>
+                    <Text style={styles.informationText}> Email:</Text>
                         <Text style={styles.informationText}>{session.userData[0].email}</Text>
                     <Text numberOfLines={1}></Text>
+                    <Text style={styles.informationText}> Address:</Text>
                         <Text style={styles.informationText}>{session.userData[0].address}</Text>
                     <Text numberOfLines={1}></Text>
+                    <Text style={styles.informationText}> Username:</Text>
                         <Text style={styles.informationText}>{session.userData[0].userName}</Text>
-                    {session.userData[0].name!=='null' ? helloMessage : renderField(session.userData[0].name)}
-                    {session.userData[0].surname!=='null' ? helloMessage : renderField(session.userData[0].surname)}
-                    {session.userData[0].phoneNumber!=='null' ? helloMessage : renderField(session.userData[0].phoneNumber)}
+                    {session.userData[0].name==='null' ? renderVoid() : renderField(session.userData[0].name)}
+                    {session.userData[0].surname==='null' ? renderVoid() : renderField(session.userData[0].surname)}
+                    {session.userData[0].phoneNumber==='null' ? renderVoid() : renderField(session.userData[0].phoneNumber)}
 
                 </Box>
             </ScrollView>
@@ -160,13 +166,13 @@ const styles = StyleSheet.create({
     },
     informationText:{
         color: '#000000',
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: '600',
     },
     headerText:{
         textAlign: "center",
         color: '#000000',
-        fontSize: 28,
+        fontSize: 22,
         fontWeight: '600',
     },
     userImage: {
