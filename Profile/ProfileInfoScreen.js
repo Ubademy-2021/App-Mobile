@@ -25,15 +25,39 @@ import getCapitalLetters from "./AvatarLetters";
 export default function ProfileInfo ({ navigation }) {
     console.log(session.userData[0]);
     var capitalLetters=getCapitalLetters(session.userData[0].userName);
-
-    const helloMessage= <Text> Hello, JSX!</Text>
-    const goodbyeMessage= <Text>Goodbye, JSX!</Text>
-
+    /*
     function renderField(fieldToRender){
         return (
             <View>
                 <Text numberOfLines={1}></Text>
                 <Text style={styles.informationText}>{fieldToRender}</Text>
+            </View>
+        )
+    }*/
+    function renderName(){
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>Name:</Text>
+                <Text style={styles.informationText}>{session.userData[0].name}</Text>
+            </View>
+        )
+    }
+    function renderSurname(){
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>Surname:</Text>
+                <Text style={styles.informationText}>{session.userData[0].surname}</Text>
+            </View>
+        )
+    }
+    function renderPhoneNumber(){
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>PhoneNumber:</Text>
+                <Text style={styles.informationText}>{session.userData[0].phoneNumber}</Text>
             </View>
         )
     }
@@ -87,11 +111,10 @@ export default function ProfileInfo ({ navigation }) {
                     <Text numberOfLines={1}></Text>
                     <Text style={styles.fieldHeaderText}>Username:</Text>
                     <Text style={styles.informationText}>{session.userData[0].userName}</Text>
-                    
-                    {session.userData[0].name==='null' ? renderVoid() : renderField(session.userData[0].name)}
-                    {session.userData[0].surname==='null' ? renderVoid() : renderField(session.userData[0].surname)}
-                    {session.userData[0].phoneNumber==='null' ? renderVoid() : renderField(session.userData[0].phoneNumber)}
 
+                    {session.userData[0].name==='null' ? renderVoid() : renderName()}
+                    {session.userData[0].surname==='null' ? renderVoid() : renderSurname()}
+                    {session.userData[0].phoneNumber==='null' ? renderVoid() : renderPhoneNumber()}
                 </Box>
             </ScrollView>
         </NativeBaseProvider>
@@ -184,7 +207,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: '#000000',
         fontSize: 22,
-        fontWeight: '600',
+        fontWeight: '900',
     },
     userImage: {
         borderColor: '#FFF',
