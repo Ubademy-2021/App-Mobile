@@ -3,6 +3,8 @@ import { ImageBackground, View, StyleSheet, Image } from 'react-native'
 import session from '../session/token'
 import "./AvatarLetters"
 import logo from '../assets/backgroundProfile.jpg'
+import Icon from 'react-native-vector-icons/FontAwesome5'
+
 import {
     Avatar,
     Box,
@@ -20,7 +22,7 @@ import {
     Divider, ScrollView
 } from 'native-base'
 import getCapitalLetters from "./AvatarLetters";
-
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function ProfileInfo ({ navigation }) {
     console.log(session.userData[0]);
@@ -97,7 +99,19 @@ export default function ProfileInfo ({ navigation }) {
 
                 </ImageBackground>
                 <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
-
+                    <VStack space={4} alignItems="flex-end">
+                            <IconButton
+                                colorScheme="indigo"
+                                variant="solid"
+                                _icon={{
+                                    as: FontAwesome5,
+                                    name: "pen",
+                                }}
+                                onPress={() => {
+                                    window.alert("Pressed");
+                                }}
+                            />
+                    </VStack>
                     <Text style={styles.headerText}> Profile Information</Text>
 
                     <Text numberOfLines={1}></Text>
@@ -124,6 +138,9 @@ export default function ProfileInfo ({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#fff",
+        padding: 30,
+        margin:100,
     },
     image: {
         flex: 1,
@@ -225,4 +242,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 });
-
+/*
+<Icon.Button
+    onPress={() => {
+        window.alert('Student profile')
+    }}
+    name="marker"
+    size={25}
+    margin={2}
+    padding={5}
+    backgroundColor={255,255,255}
+    style={{ width: 50 , height: 100}}
+>
+</Icon.Button>*/
