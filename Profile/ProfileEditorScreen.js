@@ -17,7 +17,6 @@ import {StyleSheet} from "react-native";
 export default function ProfileEditionForm ({ navigation }) {
 
     const putLocation = () => {
-        console.log("user id es:",session.userData[0].id);
 
         fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
             method: 'PUT',
@@ -28,16 +27,18 @@ export default function ProfileEditionForm ({ navigation }) {
             },
             body: JSON.stringify({
                 email: session.userData[0].email,
-                userName: session.userData[0].userName,
-                name: 'null',
-                surname: 'null',
-                phoneNumber: 'null',
+                userName: locationData.userName,
+                name: session.userData[0].name,
+                surname: session.userData[0].surname,
+                phoneNumber: session.userData[0].phoneNumber,
                 city: locationData.city,
-                state: 'null',
-                country: 'null',
-                address: 'null'
+                state: session.userData[0].state,
+                country: session.userData[0].country,
+                address: session.userData[0].address
             })
-        })
+        }).then(response => response.json())
+            .then(data => console.log("data:",data)) // Manipulate the data retrieved back, if we want to do something with it
+            .catch(err => window.alert("An error occurred while processing your request"))
     }
 
     const [locationData, setLocationData] = React.useState({
@@ -62,6 +63,36 @@ export default function ProfileEditionForm ({ navigation }) {
                         <FormControl>
                             <FormControl.Label
                                 _text={styles.formControlText}>
+                                Username
+                            </FormControl.Label>
+                            <Input
+                                placeholder="Jorge06"
+                                onChangeText={(value) => setLocationData({ ...locationData, userName: value })}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                Name
+                            </FormControl.Label>
+                            <Input
+                                placeholder="Jorge"
+                                onChangeText={(value) => setLocationData({ ...locationData, name: value })}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                Surname
+                            </FormControl.Label>
+                            <Input
+                                placeholder="Perez"
+                                onChangeText={(value) => setLocationData({ ...locationData, surname: value })}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
                                 City
                             </FormControl.Label>
                             <Input
@@ -69,13 +100,33 @@ export default function ProfileEditionForm ({ navigation }) {
                                 onChangeText={(value) => setLocationData({ ...locationData, city: value })}
                             />
                         </FormControl>
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                State
+                            </FormControl.Label>
+                            <Input
+                                placeholder="Buenos Aires"
+                                onChangeText={(value) => setLocationData({ ...locationData, state: value })}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
+                                Country
+                            </FormControl.Label>
+                            <Input
+                                placeholder="Argentina"
+                                onChangeText={(value) => setLocationData({ ...locationData, country: value })}
+                            />
+                        </FormControl>
                         <Button.Group
                             direction="column"
                         >
                             <Button
                                 onPress={() => {
-                                    window.alert(locationData.city);
                                     putLocation();
+                                    navigation.navigate("ProfileInfo");
                                 }
                                 }
                             >
