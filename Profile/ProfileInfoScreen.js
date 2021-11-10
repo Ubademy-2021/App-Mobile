@@ -27,15 +27,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 export default function ProfileInfo ({ navigation }) {
     console.log(session.userData[0]);
     var capitalLetters=getCapitalLetters(session.userData[0].userName);
-    /*
-    function renderField(fieldToRender){
-        return (
-            <View>
-                <Text numberOfLines={1}></Text>
-                <Text style={styles.informationText}>{fieldToRender}</Text>
-            </View>
-        )
-    }*/
     function renderName(){
         return (
             <View>
@@ -108,6 +99,7 @@ export default function ProfileInfo ({ navigation }) {
                                     name: "pen",
                                 }}
                                 onPress={() => {
+                                    navigation.navigate("ProfileEditor");
                                     window.alert("Pressed");
                                 }}
                             />
