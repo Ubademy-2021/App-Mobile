@@ -44,6 +44,15 @@ export default function ProfileInfo ({ navigation }) {
             </View>
         )
     }
+    function renderState(){
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>State:</Text>
+                <Text style={styles.informationText}>{session.userData[0].state}</Text>
+            </View>
+        )
+    }
     function renderPhoneNumber(){
         return (
             <View>
@@ -105,21 +114,19 @@ export default function ProfileInfo ({ navigation }) {
                     </VStack>
                     <Text style={styles.headerText}> Profile Information</Text>
 
+                    {session.userData[0].name==='null' ? renderVoid() : renderName()}
+                    {session.userData[0].surname==='null' ? renderVoid() : renderSurname()}
                     <Text numberOfLines={1}></Text>
                     <Text style={styles.fieldHeaderText}>Email:</Text>
                     <Text style={styles.informationText}>{session.userData[0].email}</Text>
+                    {session.userData[0].phoneNumber==='null' ? renderVoid() : renderPhoneNumber()}
+
+                    {session.userData[0].state==='null' ? renderVoid() : renderState()}
 
                     <Text numberOfLines={1}></Text>
                     <Text style={styles.fieldHeaderText}>Address:</Text>
                     <Text style={styles.informationText}>{session.userData[0].address}</Text>
 
-                    <Text numberOfLines={1}></Text>
-                    <Text style={styles.fieldHeaderText}>Username:</Text>
-                    <Text style={styles.informationText}>{session.userData[0].userName}</Text>
-
-                    {session.userData[0].name==='null' ? renderVoid() : renderName()}
-                    {session.userData[0].surname==='null' ? renderVoid() : renderSurname()}
-                    {session.userData[0].phoneNumber==='null' ? renderVoid() : renderPhoneNumber()}
                 </Box>
             </ScrollView>
         </NativeBaseProvider>
@@ -233,16 +240,3 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 });
-/*
-<Icon.Button
-    onPress={() => {
-        window.alert('Student profile')
-    }}
-    name="marker"
-    size={25}
-    margin={2}
-    padding={5}
-    backgroundColor={255,255,255}
-    style={{ width: 50 , height: 100}}
->
-</Icon.Button>*/
