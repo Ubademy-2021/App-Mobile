@@ -62,7 +62,7 @@ export default function ProfileEditionForm ({ navigation }) {
         }).then(response => response.json())
             .then(data => {
                 reAssignUserData(data);
-                console.log("data:",data)
+                window.alert("Profile saved");
                 console.log("session es:",session.userData[0]);
             }) // En data va a estar el nuevo "user" con sus campos, si to.do sale bien
             .catch(err => window.alert("An error occurred while processing your request"))
