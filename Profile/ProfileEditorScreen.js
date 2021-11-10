@@ -16,7 +16,30 @@ import {StyleSheet} from "react-native";
 
 export default function ProfileEditionForm ({ navigation }) {
 
+
+    function reAssignUserData(data){
+
+        session.userData[0].userName=data.userName;
+        session.userData[0].name=data.name;
+        session.userData[0].surname=data.surname;
+        session.userData[0].phoneNumber=data.phoneNumber;
+        session.userData[0].city=data.city;
+        session.userData[0].state=data.state;
+        session.userData[0].country=data.country;
+        session.userData[0].address=data.address;
+    }
+
     const putLocation = () => {
+
+        var newUserName= (locationData.userName===undefined) ? session.userData[0].userName : locationData.userName;
+        var newName= (locationData.name===undefined) ? session.userData[0].name : locationData.name;
+        var newSurname= (locationData.surname ===undefined) ? session.userData[0].surname : locationData.surname;
+        var newPhoneNumber= (locationData.phoneNumber === undefined) ? session.userData[0].phoneNumber : locationData.phoneNumber;
+        var newCity = (locationData.city === undefined) ? session.userData[0].city : locationData.city;
+        var newState = (locationData.state === undefined) ? session.userData[0].state : locationData.state;
+        var newState = (locationData.state === undefined) ? session.userData[0].state : locationData.state;
+        var newCountry = (locationData.country === undefined) ? session.userData[0].country : locationData.country;
+        var newAddress = (locationData.address === undefined ) ? session.userData[0].address : locationData.address;
 
         fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
             method: 'PUT',
@@ -27,17 +50,21 @@ export default function ProfileEditionForm ({ navigation }) {
             },
             body: JSON.stringify({
                 email: session.userData[0].email,
-                userName: locationData.userName,
-                name: session.userData[0].name,
-                surname: session.userData[0].surname,
-                phoneNumber: session.userData[0].phoneNumber,
-                city: locationData.city,
-                state: session.userData[0].state,
-                country: session.userData[0].country,
-                address: session.userData[0].address
+                userName: newUserName,
+                name: newName,
+                surname: newSurname,
+                phoneNumber: newPhoneNumber,
+                city: newCity,
+                state: newState,
+                country: newCountry,
+                address: newAddress
             })
         }).then(response => response.json())
-            .then(data => console.log("data:",data)) // Manipulate the data retrieved back, if we want to do something with it
+            .then(data => {
+                reAssignUserData(data);
+                console.log("data:",data)
+                console.log("session es:",session.userData[0]);
+            }) // En data va a estar el nuevo "user" con sus campos, si to.do sale bien
             .catch(err => window.alert("An error occurred while processing your request"))
     }
 

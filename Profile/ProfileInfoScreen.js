@@ -25,7 +25,6 @@ import getCapitalLetters from "./AvatarLetters";
 import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function ProfileInfo ({ navigation }) {
-    console.log(session.userData[0]);
     var capitalLetters=getCapitalLetters(session.userData[0].userName);
     function renderName(){
         return (
