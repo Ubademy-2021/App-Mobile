@@ -16,9 +16,9 @@ import {StyleSheet} from "react-native";
 
 export default function ProfileEditionForm ({ navigation }) {
 
-
+    var newUserData={};
+    var newUserName, newName
     function reAssignUserData(data){
-
         session.userData[0].userName=data.userName;
         session.userData[0].name=data.name;
         session.userData[0].surname=data.surname;
@@ -31,15 +31,15 @@ export default function ProfileEditionForm ({ navigation }) {
 
     const putLocation = () => {
 
-        var newUserName= (locationData.userName===undefined) ? session.userData[0].userName : locationData.userName;
-        var newName= (locationData.name===undefined) ? session.userData[0].name : locationData.name;
-        var newSurname= (locationData.surname ===undefined) ? session.userData[0].surname : locationData.surname;
-        var newPhoneNumber= (locationData.phoneNumber === undefined) ? session.userData[0].phoneNumber : locationData.phoneNumber;
-        var newCity = (locationData.city === undefined) ? session.userData[0].city : locationData.city;
-        var newState = (locationData.state === undefined) ? session.userData[0].state : locationData.state;
-        var newState = (locationData.state === undefined) ? session.userData[0].state : locationData.state;
-        var newCountry = (locationData.country === undefined) ? session.userData[0].country : locationData.country;
-        var newAddress = (locationData.address === undefined ) ? session.userData[0].address : locationData.address;
+
+        newUserData.newUserName= (locationData.userName===undefined) ? session.userData[0].userName : locationData.userName;
+        newUserData.newName= (locationData.name===undefined) ? session.userData[0].name : locationData.name;
+        newUserData.newSurname= (locationData.surname ===undefined) ? session.userData[0].surname : locationData.surname;
+        newUserData.newPhoneNumber= (locationData.phoneNumber === undefined) ? session.userData[0].phoneNumber : locationData.phoneNumber;
+        newUserData.newCity = (locationData.city === undefined) ? session.userData[0].city : locationData.city;
+        newUserData.newState = (locationData.state === undefined) ? session.userData[0].state : locationData.state;
+        newUserData.newCountry = (locationData.country === undefined) ? session.userData[0].country : locationData.country;
+        newUserData.newAddress = (locationData.address === undefined ) ? session.userData[0].address : locationData.address;
 
         fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
             method: 'PUT',
@@ -50,14 +50,14 @@ export default function ProfileEditionForm ({ navigation }) {
             },
             body: JSON.stringify({
                 email: session.userData[0].email,
-                userName: newUserName,
-                name: newName,
-                surname: newSurname,
-                phoneNumber: newPhoneNumber,
-                city: newCity,
-                state: newState,
-                country: newCountry,
-                address: newAddress
+                userName: newUserData.newUserName,
+                name: newUserData.newName,
+                surname: newUserData.newSurname,
+                phoneNumber: newUserData.newPhoneNumber,
+                city: newUserData.newCity,
+                state: newUserData.newState,
+                country: newUserData.newCountry,
+                address: newUserData.newAddress
             })
         }).then(response => response.json())
             .then(data => {

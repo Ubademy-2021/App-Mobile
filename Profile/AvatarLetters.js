@@ -11,7 +11,6 @@ export default function getCapitalLetters (username) {
     }
     if(newStr.length===0){
         return username.substring(0,2).toUpperCase();
-        //return "US";
     }
     return newStr;
 }
