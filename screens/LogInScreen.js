@@ -28,7 +28,7 @@ export default function LogInScreen ({ route, navigation }) {
     const [loginError, setLoginError] = React.useState('')
 
     const getLogInFacebook  = () =>{
-      
+
         //console.log(session.facebookToken);
         return fetch("https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login",
             {headers:{"facebook_authentication":session.facebookToken}})
@@ -45,11 +45,11 @@ export default function LogInScreen ({ route, navigation }) {
     }
 
 
-    Firebase.auth().onAuthStateChanged((user) => {
+    /*Firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             console.log('User email: ', user.email)
         }
-    })
+    })*/
     const onLogin = async (email, password) => {
         try {
             if (email !== '' && password !== '') {
@@ -69,7 +69,7 @@ export default function LogInScreen ({ route, navigation }) {
             {headers:{"firebase_authentication":session.token}})
             .then((response) => response.json())
             .then((json) => {
-                console.log(json);
+                //console.log(json);
                 session.userData=json;
                 navigation.navigate('ProfileSelection')
             })
