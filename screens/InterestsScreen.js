@@ -15,8 +15,8 @@ import {
 } from 'native-base'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
 
-const getCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories'
 const postCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/user'
+const getCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/'
 
 export default function InterestsScreen ({ navigation, route }) {
   const [selectedCateogries, setSelectedCategories] = React.useState([])

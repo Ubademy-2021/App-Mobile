@@ -10,6 +10,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SignUpOptionsScreen from './screens/SignUpOptionsScreen'
+import StudentCourseSearchScreen from './screens/StudentCourseSearchScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -24,6 +25,7 @@ const App = () => {
           <Stack.Screen name="Location" component={LocationScreen} />
           <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} />
           <Stack.Screen name="ProfileSelection" component={ProfileSelectionScreen} />
+          <Stack.Screen name="StudentCourseSearch" component={StudentCourseSearchScreen} />
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
