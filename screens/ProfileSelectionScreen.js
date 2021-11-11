@@ -31,7 +31,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
             <Text numberOfLines={3}></Text>
             <Icon.Button
                 onPress={() => {
-                  window.alert('Student profile')
+                    navigation.navigate("ProfileInfo");
                 }
                 }
                 name="book"
@@ -44,7 +44,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
             <Text numberOfLines={2}></Text>
             <Icon.Button
                 onPress={() => {
-                  window.alert('Collaborator profile')
+                    navigation.navigate("ProfileInfo");
                 }
                 }
                 name="book-reader"
@@ -57,7 +57,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
             <Text numberOfLines={2}></Text>
             <Icon.Button
                 onPress={() => {
-                  window.alert('Creator profile')
+                    navigation.navigate("ProfileInfo");
                 }
                 }
                 name="chalkboard-teacher"
