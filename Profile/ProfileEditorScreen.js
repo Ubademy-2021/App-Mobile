@@ -84,10 +84,7 @@ export default function ProfileEditionForm ({ navigation }) {
                 <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
                     <VStack alignItems="center">
                         <Heading size="lg" color="coolGray.800" fontWeight="600" textalign="center">
-                            Sign Up
-                        </Heading>
-                        <Heading mt="1" color="coolGray.600" fontWeight="medium" size="xs" textalign="center">
-                            Step 2: Location data
+                            Profile Editor
                         </Heading>
                     </VStack>
 
