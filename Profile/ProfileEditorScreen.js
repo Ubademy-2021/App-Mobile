@@ -17,7 +17,7 @@ import {StyleSheet} from "react-native";
 export default function ProfileEditionForm ({ navigation }) {
 
     var newUserData={};
-    var newUserName, newName
+
     function reAssignUserData(data){
         session.userData[0].userName=data.userName;
         session.userData[0].name=data.name;
@@ -29,9 +29,7 @@ export default function ProfileEditionForm ({ navigation }) {
         session.userData[0].address=data.address;
     }
 
-    const putLocation = () => {
-
-
+    function dataToSend(){
         newUserData.newUserName= (locationData.userName===undefined) ? session.userData[0].userName : locationData.userName;
         newUserData.newName= (locationData.name===undefined) ? session.userData[0].name : locationData.name;
         newUserData.newSurname= (locationData.surname ===undefined) ? session.userData[0].surname : locationData.surname;
@@ -41,6 +39,12 @@ export default function ProfileEditionForm ({ navigation }) {
         newUserData.newCountry = (locationData.country === undefined) ? session.userData[0].country : locationData.country;
         newUserData.newAddress = (locationData.address === undefined ) ? session.userData[0].address : locationData.address;
 
+    }
+
+    const putLocation = () => {
+        console.log("Previous data:",session.userData[0]);
+        dataToSend();
+        console.log("Data to send es:",newUserData);
         fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
             method: 'PUT',
             mode: 'no-cors',
@@ -61,9 +65,10 @@ export default function ProfileEditionForm ({ navigation }) {
             })
         }).then(response => response.json())
             .then(data => {
+                console.log("Data received:",data);
                 reAssignUserData(data);
                 window.alert("Profile saved");
-                console.log("session es:",session.userData[0]);
+                console.log("New data es:",session.userData[0]);
             }) // En data va a estar el nuevo "user" con sus campos, si to.do sale bien
             .catch(err => window.alert("An error occurred while processing your request"))
     }

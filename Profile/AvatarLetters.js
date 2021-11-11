@@ -3,6 +3,9 @@
 
 
 export default function getCapitalLetters (username) {
+    if(username === undefined){
+        return "UN";
+    }
     let newStr = "";
     for (let i = 0; i < username.length; i++) {
         if (username[i].match(/[A-Z]/)) {
