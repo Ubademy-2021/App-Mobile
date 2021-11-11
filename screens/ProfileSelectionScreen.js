@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
+import session from '../session/token'
 import {
   NativeBaseProvider,
   Box,
@@ -30,7 +30,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
             <Text numberOfLines={3}></Text>
             <Icon.Button
                 onPress={() => {
-                    navigation.navigate("ProfileInfo");
+                    navigation.navigate("ProfileInfo",{ profile: "Student Profile" });
                 }
                 }
                 name="book"
@@ -42,7 +42,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
             <Text numberOfLines={2}></Text>
             <Icon.Button
                 onPress={() => {
-                    navigation.navigate("ProfileInfo");
+                    navigation.navigate("ProfileInfo",{ profile: "Collaborator Profile" });
                 }
                 }
                 name="book-reader"
@@ -54,7 +54,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
             <Text numberOfLines={2}></Text>
             <Icon.Button
                 onPress={() => {
-                    navigation.navigate("ProfileInfo");
+                    navigation.navigate("ProfileInfo",{ profile: "Creator Profile" });
                 }
                 }
                 name="chalkboard-teacher"
