@@ -44,12 +44,6 @@ export default function LogInScreen ({ route, navigation }) {
             })
     }
 
-
-    /*Firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            console.log('User email: ', user.email)
-        }
-    })*/
     const onLogin = async (email, password) => {
         try {
             if (email !== '' && password !== '') {
@@ -69,7 +63,6 @@ export default function LogInScreen ({ route, navigation }) {
             {headers:{"firebase_authentication":session.token}})
             .then((response) => response.json())
             .then((json) => {
-                //console.log(json);
                 session.userData=json;
                 navigation.navigate('ProfileSelection')
             })
@@ -165,11 +158,8 @@ export default function LogInScreen ({ route, navigation }) {
                         <Button
                             mt="2"
                             colorScheme="blue"
-
                             _text={styles.buttonText}
                             onPress={onLoginWithFacebookPress}
-
-                            //get login con el token -> ERROR O USUARIO
                         >
                             Sign in with Facebook
                         </Button>
