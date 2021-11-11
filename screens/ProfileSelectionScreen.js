@@ -2,7 +2,6 @@ import React from 'react'
 import { View, StyleSheet, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-import logo from '../assets/ubademy.png'
 import {
   NativeBaseProvider,
   Box,
@@ -36,7 +35,6 @@ export default function ProfileSelectionScreen ({ navigation }) {
                 }
                 name="book"
                 backgroundColor='rgba(54, 204, 235, 0.8)'
-                // backgroundColor="#3b5998"
                 size={100}
             >
                 Student Profile
@@ -49,7 +47,6 @@ export default function ProfileSelectionScreen ({ navigation }) {
                 }
                 name="book-reader"
                 backgroundColor='rgba(82, 0, 167, 0.8)'
-                // backgroundColor="#3b5998"
                 size={100}
             >
                 Collaborator Profile
