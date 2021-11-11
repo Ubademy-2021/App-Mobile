@@ -48,7 +48,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
                 }
                 }
                 name="book-reader"
-                backgroundColor='rgba(54, 235, 94, 0.8)'
+                backgroundColor='rgba(82, 0, 167, 0.8)'
                 // backgroundColor="#3b5998"
                 size={100}
             >
@@ -61,8 +61,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
                 }
                 }
                 name="chalkboard-teacher"
-                backgroundColor='rgba(235, 73, 52, 0.8)'
-                // backgroundColor="#3b5998"
+                backgroundColor='rgba(0, 57, 143, 0.8)'
                 size={100}
             >
                 Creator Profile
