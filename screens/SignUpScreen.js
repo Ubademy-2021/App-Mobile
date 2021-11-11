@@ -76,7 +76,6 @@ export default function SignUpScreen ({ navigation }) {
   const onHandleSignup = async () => {
     try {
       await auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
-      window.alert('Authentication successful')
     } catch (error) {
       window.alert(error.message)
     }

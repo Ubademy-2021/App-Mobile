@@ -29,7 +29,7 @@ export default function LogInScreen ({ route, navigation }) {
 
     const getLogInFacebook  = () =>{
 
-        //console.log(session.facebookToken);
+        console.log(session.facebookToken);
         return fetch("https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login",
             {headers:{"facebook_authentication":session.facebookToken}})
             .then((response) => response.json())

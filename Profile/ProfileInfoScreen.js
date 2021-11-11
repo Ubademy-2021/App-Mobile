@@ -108,7 +108,6 @@ export default function ProfileInfo ({ navigation }) {
                                 }}
                                 onPress={() => {
                                     navigation.navigate("ProfileEditor");
-                                    window.alert("Pressed");
                                 }}
                             />
                     </VStack>
