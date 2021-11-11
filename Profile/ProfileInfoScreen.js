@@ -24,7 +24,8 @@ import {
 import getCapitalLetters from "./AvatarLetters";
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export default function ProfileInfo ({ navigation }) {
+export default function ProfileInfo ({ navigation , route}) {
+    const { profile } = route.params
     var capitalLetters=getCapitalLetters(session.userData[0].userName);
     function renderName(){
         return (
@@ -107,6 +108,7 @@ export default function ProfileInfo ({ navigation }) {
                                     name: "pen",
                                 }}
                                 onPress={() => {
+                                    console.log(profile);
                                     navigation.navigate("ProfileEditor");
                                 }}
                             />
