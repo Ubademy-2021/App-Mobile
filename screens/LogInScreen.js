@@ -155,7 +155,6 @@ export default function LogInScreen ({ route, navigation }) {
                                 // verifyLogIn(email, password)
                                 onLogin(email, password)
                                 //get login con el token -> ERROR O USUARIO
-                                //navigation.navigate('ProfileSelection')
                             }
                             }
                         >
