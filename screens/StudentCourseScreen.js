@@ -7,19 +7,43 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 
 export default function StudentCourseScreen ({ route }) {
   const { course } = route.params
+  // Aca deberia recibir por parametro el id del usuario/estudiante
+  const studentId = 2
   const [subscription, setSubscription] = React.useState('None')
   const [categories, setCategories] = React.useState('None')
   const [activeCourse, setActiveCourse] = React.useState(course.status === 'Active')
   const [successfulInscription, setSuccessfulInscription] = React.useState(false)
   const [successfulUnenrrolmment, setSuccessfulUnenrrollment] = React.useState(false)
+  const [studentCourses, setStudentCourses] = React.useState([])
   const [alreadyEnrrolled, setAlreadyEnrolled] = React.useState(false)
   const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
   const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
+  const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
+  // const getStudentCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?user_id='
+
+  const getStudentCourses = () => {
+    return fetch(getStudentCoursesURL + studentId)
+      .then((response) => response.json())
+      .then((json) => {
+        const localCourseIds = []
+        for (let i = 0; i < json.length; i++) {
+          localCourseIds.push(json[i].id)
+        }
+        console.log(localCourseIds)
+        console.log(course.id)
+        setStudentCourses(localCourseIds)
+        setAlreadyEnrolled(localCourseIds.includes(course.id))
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 
   React.useEffect(() => {
     if (course.suscriptions.length > 0) {
       setSubscription(course.suscriptions[0].description)
     }
+
     if (course.categories.length > 0) {
       let cats = []
       for (let i = 0; i < course.categories.length; i++) {
@@ -28,6 +52,8 @@ export default function StudentCourseScreen ({ route }) {
       cats = cats.join(', ')
       setCategories(cats)
     }
+
+    // getStudentCourses()
   }, [])
 
   const handleEnrollment = () => {
@@ -38,7 +64,7 @@ export default function StudentCourseScreen ({ route }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userId: 1,
+        userId: studentId,
         courseId: course.id
       })
     })
@@ -54,15 +80,13 @@ export default function StudentCourseScreen ({ route }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userId: 1,
+        userId: studentId,
         courseId: course.id
       })
     })
     setSuccessfulUnenrrollment(true)
     setAlreadyEnrolled(false)
   }
-
-  console.log(course)
 
   return (
     <NativeBaseProvider>
