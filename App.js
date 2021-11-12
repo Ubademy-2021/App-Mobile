@@ -3,6 +3,8 @@ import SignUpScreen from './screens/SignUpScreen'
 import InterestsScreen from './screens/InterestsScreen'
 import LocationScreen from './screens/LocationScreen'
 import ProfileSelectionScreen from './screens/ProfileSelectionScreen'
+import ProfileInfoScreen from './Profile/ProfileInfoScreen'
+import ProfileEditorScreen from './Profile/ProfileEditorScreen'
 
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
@@ -22,9 +24,11 @@ const App = () => {
           <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="Interests" component={InterestsScreen} options={{ title: 'Interests' }}/>
           <Stack.Screen name="Location" component={LocationScreen} />
+          <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} />
           <Stack.Screen name="ProfileSelection" component={ProfileSelectionScreen} />
           <Stack.Screen name="StudentCourseSearch" component={StudentCourseSearchScreen} options={{ title: 'Course Search' }}/>
           <Stack.Screen name="Course" component={CourseScreen} options={{ title: 'Course Details' }}/>
+          <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

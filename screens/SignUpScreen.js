@@ -76,12 +76,10 @@ export default function SignUpScreen ({ navigation }) {
   const onHandleSignup = async () => {
     try {
       await auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
-      window.alert('Authentication successful')
     } catch (error) {
       window.alert(error.message)
     }
   }
-  let response
   const postUser = (callback) => {
     if (newUser.phoneNumber === undefined) {
       newUser.phoneNumber = 'null'
@@ -109,7 +107,6 @@ export default function SignUpScreen ({ navigation }) {
         callback(data)
       })
       .catch(error => {
-        console.log('Catcheo')
         // this.setState({ errorMessage: error.toString() })
         console.error('There was an error!', error)
       })
