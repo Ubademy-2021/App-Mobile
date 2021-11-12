@@ -1,8 +1,22 @@
-import { Box, Divider, Heading, Input, VStack, Icon, Select, CheckIcon, Text, Button, Radio } from 'native-base'
+import {
+  Box,
+  Divider,
+  Heading,
+  Input,
+  VStack,
+  Icon,
+  Select,
+  CheckIcon,
+  Text,
+  Button,
+  Collapse, ScrollView
+} from 'native-base'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import React from 'react'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import CourseCard from '../components/CourseCard'
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
+import Notification from '../components/Notification'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -71,19 +85,18 @@ export const SelectDropdownList = (props) => {
   )
 }
 
-export default function StudentCourseSearchScreen () {
-  const [filter, setFilter] = React.useState('None')
+export default function StudentCourseSearchScreen ({ navigation }) {
   const [categories, setCategories] = React.useState([])
   const [subscriptions, setSubscriptions] = React.useState([])
   const [selectedCategory, setSelectedCategory] = React.useState('Any')
   const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
   const [searchResults, setSearchResults] = React.useState([])
+  const [searchSubmitted, setSearchSubmitted] = React.useState(false)
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
-  const getCoursesByCatURL = apiGatewayBaseUrl + 'courses/category/'
-  const getCoursesBySubURL = apiGatewayBaseUrl + 'courses/suscription/'
+  const getCoursesByCatURL = apiGatewayBaseUrl + 'courses?category_id='
+  const getCoursesBySubURL = apiGatewayBaseUrl + 'courses?suscription_id='
   const getCoursesURL = apiGatewayBaseUrl + 'courses'
-  let results
 
   const getCategoriesFromApi = () => {
     return fetch(getCategoriesURL)
@@ -116,7 +129,6 @@ export default function StudentCourseSearchScreen () {
   }
 
   function getCoursesWithCategoryFromApi (selectedCategory) {
-    console.log('geteo cursos por categoria con id=' + selectedCategory)
     return fetch(getCoursesByCatURL + selectedCategory)
       .then((response) => response.json())
       .then((json) => {
@@ -131,7 +143,6 @@ export default function StudentCourseSearchScreen () {
   }
 
   function getCoursesWithSubscriptionFromApi (selectedSubscription) {
-    console.log('geteo cursos por sub')
     return fetch(getCoursesBySubURL + selectedSubscription)
       .then((response) => response.json())
       .then((json) => {
@@ -145,9 +156,9 @@ export default function StudentCourseSearchScreen () {
   }
 
   function getCoursesFromApi () {
-    console.log('geteo todos los cursos')
     return fetch(getCoursesURL)
-      .then((response) => response.json()).then((json) => {
+      .then((response) => response.json())
+      .then((json) => {
         // setSearchResults(json)
         return json
       })
@@ -169,9 +180,6 @@ export default function StudentCourseSearchScreen () {
   }
 
   const handleSubmit = async () => {
-    console.log('cat: ' + selectedCategory)
-    console.log('sub: ' + selectedSubscription)
-
     if (selectedCategory !== 'Any' && selectedSubscription !== 'Any') {
       setSearchResults(arrayInnerJoin(await getCoursesWithCategoryFromApi(selectedCategory), await getCoursesWithSubscriptionFromApi(selectedSubscription)))
     } else if (selectedCategory !== 'Any') {
@@ -181,6 +189,7 @@ export default function StudentCourseSearchScreen () {
     } else {
       setSearchResults(await getCoursesFromApi())
     }
+    setSearchSubmitted(true)
   }
 
   React.useEffect(() => {
@@ -201,11 +210,33 @@ export default function StudentCourseSearchScreen () {
         <Button onPress={handleSubmit}>
           Search
         </Button>
-      </Box>
-      <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
-        { searchResults.map(item => {
-          return (<CourseCard key={item.id} title={item.courseName}/>)
-        }) }
+        <Heading fontSize="lg">Results</Heading>
+        <Collapse isOpen={searchSubmitted && searchResults.length === 0}>
+          <Notification
+            status='error'
+            message={'The are no courses that match the given parameters'}
+          />
+        </Collapse>
+        <ScrollView>
+          { searchResults.map(item => {
+            // console.log(item)
+            return (
+              <Pressable
+                key={item.id}
+                onPress={() => {
+                  navigation.navigate('StudentCourse', { course: item })
+                }}
+              >
+                <CourseCard
+                  key={item.id}
+                  title={item.courseName}
+                  price={item.inscriptionPrice}
+                  duration={item.duration}
+                  subscriptions={item.suscriptions} />
+              </Pressable>
+            )
+          }) }
+        </ScrollView>
       </Box>
     </NativeBaseProvider>
   )
