@@ -3,6 +3,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import React from 'react'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import CourseCard from '../components/CourseCard'
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -71,7 +72,7 @@ export const SelectDropdownList = (props) => {
   )
 }
 
-export default function StudentCourseSearchScreen () {
+export default function StudentCourseSearchScreen ({ navigation }) {
   const [filter, setFilter] = React.useState('None')
   const [categories, setCategories] = React.useState([])
   const [subscriptions, setSubscriptions] = React.useState([])
@@ -80,10 +81,9 @@ export default function StudentCourseSearchScreen () {
   const [searchResults, setSearchResults] = React.useState([])
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
-  const getCoursesByCatURL = apiGatewayBaseUrl + 'courses/category/'
-  const getCoursesBySubURL = apiGatewayBaseUrl + 'courses/suscription/'
+  const getCoursesByCatURL = apiGatewayBaseUrl + 'courses?category_id='
+  const getCoursesBySubURL = apiGatewayBaseUrl + 'courses?suscription_id='
   const getCoursesURL = apiGatewayBaseUrl + 'courses'
-  let results
 
   const getCategoriesFromApi = () => {
     return fetch(getCategoriesURL)
@@ -147,7 +147,8 @@ export default function StudentCourseSearchScreen () {
   function getCoursesFromApi () {
     console.log('geteo todos los cursos')
     return fetch(getCoursesURL)
-      .then((response) => response.json()).then((json) => {
+      .then((response) => response.json())
+      .then((json) => {
         // setSearchResults(json)
         return json
       })
@@ -201,10 +202,24 @@ export default function StudentCourseSearchScreen () {
         <Button onPress={handleSubmit}>
           Search
         </Button>
-      </Box>
-      <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
+        <Heading fontSize="lg">Results</Heading>
         { searchResults.map(item => {
-          return (<CourseCard key={item.id} title={item.courseName}/>)
+          // console.log(item)
+          return (
+            <Pressable
+              key={item.id}
+              onPress={() => {
+                navigation.navigate('Course', { course: item })
+              }}
+            >
+              <CourseCard
+                key={item.id}
+                title={item.courseName}
+                price={item.inscriptionPrice}
+                duration={item.duration}
+                subscriptions={item.suscriptions} />
+            </Pressable>
+          )
         }) }
       </Box>
     </NativeBaseProvider>
