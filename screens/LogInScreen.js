@@ -5,103 +5,102 @@ import * as Facebook from 'expo-facebook'
 import Firebase from '../config/firebase.js'
 
 import session from '../session/token'
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
 import {
-    NativeBaseProvider,
-    Box,
-    Text,
-    Heading,
-    VStack,
-    FormControl,
-    Input,
-    Link,
-    Button,
-    HStack, ScrollView
+  NativeBaseProvider,
+  Box,
+  Text,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Link,
+  Button,
+  HStack, ScrollView
 } from 'native-base'
 
 const auth = Firebase.auth()
 
-export default function LogInScreen ({ route, navigation }) {
-    const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
-    const [password, setPassword] = React.useState()
-    // TODO add notification behaviour
-    const [loginError, setLoginError] = React.useState('')
+export default function LogInScreen ({ navigation }) {
+  const [email, setEmail] = React.useState() /* En email se guardara el email que se ha escrito */
+  const [password, setPassword] = React.useState()
+  // TODO add notification behaviour
+  const [loginError, setLoginError] = React.useState('')
 
-    const getLogInFacebook  = () =>{
+  const getLogInFacebook = () => {
+    console.log(session.facebookToken)
+    return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
+      { headers: { facebook_authentication: session.facebookToken } })
+      .then((response) => response.json())
+      .then((json) => {
+        session.userData = json
+        navigation.navigate('ProfileSelection')
+      })
+      .catch((error) => {
+        /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
+        window.alert('Invalid user')
+        console.error(error)
+      })
+  }
 
-        console.log(session.facebookToken);
-        return fetch("https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login",
-            {headers:{"facebook_authentication":session.facebookToken}})
-            .then((response) => response.json())
-            .then((json) => {
-                session.userData=json;
-                navigation.navigate('ProfileSelection')
-            })
-            .catch((error) => {
-                /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
-                window.alert("Invalid user");
-                console.error(error)
-            })
+  const onLogin = async (email, password) => {
+    try {
+      if (email !== '' && password !== '') {
+        await auth.signInWithEmailAndPassword(email, password)
+        const aux = await Firebase.auth().currentUser.getIdTokenResult()
+        session.token = aux.token
+        getLogIn()
+      }
+    } catch (error) {
+      setLoginError(error.message)
+      window.alert('Invalid user')
     }
+  }
 
-    const onLogin = async (email, password) => {
-        try {
-            if (email !== '' && password !== '') {
-                await auth.signInWithEmailAndPassword(email, password)
-                var aux = await Firebase.auth().currentUser.getIdTokenResult()
-                session.token=aux.token;
-                getLogIn();
-            }
-        } catch (error) {
-            setLoginError(error.message)
-            window.alert("Invalid user");
-        }
+  const getLogIn = () => {
+    return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
+      { headers: { firebase_authentication: session.token } })
+      .then((response) => response.json())
+      .then((json) => {
+        session.userData = json
+        console.log(session.userData)
+        navigation.navigate('ProfileSelection')
+      })
+      .catch((error) => {
+        /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
+        window.alert('Invalid user')
+        console.error(error)
+      })
+  }
+
+  const onLoginWithFacebookPress = async () => {
+    await Facebook.initializeAsync({
+      appId: '396374185541511'
+    })
+    try {
+      const {
+        type,
+        token,
+        expirationDate,
+        permissions,
+        declinedPermissions
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email']
+      })
+      if (type === 'success') {
+        session.facebookToken = token
+        /* En esta url, con el token, obtengo los datos del usuario */
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`)
+        // window.alert(`Hi ${(await response.json()).name}!`)
+        getLogInFacebook()
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`)
     }
+  }
 
-    const getLogIn  = () =>{
-        return fetch("https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login",
-            {headers:{"firebase_authentication":session.token}})
-            .then((response) => response.json())
-            .then((json) => {
-                session.userData=json;
-                navigation.navigate('ProfileSelection')
-            })
-            .catch((error) => {
-                /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
-                window.alert("Invalid user");
-                console.error(error)
-            })
-    }
-
-    const onLoginWithFacebookPress = async () => {
-        await Facebook.initializeAsync({
-            appId: '396374185541511'
-        })
-        try {
-            const {
-                type,
-                token,
-                expirationDate,
-                permissions,
-                declinedPermissions
-            } = await Facebook.logInWithReadPermissionsAsync({
-                permissions: ['public_profile', 'email']
-            })
-            if (type === 'success') {
-                session.facebookToken = token
-                /* En esta url, con el token, obtengo los datos del usuario */
-                const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`)
-                //window.alert(`Hi ${(await response.json()).name}!`)
-                getLogInFacebook();
-            } else {
-                // type === 'cancel'
-            }
-        } catch ({ message }) {
-            alert(`Facebook Login Error: ${message}`)
-        }
-    }
-
-    return (
+  return (
         <NativeBaseProvider>
             <ScrollView>
                 <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
@@ -145,11 +144,11 @@ export default function LogInScreen ({ route, navigation }) {
                             colorScheme="indigo"
                             _text={styles.buttonText}
                             onPress={() => {
-                                session.token='invalid';
-                                // verifyLogIn(email, password)
-                                onLogin(email, password)
-                                //get login con el token -> ERROR O USUARIO
-                                //navigation.navigate('ProfileSelection')
+                              session.token = 'invalid'
+                              // verifyLogIn(email, password)
+                              onLogin(email, password)
+                              // get login con el token -> ERROR O USUARIO
+                              // navigation.navigate('ProfileSelection')
                             }
                             }
                         >
@@ -169,9 +168,9 @@ export default function LogInScreen ({ route, navigation }) {
                             </Text>
                             <Link
                                 _text={{
-                                    color: 'indigo.500',
-                                    fontWeight: 'medium',
-                                    fontSize: 'sm'
+                                  color: 'indigo.500',
+                                  fontWeight: 'medium',
+                                  fontSize: 'sm'
                                 }}
                                 onPress= {() => navigation.navigate('SignupOptions')}
                             >
@@ -182,11 +181,11 @@ export default function LogInScreen ({ route, navigation }) {
                 </Box>
             </ScrollView>
         </NativeBaseProvider>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
-    textDefault: { color: '#444444', fontWeight: 'normal' },
-    image: { height: 100, width: 156 },
-    buttonText: { color: '#ffffff' }
+  textDefault: { color: '#444444', fontWeight: 'normal' },
+  image: { height: 100, width: 156 },
+  buttonText: { color: '#ffffff' }
 })
