@@ -9,8 +9,8 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 
 export default function StudentCourseDetailsScreen ({ route }) {
   const { course } = route.params
-  // Aca deberia recibir por parametro el id del usuario/estudiante
   const studentId = session.userData[0].id
+
   const [subscription, setSubscription] = React.useState('None')
   const [categories, setCategories] = React.useState('None')
   const [activeCourse, setActiveCourse] = React.useState(course.status === 'Active')
@@ -22,12 +22,9 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const [favButtonName, setFavButtonName] = React.useState('staro')
   const [addedToFavs, setAddedToFavs] = React.useState(false)
 
-  // const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
-  const postCourseInscriptionURL = 'https://course-service-ubademy.herokuapp.com/api/courses/inscription'
-  // const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
-  const putCancelCourseInscriptionURL = 'https://course-service-ubademy.herokuapp.com/api/courses/inscription/cancel'
-  // const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
-  const getStudentCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?user_id='
+  const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
+  const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
+  const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
 
   const favsURL = apiGatewayBaseUrl + 'users/favorites'
 
@@ -55,8 +52,6 @@ export default function StudentCourseDetailsScreen ({ route }) {
         for (let i = 0; i < json.length; i++) {
           localCourseIds.push(json[i].id)
         }
-        console.log(localCourseIds)
-        console.log(course.id)
         setStudentFavCourses(localCourseIds)
         setAddedToFavs(localCourseIds.includes(course.id))
         if (localCourseIds.includes(course.id)) {
@@ -101,7 +96,6 @@ export default function StudentCourseDetailsScreen ({ route }) {
       })
     }).then((response) => response.json())
       .then((json) => {
-        console.log(json)
         setSuccessfulInscription(true)
         setAlreadyEnrolled(true)
       })
@@ -111,6 +105,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
   }
 
   const handleUnenrollment = () => {
+    // Falta el endpoint para cancelar inscripcion a curso
     fetch(putCancelCourseInscriptionURL, {
       method: 'PUT',
       headers: {
@@ -123,7 +118,6 @@ export default function StudentCourseDetailsScreen ({ route }) {
       })
     }).then((response) => response.json())
       .then((json) => {
-        console.log(json)
         setSuccessfulUnenrrollment(true)
         setAlreadyEnrolled(false)
       })

@@ -1,11 +1,83 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
+import { Box, ScrollView } from 'native-base'
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
+import CourseCard from '../components/CourseCard'
+import session from '../session/token'
 
-const StudentCoursesScreen = () => {
+const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
+
+export default function StudentCoursesScreen ({ navigation }) {
+  const [searchResults, setSearchResults] = React.useState([])
+  /*
+  const [studentCourses, setStudentCourses] = React.useState([])
+  const studentId = session.userData[0].id
+
+  const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
+
+  const getStudentCourses = () => {
+    return fetch(getStudentCoursesURL + studentId)
+      .then((response) => response.json())
+      .then((json) => {
+        const localCourseIds = []
+        for (let i = 0; i < json.length; i++) {
+          localCourseIds.push(json[i].id)
+        }
+        setStudentCourses(localCourseIds)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  const getStudentFavCourses = () => {
+    return fetch(favsURL + '/' + studentId)
+      .then((response) => response.json())
+      .then((json) => {
+        const localCourseIds = []
+        for (let i = 0; i < json.length; i++) {
+          localCourseIds.push(json[i].id)
+        }
+        console.log(localCourseIds)
+        console.log(course.id)
+        setStudentFavCourses(localCourseIds)
+        setAddedToFavs(localCourseIds.includes(course.id))
+        if (localCourseIds.includes(course.id)) {
+          setFavButtonName('star')
+        } else {
+          setFavButtonName('staro')
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+*/
+
   return (
-    <View>
-      <Text>My COurses</Text>
-    </View>
+    <NativeBaseProvider>
+      <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
+        <ScrollView>
+          { searchResults.map(item => {
+            // console.log(item)
+            return (
+              <Pressable
+                key={item.id}
+                onPress={() => {
+                  navigation.navigate('StudentCourse', { course: item })
+                }}
+              >
+                <CourseCard
+                  key={item.id}
+                  title={item.courseName}
+                  price={item.inscriptionPrice}
+                  duration={item.duration}
+                  subscriptions={item.suscriptions} />
+              </Pressable>
+            )
+          }) }
+        </ScrollView>
+      </Box>
+    </NativeBaseProvider>
   )
 }
-export default StudentCoursesScreen
