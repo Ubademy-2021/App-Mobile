@@ -36,7 +36,10 @@ const SubscriptionScreen = () => {
   return (
       <NativeBaseProvider>
         <View>
-            <SubscriptionCard/>
+            <SubscriptionCard
+                title="title"
+                price="price"
+                duration="duration"/>
             <Button
                 onPress={() => {
                     getStudentCourses();
