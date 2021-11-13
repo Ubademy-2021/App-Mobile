@@ -9,25 +9,73 @@ import ProfileEditorScreen from './Profile/ProfileEditorScreen'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import SignUpOptionsScreen from './screens/SignUpOptionsScreen'
 import StudentCourseSearchScreen from './screens/StudentCourseSearchScreen'
-import StudentCourseScreen from './screens/StudentCourseScreen'
+import StudentCourseDetailsScreen from './screens/StudentCourseDetailsScreen'
+import StudentCoursesScreen from './screens/StudentCoursesScreen'
+import SubscriptionScreen from './screens/SusbscriptionScreen'
 
 const Stack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
+
+function StudentHome () {
+  return (
+    <Tab.Navigator initialRouteName='Profile'>
+      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} />
+      <Tab.Screen name="Search" component={StudentCourseSearchScreen} />
+      <Tab.Screen name="Suscribe" component={SubscriptionScreen} />
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} />
+    </Tab.Navigator>
+  )
+}
+
+function CreatorHome () {
+  return (
+    <Tab.Navigator initialRouteName='Profile'>
+      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} />
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} />
+    </Tab.Navigator>
+  )
+}
+
+function CollaboratorHome () {
+  return (
+    <Tab.Navigator initialRouteName='Profile'>
+      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} />
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} />
+    </Tab.Navigator>
+  )
+}
 
 const App = () => {
   return (
    <NavigationContainer>
-      <Stack.Navigator initialRouteName="StudentCourseSearch">
+      <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+          name="StudentHome"
+          component={StudentHome}
+          options={{ title: 'Student Profile' }}
+          />
+          <Stack.Screen
+          name="CreatorHome"
+          component={CreatorHome}
+          options={{ title: 'Creator Profile' }}
+          />
+          <Stack.Screen
+          name="CollaboratorHome"
+          component={CollaboratorHome}
+          options={{ title: 'Collaborator Profile' }}
+          />
           <Stack.Screen name="Login" component={LogInScreen} options={{ title: 'Welcome' }}/>
           <Stack.Screen name="SignupOptions" component={SignUpOptionsScreen}/>
           <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="Interests" component={InterestsScreen} options={{ title: 'Interests' }}/>
           <Stack.Screen name="Location" component={LocationScreen} />
-          <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} />
+        {/* <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} /> */}
           <Stack.Screen name="ProfileSelection" component={ProfileSelectionScreen} />
-          <Stack.Screen name="StudentCourseSearch" component={StudentCourseSearchScreen} options={{ title: 'Course Search' }}/>
-          <Stack.Screen name="StudentCourse" component={StudentCourseScreen} options={{ title: 'Course Details' }}/>
+        {/* <Stack.Screen name="StudentCourseSearch" component={StudentCourseSearchScreen} options={{ title: 'Course Search' }}/> */}
+          <Stack.Screen name="StudentCourse" component={StudentCourseDetailsScreen} options={{ title: 'Course Details' }}/>
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
