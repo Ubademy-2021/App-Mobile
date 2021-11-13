@@ -3,6 +3,7 @@ import { Box, Button, Collapse, Heading, VStack } from 'native-base'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import Notification from '../components/Notification'
 import session from '../session/token'
+import { AntDesign } from '@expo/vector-icons'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -16,11 +17,19 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const [successfulInscription, setSuccessfulInscription] = React.useState(false)
   const [successfulUnenrrolmment, setSuccessfulUnenrrollment] = React.useState(false)
   const [studentCourses, setStudentCourses] = React.useState([])
+  const [studentFavCourses, setStudentFavCourses] = React.useState([])
   const [alreadyEnrrolled, setAlreadyEnrolled] = React.useState(false)
-  const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
-  const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
-  const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
-  // const getStudentCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?user_id='
+  const [favButtonName, setFavButtonName] = React.useState('staro')
+  const [addedToFavs, setAddedToFavs] = React.useState(false)
+
+  // const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
+  const postCourseInscriptionURL = 'https://course-service-ubademy.herokuapp.com/api/courses/inscription'
+  // const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
+  const putCancelCourseInscriptionURL = 'https://course-service-ubademy.herokuapp.com/api/courses/inscription/cancel'
+  // const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
+  const getStudentCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?user_id='
+
+  const favsURL = apiGatewayBaseUrl + 'users/favorites'
 
   const getStudentCourses = () => {
     return fetch(getStudentCoursesURL + studentId)
@@ -30,10 +39,31 @@ export default function StudentCourseDetailsScreen ({ route }) {
         for (let i = 0; i < json.length; i++) {
           localCourseIds.push(json[i].id)
         }
-        console.log(localCourseIds)
-        console.log(course.id)
         setStudentCourses(localCourseIds)
         setAlreadyEnrolled(localCourseIds.includes(course.id))
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  const getStudentFavCourses = () => {
+    return fetch(favsURL + '/' + studentId)
+      .then((response) => response.json())
+      .then((json) => {
+        const localCourseIds = []
+        for (let i = 0; i < json.length; i++) {
+          localCourseIds.push(json[i].id)
+        }
+        console.log(localCourseIds)
+        console.log(course.id)
+        setStudentFavCourses(localCourseIds)
+        setAddedToFavs(localCourseIds.includes(course.id))
+        if (localCourseIds.includes(course.id)) {
+          setFavButtonName('star')
+        } else {
+          setFavButtonName('staro')
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -54,7 +84,8 @@ export default function StudentCourseDetailsScreen ({ route }) {
       setCategories(cats)
     }
 
-    // getStudentCourses()
+    getStudentCourses()
+    getStudentFavCourses()
   }, [])
 
   const handleEnrollment = () => {
@@ -68,9 +99,15 @@ export default function StudentCourseDetailsScreen ({ route }) {
         userId: studentId,
         courseId: course.id
       })
-    })
-    setSuccessfulInscription(true)
-    setAlreadyEnrolled(true)
+    }).then((response) => response.json())
+      .then((json) => {
+        console.log(json)
+        setSuccessfulInscription(true)
+        setAlreadyEnrolled(true)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   const handleUnenrollment = () => {
@@ -84,15 +121,70 @@ export default function StudentCourseDetailsScreen ({ route }) {
         userId: studentId,
         courseId: course.id
       })
-    })
-    setSuccessfulUnenrrollment(true)
-    setAlreadyEnrolled(false)
+    }).then((response) => response.json())
+      .then((json) => {
+        console.log(json)
+        setSuccessfulUnenrrollment(true)
+        setAlreadyEnrolled(false)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  const handleFavClick = () => {
+    if (addedToFavs) {
+      setFavButtonName('staro')
+      fetch(favsURL, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: studentId,
+          courseId: course.id
+        })
+      }).then((response) => response.json())
+        .then((json) => {
+          console.log(json)
+          setAddedToFavs(!addedToFavs)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    } else {
+      setFavButtonName('star')
+      fetch(favsURL, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: studentId,
+          courseId: course.id
+        })
+      }).then((response) => response.json())
+        .then((json) => {
+          console.log(json)
+          setAddedToFavs(!addedToFavs)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
   }
 
   return (
     <NativeBaseProvider>
       <Box safeArea flex={0} p="2" w="90%" mx="auto" py="8">
         <VStack alignItems="center">
+          <Button
+            leftIcon={<AntDesign name={favButtonName} size={24} color="#d4b106" />}
+            bg='transparent'
+            onPress={handleFavClick}
+          />
           <Heading fontSize="xl">{course.courseName}</Heading>
           <Heading fontSize="lg">Price: {course.inscriptionPrice}</Heading>
           <Heading fontSize="lg">Duration: {course.duration} hours</Heading>
@@ -109,7 +201,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
         </Button>
         <Button
           onPress={handleUnenrollment}
-          isDisabled={!alreadyEnrrolled}
+          isDisabled={!activeCourse || !alreadyEnrrolled}
           colorScheme='danger'
         >
           Unenroll
