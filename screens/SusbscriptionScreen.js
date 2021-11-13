@@ -21,12 +21,18 @@ const SubscriptionScreen = () => {
 
 
     const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
-
+    const localSub = []
     const getStudentCourses = () => {
         return fetch(getSuscriptionsURL)
             .then((response) => response.json())
             .then((json) => {
                 console.log(json);
+
+                for (let i = 0; i < json.length; i++) {
+                    localSub.push({ value: json[i].id, displayValue: json[i].description })
+                }
+                console.log("SLOCAL SUBS:");
+                console.log(localSub);
             })
             .catch((error) => {
                 console.error(error)
