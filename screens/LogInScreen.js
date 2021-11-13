@@ -27,6 +27,7 @@ export default function LogInScreen ({ navigation }) {
   const [loginError, setLoginError] = React.useState('')
 
   const getLogInFacebook = () => {
+    //console.log(session.facebookToken)
     return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
       { headers: { facebook_authentication: session.facebookToken } })
       .then((response) => response.json())
@@ -74,6 +75,7 @@ export default function LogInScreen ({ navigation }) {
               //console.log(session.userData)
               navigation.navigate('ProfileSelection')
           }
+
       })
       .catch((error) => {
         /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
