@@ -17,6 +17,7 @@ import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import CourseCard from '../components/CourseCard'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import Notification from '../components/Notification'
+import session from '../session/token'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -94,9 +95,15 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   const [searchSubmitted, setSearchSubmitted] = React.useState(false)
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
-  const getCoursesByCatURL = apiGatewayBaseUrl + 'courses?category_id='
-  const getCoursesBySubURL = apiGatewayBaseUrl + 'courses?suscription_id='
   const getCoursesURL = apiGatewayBaseUrl + 'courses'
+  /* const getCoursesByCatURL = apiGatewayBaseUrl + 'courses?category_id='
+  const getCoursesBySubURL = apiGatewayBaseUrl + 'courses?suscription_id='
+  const getRecommendationsURL = apiGatewayBaseUrl + 'courses/recommendation/' */
+  const getCoursesByCatURL = 'https://course-service-ubademy.herokuapp.com/api/' + 'courses?category_id='
+  const getCoursesBySubURL = 'https://course-service-ubademy.herokuapp.com/api/' + 'courses?suscription_id='
+  const getRecommendationsURL = 'https://course-service-ubademy.herokuapp.com/api/courses/recommendation/'
+  // const studentId = session.userData[0].id
+  const studentId = 2
 
   const getCategoriesFromApi = () => {
     return fetch(getCategoriesURL)
@@ -167,6 +174,19 @@ export default function StudentCourseSearchScreen ({ navigation }) {
       })
   }
 
+  function getRecommendationsFromApi () {
+    return fetch(getRecommendationsURL + studentId)
+      .then((response) => response.json())
+      .then(async (json) => {
+        console.log(json)
+        setSearchResults(await json)
+        // return json
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   function arrayInnerJoin (arr1, arr2) {
     const result = []
     for (let i = 0; i < arr1.length; i++) {
@@ -180,6 +200,8 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   const handleSubmit = async () => {
+    console.log(selectedCategory)
+    console.log(selectedSubscription)
     if (selectedCategory !== 'Any' && selectedSubscription !== 'Any') {
       setSearchResults(arrayInnerJoin(await getCoursesWithCategoryFromApi(selectedCategory), await getCoursesWithSubscriptionFromApi(selectedSubscription)))
     } else if (selectedCategory !== 'Any') {
@@ -195,7 +217,6 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   React.useEffect(() => {
     getCategoriesFromApi()
     getSubscriptionsFromApi()
-    // La primera vcez que se renderiza la pantalla ,al no haber ninguna busuqeuda en curso se muestran las recomendaciones
     // getRecommendationsFromApi()
   }, [])
 
