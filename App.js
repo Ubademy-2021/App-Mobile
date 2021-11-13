@@ -22,10 +22,10 @@ const Tab = createBottomTabNavigator()
 function StudentHome () {
   return (
     <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} />
-      <Tab.Screen name="Search" component={StudentCourseSearchScreen} />
-      <Tab.Screen name="Suscribe" component={SubscriptionScreen} />
-      <Tab.Screen name="Profile" component={ProfileInfoScreen} />
+      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Search" component={StudentCourseSearchScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Suscribe" component={SubscriptionScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false }}/>
     </Tab.Navigator>
   )
 }
@@ -33,8 +33,8 @@ function StudentHome () {
 function CreatorHome () {
   return (
     <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} />
-      <Tab.Screen name="Profile" component={ProfileInfoScreen} />
+      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false }}/>
     </Tab.Navigator>
   )
 }
@@ -42,8 +42,8 @@ function CreatorHome () {
 function CollaboratorHome () {
   return (
     <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} />
-      <Tab.Screen name="Profile" component={ProfileInfoScreen} />
+      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false }}/>
     </Tab.Navigator>
   )
 }
