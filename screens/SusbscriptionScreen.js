@@ -1,5 +1,6 @@
 import React from 'react'
 import { ImageBackground, View, StyleSheet, Platform } from 'react-native'
+import SubscriptionCard from '../components/SubscriptionCard'
 
 import {
     Avatar,
@@ -35,9 +36,10 @@ const SubscriptionScreen = () => {
   return (
       <NativeBaseProvider>
         <View>
+            <SubscriptionCard/>
             <Button
                 onPress={() => {
-                    window.alert("Presionado");
+                    getStudentCourses();
                 }
                 }
             >
