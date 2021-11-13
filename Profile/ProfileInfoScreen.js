@@ -47,6 +47,16 @@ export default function ProfileInfo ({ navigation }) {
             </View>
     )
   }
+
+    function renderAddress () {
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>Address:</Text>
+                <Text style={styles.informationText}>{session.userData[0].address}</Text>
+            </View>
+        )
+    }
   function renderPhoneNumber () {
     return (
             <View>
@@ -103,19 +113,14 @@ export default function ProfileInfo ({ navigation }) {
                             />
                     </VStack>
                     <Text style={styles.headerText}> Profile Information</Text>
-
                     {session.userData[0].name === 'null' ? renderVoid() : renderName()}
                     {session.userData[0].surname === 'null' ? renderVoid() : renderSurname()}
                     <Text numberOfLines={1}></Text>
                     <Text style={styles.fieldHeaderText}>Email:</Text>
                     <Text style={styles.informationText}>{session.userData[0].email}</Text>
                     {session.userData[0].phoneNumber === 'null' ? renderVoid() : renderPhoneNumber()}
-
                     {session.userData[0].state === 'null' ? renderVoid() : renderState()}
-
-                    <Text numberOfLines={1}></Text>
-                    <Text style={styles.fieldHeaderText}>Address:</Text>
-                    <Text style={styles.informationText}>{session.userData[0].address}</Text>
+                    {session.userData[0].address === 'null' ? renderVoid() : renderAddress()}
 
                 </Box>
             </ScrollView>

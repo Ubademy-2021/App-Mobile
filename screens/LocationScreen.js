@@ -15,10 +15,6 @@ import {
 
 import { StyleSheet } from 'react-native'
 
-function isEmpty (str) {
-  return (!str || str.length === 0)
-}
-
 export default function SignUpForm ({ navigation, route }) {
   const { user } = route.params
 

@@ -118,6 +118,16 @@ export default function ProfileEditionForm ({ navigation }) {
                         <FormControl>
                             <FormControl.Label
                                 _text={styles.formControlText}>
+                                Address
+                            </FormControl.Label>
+                            <Input
+                                placeholder="Moldes 2032"
+                                onChangeText={(value) => setLocationData({ ...locationData, address: value })}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormControl.Label
+                                _text={styles.formControlText}>
                                 City
                             </FormControl.Label>
                             <Input
