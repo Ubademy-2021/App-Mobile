@@ -1,84 +1,80 @@
 import * as React from 'react'
 import session from '../session/token'
 import {
-    NativeBaseProvider,
-    Box,
-    Heading,
-    VStack,
-    FormControl,
-    Input,
-    Button,
-    ScrollView, Text
+  NativeBaseProvider,
+  Box,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Button,
+  ScrollView, Text
 } from 'native-base'
-import {StyleSheet} from "react-native";
-
-
+import { StyleSheet } from 'react-native'
 
 export default function ProfileEditionForm ({ navigation }) {
+  const newUserData = {}
 
-    var newUserData={};
+  function reAssignUserData (data) {
+    session.userData[0].userName = data.userName
+    session.userData[0].name = data.name
+    session.userData[0].surname = data.surname
+    session.userData[0].phoneNumber = data.phoneNumber
+    session.userData[0].city = data.city
+    session.userData[0].state = data.state
+    session.userData[0].country = data.country
+    session.userData[0].address = data.address
+  }
 
-    function reAssignUserData(data){
-        session.userData[0].userName=data.userName;
-        session.userData[0].name=data.name;
-        session.userData[0].surname=data.surname;
-        session.userData[0].phoneNumber=data.phoneNumber;
-        session.userData[0].city=data.city;
-        session.userData[0].state=data.state;
-        session.userData[0].country=data.country;
-        session.userData[0].address=data.address;
-    }
+  function dataToSend () {
+    newUserData.newUserName = (locationData.userName === undefined) ? session.userData[0].userName : locationData.userName
+    newUserData.newName = (locationData.name === undefined) ? session.userData[0].name : locationData.name
+    newUserData.newSurname = (locationData.surname === undefined) ? session.userData[0].surname : locationData.surname
+    newUserData.newPhoneNumber = (locationData.phoneNumber === undefined) ? session.userData[0].phoneNumber : locationData.phoneNumber
+    newUserData.newCity = (locationData.city === undefined) ? session.userData[0].city : locationData.city
+    newUserData.newState = (locationData.state === undefined) ? session.userData[0].state : locationData.state
+    newUserData.newCountry = (locationData.country === undefined) ? session.userData[0].country : locationData.country
+    newUserData.newAddress = (locationData.address === undefined) ? session.userData[0].address : locationData.address
+  }
 
-    function dataToSend(){
-        newUserData.newUserName= (locationData.userName===undefined) ? session.userData[0].userName : locationData.userName;
-        newUserData.newName= (locationData.name===undefined) ? session.userData[0].name : locationData.name;
-        newUserData.newSurname= (locationData.surname ===undefined) ? session.userData[0].surname : locationData.surname;
-        newUserData.newPhoneNumber= (locationData.phoneNumber === undefined) ? session.userData[0].phoneNumber : locationData.phoneNumber;
-        newUserData.newCity = (locationData.city === undefined) ? session.userData[0].city : locationData.city;
-        newUserData.newState = (locationData.state === undefined) ? session.userData[0].state : locationData.state;
-        newUserData.newCountry = (locationData.country === undefined) ? session.userData[0].country : locationData.country;
-        newUserData.newAddress = (locationData.address === undefined ) ? session.userData[0].address : locationData.address;
+  const putLocation = () => {
+    // console.log("Previous data:",session.userData[0]);
+    dataToSend()
+    // console.log("Data to send es:",newUserData);
+    fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
+      method: 'PUT',
+      mode: 'no-cors',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: session.userData[0].email,
+        userName: newUserData.newUserName,
+        name: newUserData.newName,
+        surname: newUserData.newSurname,
+        phoneNumber: newUserData.newPhoneNumber,
+        city: newUserData.newCity,
+        state: newUserData.newState,
+        country: newUserData.newCountry,
+        address: newUserData.newAddress
+      })
+    }).then(response => response.json())
+      .then(data => {
+        // console.log("Data received:",data);
+        reAssignUserData(data)
+        window.alert('Profile saved')
+        // console.log("New data es:",session.userData[0]);
+      }) // En data va a estar el nuevo "user" con sus campos, si to.do sale bien
+      .catch(err => window.alert('An error occurred while processing your request'))
+  }
 
-    }
+  const [locationData, setLocationData] = React.useState({
+  })
+  const [errors, setErrors] = React.useState({
+  })
 
-    const putLocation = () => {
-        //console.log("Previous data:",session.userData[0]);
-        dataToSend();
-        //console.log("Data to send es:",newUserData);
-        fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
-            method: 'PUT',
-            mode: 'no-cors',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: session.userData[0].email,
-                userName: newUserData.newUserName,
-                name: newUserData.newName,
-                surname: newUserData.newSurname,
-                phoneNumber: newUserData.newPhoneNumber,
-                city: newUserData.newCity,
-                state: newUserData.newState,
-                country: newUserData.newCountry,
-                address: newUserData.newAddress
-            })
-        }).then(response => response.json())
-            .then(data => {
-                //console.log("Data received:",data);
-                reAssignUserData(data);
-                window.alert("Profile saved");
-                //console.log("New data es:",session.userData[0]);
-            }) // En data va a estar el nuevo "user" con sus campos, si to.do sale bien
-            .catch(err => window.alert("An error occurred while processing your request"))
-    }
-
-    const [locationData, setLocationData] = React.useState({
-    })
-    const [errors, setErrors] = React.useState({
-    })
-
-    return (
+  return (
         <NativeBaseProvider>
             <ScrollView>
                 <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
@@ -154,8 +150,8 @@ export default function ProfileEditionForm ({ navigation }) {
                         >
                             <Button
                                 onPress={() => {
-                                    putLocation();
-                                    navigation.navigate("ProfileInfo");
+                                  putLocation()
+                                  navigation.goBack()
                                 }
                                 }
                             >
@@ -166,9 +162,9 @@ export default function ProfileEditionForm ({ navigation }) {
                 </Box>
             </ScrollView>
         </NativeBaseProvider>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
-    formControlText: { color: '#444444', fontWeight: '500' }
+  formControlText: { color: '#444444', fontWeight: '500' }
 })

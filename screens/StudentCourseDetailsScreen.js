@@ -2,14 +2,15 @@ import React from 'react'
 import { Box, Button, Collapse, Heading, VStack } from 'native-base'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import Notification from '../components/Notification'
+import session from '../session/token'
 import { AntDesign } from '@expo/vector-icons'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-export default function StudentCourseScreen ({ route }) {
+export default function StudentCourseDetailsScreen ({ route }) {
   const { course } = route.params
   // Aca deberia recibir por parametro el id del usuario/estudiante
-  const studentId = 1
+  const studentId = session.userData[0].id
   const [subscription, setSubscription] = React.useState('None')
   const [categories, setCategories] = React.useState('None')
   const [activeCourse, setActiveCourse] = React.useState(course.status === 'Active')

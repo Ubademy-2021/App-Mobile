@@ -15,12 +15,12 @@ import {
   HStack,
   Divider
 } from 'native-base'
-import * as Facebook from "expo-facebook";
-import session from "../session/token";
+import * as Facebook from 'expo-facebook'
+import session from '../session/token'
 
 export default function SignUpOptionsScreen ({ navigation }) {
-  var email;
-  var username;
+  let email
+  let username
   const postUser = (callback) => {
     fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users', {
       method: 'POST',
@@ -29,7 +29,7 @@ export default function SignUpOptionsScreen ({ navigation }) {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      //TODO: Poner username y password
+      // TODO: Poner username y password
       body: JSON.stringify({
         email: email,
         userName: username,
@@ -42,13 +42,13 @@ export default function SignUpOptionsScreen ({ navigation }) {
         address: 'null'
       })
     }).then(response => response.json())
-        .then(data => {
-          callback(data)
-        })
-        .catch(error => {
-          // this.setState({ errorMessage: error.toString() })
-          console.error('There was an error!', error)
-        })
+      .then(data => {
+        callback(data)
+      })
+      .catch(error => {
+        // this.setState({ errorMessage: error.toString() })
+        console.error('There was an error!', error)
+      })
   }
 
   const onLoginWithFacebookPress = async () => {
@@ -71,9 +71,9 @@ export default function SignUpOptionsScreen ({ navigation }) {
         session.facebookToken = token
         /* En esta url, con el token, obtengo los datos del usuario */
         const response = await fetch(`https://graph.facebook.com/me?fields=name,email&access_token=${session.facebookToken}`)
-        var jsonData=(await response.json());
-        email=jsonData.email;
-        username=jsonData.name;
+        const jsonData = (await response.json())
+        email = jsonData.email
+        username = jsonData.name
         postUser((response) => { navigation.navigate('Location', { user: response }) })
       } else {
         // type === 'cancel'
@@ -105,9 +105,8 @@ export default function SignUpOptionsScreen ({ navigation }) {
               mt="2"
               colorScheme="blue"
 
-
               onPress={() => {
-                onLoginWithFacebookPress();
+                onLoginWithFacebookPress()
               }
               }
           >
