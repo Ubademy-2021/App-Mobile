@@ -4,7 +4,7 @@ import { Text, View } from 'react-native'
 const SubscriptionScreen = () => {
   return (
     <View>
-      <Text>Subs</Text>
+      <Text>Not implemented yet</Text>
     </View>
   )
 }
