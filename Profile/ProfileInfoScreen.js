@@ -47,6 +47,16 @@ export default function ProfileInfo ({ navigation }) {
             </View>
     )
   }
+
+    function renderAddress () {
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>Address:</Text>
+                <Text style={styles.informationText}>{session.userData[0].address}</Text>
+            </View>
+        )
+    }
   function renderPhoneNumber () {
     return (
             <View>
@@ -113,9 +123,7 @@ export default function ProfileInfo ({ navigation }) {
 
                     {session.userData[0].state === 'null' ? renderVoid() : renderState()}
 
-                    <Text numberOfLines={1}></Text>
-                    <Text style={styles.fieldHeaderText}>Address:</Text>
-                    <Text style={styles.informationText}>{session.userData[0].address}</Text>
+                    {session.userData[0].address === 'null' ? renderVoid() : renderAddress()}
 
                 </Box>
             </ScrollView>

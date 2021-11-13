@@ -62,7 +62,7 @@ export default function LogInScreen ({ navigation }) {
       .then((response) => response.json())
       .then((json) => {
         session.userData = json
-        console.log(session.userData)
+        //console.log(session.userData)
         navigation.navigate('ProfileSelection')
       })
       .catch((error) => {
