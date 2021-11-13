@@ -6,6 +6,45 @@ First install firebase with expo : expo install firebase
 
 Install all dependencies : yarn install
 
+WARNING: After installing all dependencies you must modify  the node_modules/react-native-selectmultiple-button/libraries/SelectMultipleButton.js file
+You must replace constructor and componentDidMount functions and replace componentWillReceiveProps for getDerivedStateFromProps
+```   
+ constructor(props) {
+    super(props)
+    this.state = {
+      selected: false,
+      lastPropsSelected: null,
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      selected: this.props.selected,
+    })
+  }
+
+  /*
+  componentWillReceiveProps(nextProps) {
+    if (this.props.selected !== nextProps.selected) {
+      this.setState({
+        selected: nextProps.selected
+      })
+    }
+  }
+    */
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.selected !== state.lastPropsSelected) {
+      return {
+        selected: props.selected > state.lastPropsSelected,
+        lastPropsSelected: props.selected,
+      };
+    }
+
+    // Return null to indicate no change to state.
+    return null;
+  }
+ ```
 ## Details
 
 ### Installation of Native Base library:
