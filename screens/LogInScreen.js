@@ -32,8 +32,14 @@ export default function LogInScreen ({ navigation }) {
       { headers: { facebook_authentication: session.facebookToken } })
       .then((response) => response.json())
       .then((json) => {
-        session.userData = json
-        navigation.navigate('ProfileSelection')
+          if(json[0].isBlock === true){
+            window.alert("This user has been blocked");
+          }
+          else{
+              session.userData = json;
+              navigation.navigate('ProfileSelection');
+          }
+
       })
       .catch((error) => {
         /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
@@ -61,9 +67,15 @@ export default function LogInScreen ({ navigation }) {
       { headers: { firebase_authentication: session.token } })
       .then((response) => response.json())
       .then((json) => {
-        session.userData = json
-        //console.log(session.userData)
-        navigation.navigate('ProfileSelection')
+          if(json[0].isBlock === true){
+              window.alert("This user has been blocked");
+          }
+          else{
+              session.userData = json
+              //console.log(session.userData)
+              navigation.navigate('ProfileSelection')
+          }
+
       })
       .catch((error) => {
         /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
