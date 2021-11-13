@@ -178,7 +178,7 @@ export default function StudentCourseSearchScreen ({ navigation }) {
     return fetch(getRecommendationsURL + studentId)
       .then((response) => response.json())
       .then(async (json) => {
-        console.log(json)
+        //console.log(json)
         setSearchResults(await json)
         // return json
       })
