@@ -53,10 +53,15 @@ const SubscriptionScreen = () => {
 
 
             <ScrollView>
-                <SubscriptionCard
-                    title="asd"
-                    price="price"
-                    duration="duration"/>
+                { subscriptions.map(item => {
+                    // console.log(item)
+                    return (
+                            <SubscriptionCard
+                                title="asd"
+                                price="asd"
+                                duration="asd"/>
+                    )
+                }) }
             </ScrollView>
           <Text>Not implemented yet</Text>
         </View>
