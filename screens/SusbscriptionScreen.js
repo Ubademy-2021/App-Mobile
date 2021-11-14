@@ -14,6 +14,8 @@ import {
     ScrollView,
     Button
 } from 'native-base'
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import CourseCard from "../components/CourseCard";
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -30,11 +32,11 @@ const SubscriptionScreen = () => {
                 for (let i = 0; i < json.length; i++) {
                     localSub.push({ id: json[i].id, suscriptionName: json[i].description, price: json[i].price })
                 }
-                console.log("SLOCAL SUBS:");
+
                 console.log(localSub[0]);
-                console.log(localSub[0].id);
                 setSubscriptions(localSub);
-                console.log(localSub);
+                console.log("SLOCAL SUBS:");
+                console.log(subscriptions);
             })
             .catch((error) => {
                 console.error(error)
@@ -48,19 +50,14 @@ const SubscriptionScreen = () => {
   return (
       <NativeBaseProvider>
         <View>
-            <SubscriptionCard
-                title="asd"
-                price="price"
-                duration="duration"/>
 
-            <Button
-                onPress={() => {
-                    getStudentCourses();
-                }
-                }
-            >
-                Continue
-            </Button>
+
+            <ScrollView>
+                <SubscriptionCard
+                    title="asd"
+                    price="price"
+                    duration="duration"/>
+            </ScrollView>
           <Text>Not implemented yet</Text>
         </View>
       </NativeBaseProvider>
