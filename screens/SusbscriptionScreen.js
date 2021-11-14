@@ -57,9 +57,9 @@ const SubscriptionScreen = () => {
                     // console.log(item)
                     return (
                             <SubscriptionCard
-                                title="asd"
-                                price="asd"
-                                duration="asd"/>
+                                title={item.suscriptionName}
+                                price={item.price}
+                                duration={item.id}/>
                     )
                 }) }
             </ScrollView>
