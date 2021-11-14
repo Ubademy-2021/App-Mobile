@@ -41,6 +41,10 @@ const SubscriptionScreen = () => {
             })
     }
 
+    React.useEffect(() => {
+        getStudentCourses()
+    }, [])
+
   return (
       <NativeBaseProvider>
         <View>
@@ -48,6 +52,7 @@ const SubscriptionScreen = () => {
                 title="asd"
                 price="price"
                 duration="duration"/>
+
             <Button
                 onPress={() => {
                     getStudentCourses();
