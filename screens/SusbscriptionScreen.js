@@ -19,19 +19,21 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 
 const SubscriptionScreen = () => {
 
-
+    const [subscriptions, setSubscriptions] = React.useState([])
     const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
     const localSub = []
     const getStudentCourses = () => {
         return fetch(getSuscriptionsURL)
             .then((response) => response.json())
             .then((json) => {
-                console.log(json);
 
                 for (let i = 0; i < json.length; i++) {
-                    localSub.push({ value: json[i].id, displayValue: json[i].description })
+                    localSub.push({ id: json[i].id, suscriptionName: json[i].description, price: json[i].price })
                 }
                 console.log("SLOCAL SUBS:");
+                console.log(localSub[0]);
+                console.log(localSub[0].id);
+                setSubscriptions(localSub);
                 console.log(localSub);
             })
             .catch((error) => {
@@ -43,7 +45,7 @@ const SubscriptionScreen = () => {
       <NativeBaseProvider>
         <View>
             <SubscriptionCard
-                title="title"
+                title="asd"
                 price="price"
                 duration="duration"/>
             <Button
