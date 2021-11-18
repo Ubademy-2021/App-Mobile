@@ -15,6 +15,7 @@ import {
     Button, Heading
 } from 'native-base'
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import session from "../session/token";
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -27,7 +28,6 @@ export default function StudentCourseDetailsScreen ({ route }) {
         return fetch(suscriptionCoursesURL + subscription.key)
             .then((response) => response.json())
             .then((json) => {
-                console.log("json:",json);
                 for (let i = 0; i < json.length; i++) {
                     localCourses.push({ key: json[i].id, courseName: json[i].courseName, duration: json[i].duration, price: json[i].inscriptionPrice })
                 }
@@ -60,6 +60,16 @@ export default function StudentCourseDetailsScreen ({ route }) {
                                     duration={item.duration}/>
                         )
                     }) }
+                    <Text numberOfLines={1}></Text>
+                    <Text numberOfLines={1}></Text>
+                    <Button
+                        onPress={() => {
+                            window.alert("Te suscribiste!");
+                        }
+                        }
+                    >
+                        Subscribe
+                    </Button>
                 </VStack>
             </Box>
         </NativeBaseProvider>
