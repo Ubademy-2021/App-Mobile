@@ -30,7 +30,7 @@ const SubscriptionScreen = () => {
             .then((json) => {
 
                 for (let i = 0; i < json.length; i++) {
-                    localSub.push({ id: json[i].id, suscriptionName: json[i].description, price: json[i].price })
+                    localSub.push({ key: json[i].id, suscriptionName: json[i].description, price: json[i].price })
                 }
 
                 console.log(localSub[0]);
@@ -59,11 +59,10 @@ const SubscriptionScreen = () => {
                             <SubscriptionCard
                                 title={item.suscriptionName}
                                 price={item.price}
-                                duration={item.id}/>
+                                duration={item.key}/>
                     )
                 }) }
             </ScrollView>
-          <Text>Not implemented yet</Text>
         </View>
       </NativeBaseProvider>
   )
