@@ -15,6 +15,7 @@ import StudentCourseSearchScreen from './screens/StudentCourseSearchScreen'
 import StudentCourseDetailsScreen from './screens/StudentCourseDetailsScreen'
 import StudentCoursesScreen from './screens/StudentCoursesScreen'
 import SubscriptionScreen from './screens/SusbscriptionScreen'
+import SubscriptionDetailsScreen from './screens/SubscriptionDetailsScreen'
 import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
@@ -100,6 +101,7 @@ const App = () => {
         {/* <Stack.Screen name="StudentCourseSearch" component={StudentCourseSearchScreen} options={{ title: 'Course Search' }}/> */}
           <Stack.Screen name="StudentCourse" component={StudentCourseDetailsScreen} options={{ title: 'Course Details' }}/>
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
+          <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

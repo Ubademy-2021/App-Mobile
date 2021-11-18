@@ -19,7 +19,7 @@ import CourseCard from "../components/CourseCard";
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-const SubscriptionScreen = () => {
+const SubscriptionScreen = ({ navigation }) => {
 
     const [subscriptions, setSubscriptions] = React.useState([])
     const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
@@ -50,8 +50,6 @@ const SubscriptionScreen = () => {
   return (
       <NativeBaseProvider>
         <View>
-
-
             <ScrollView>
                 { subscriptions.map(item => {
                     // console.log(item)
@@ -59,7 +57,7 @@ const SubscriptionScreen = () => {
                             <Pressable
                                 key={item.suscriptionName}
                                 onPress={() => {
-                                    window.alert("Apretado");
+                                    navigation.navigate('SubscriptionDetail');
                                 }}
                             >
                             <SubscriptionCard
