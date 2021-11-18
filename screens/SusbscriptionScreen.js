@@ -56,10 +56,17 @@ const SubscriptionScreen = () => {
                 { subscriptions.map(item => {
                     // console.log(item)
                     return (
+                            <Pressable
+                                key={item.suscriptionName}
+                                onPress={() => {
+                                    window.alert("Apretado");
+                                }}
+                            >
                             <SubscriptionCard
                                 title={item.suscriptionName}
                                 price={item.price}
                                 duration={item.key}/>
+                            </Pressable>
                     )
                 }) }
             </ScrollView>
