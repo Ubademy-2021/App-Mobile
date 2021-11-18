@@ -12,10 +12,9 @@ import {
     HStack,
     NativeBaseProvider,
     ScrollView,
-    Button
+  Button
 } from 'native-base'
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import CourseCard from "../components/CourseCard";
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -23,6 +22,7 @@ const SubscriptionScreen = ({ navigation }) => {
 
     const [subscriptions, setSubscriptions] = React.useState([])
     const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
+    const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id=';
     const localSub = []
     const getStudentCourses = () => {
         return fetch(getSuscriptionsURL)
@@ -43,6 +43,19 @@ const SubscriptionScreen = ({ navigation }) => {
             })
     }
 
+    const getSuscriptionsCourses = (itemKey) => {
+        console.log("Item key:",itemKey);
+        console.log("URL:",suscriptionCoursesURL + itemKey);
+        return fetch(suscriptionCoursesURL + itemKey)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json);
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }
+
     React.useEffect(() => {
         getStudentCourses()
     }, [])
@@ -52,12 +65,12 @@ const SubscriptionScreen = ({ navigation }) => {
         <View>
             <ScrollView>
                 { subscriptions.map(item => {
-                    // console.log(item)
                     return (
                             <Pressable
                                 key={item.suscriptionName}
                                 onPress={() => {
-                                    navigation.navigate('SubscriptionDetail');
+                                    //getSuscriptionsCourses(item.key);
+                                    navigation.navigate('SubscriptionDetail',{ subscription: item });
                                 }}
                             >
                             <SubscriptionCard
