@@ -52,15 +52,13 @@ const SubscriptionScreen = ({ navigation }) => {
         return fetch(getSuscriptionsURL)
             .then((response) => response.json())
             .then((json) => {
-
                 for (let i = 0; i < json.length; i++) {
+                    if(json[i].id===subscriptionDetails.id){
+                        continue;
+                    }
                     localSub.push({ key: json[i].id, suscriptionName: json[i].description, price: json[i].price })
                 }
-
-                console.log(localSub[0]);
                 setSubscriptions(localSub);
-                console.log("LOCAL SUBS:");
-                console.log(subscriptions);
             })
             .catch((error) => {
                 console.error(error)
@@ -106,17 +104,14 @@ const SubscriptionScreen = ({ navigation }) => {
       <NativeBaseProvider>
         <View>
             <ScrollView>
+                <Heading fontSize="lg">Current subscription:</Heading>
                 <Heading fontSize="lg">{JSON.stringify(subscriptionDesc)}</Heading>
+                <Heading fontSize="lg">Change subscription:</Heading>
                 { subscriptions.map(item => {
                     return (
-
                             <Pressable
                                 key={item.suscriptionName}
                                 onPress={ () => {
-                                    console.log("local sub:", localSub);
-                                    console.log("Details es:", subscriptionDetails.description);
-                                    console.log("Details es:", subsDet);
-                                    //getSuscriptionsCourses(item.key);
                                     navigation.navigate('SubscriptionDetail', {subscription: item});
                                 }}
                             >
