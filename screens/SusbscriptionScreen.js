@@ -34,12 +34,8 @@ const SubscriptionScreen = ({ navigation }) => {
     fetch(userSubscriptionURL+'1')
         .then((response) => response.json())
         .then((json) => {
-            console.log("URL de suscricpion:",userSubscriptionURL+studentId);
-            console.log("Student id:",studentId);
-            console.log("Suscripcion:",json);
 
             subscriptionDetails.description=json.description;
-            console.log("Description aca es:",json.description);
             subscriptionDetails.id=json.id;
             subsDet=JSON.stringify(json.description);
             setSubscriptionDesc(subsDet);
@@ -96,7 +92,7 @@ const SubscriptionScreen = ({ navigation }) => {
         )
     }
 
-    React.useEffect(async () => {
+    React.useEffect(() => {
         getStudentCourses()
     }, [])
 
