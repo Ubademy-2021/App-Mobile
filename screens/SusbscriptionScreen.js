@@ -26,9 +26,27 @@ const SubscriptionScreen = ({ navigation }) => {
     const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id=';
     const userSubscriptionURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/suscriptions/inscription/';
     const localSub = []
+    const [subscriptionDesc, setSubscriptionDesc] = React.useState([])
     const studentId = session.userData[0].id
     var subscriptionDetails={}
     let subsDet;
+
+    fetch(userSubscriptionURL+'1')
+        .then((response) => response.json())
+        .then((json) => {
+            console.log("URL de suscricpion:",userSubscriptionURL+studentId);
+            console.log("Student id:",studentId);
+            console.log("Suscripcion:",json);
+
+            subscriptionDetails.description=json.description;
+            console.log("Description aca es:",json.description);
+            subscriptionDetails.id=json.id;
+            subsDet=JSON.stringify(json.description);
+            setSubscriptionDesc(subsDet);
+        })
+        .catch((error) => {
+            console.error(error)
+        })
 
     const getStudentCourses = () => {
         return fetch(getSuscriptionsURL)
@@ -48,10 +66,10 @@ const SubscriptionScreen = ({ navigation }) => {
                 console.error(error)
             })
     }
-
+/*
     const getUserSubscription = () => {
 
-        /* TODO: No hardcodear este fetch */
+        // TODO: No hardcodear este fetch
         return fetch(userSubscriptionURL+'1')
             .then((response) => response.json())
             .then((json) => {
@@ -67,11 +85,11 @@ const SubscriptionScreen = ({ navigation }) => {
             .catch((error) => {
                 console.error(error)
             })
-    }
+    }*/
 
     function renderCurrentSubs() {
         //await getUserSubscription();
-        console.log("SUBSD DET ES:",subsDet);
+        console.log("SUBS DET ES:",subsDet);
         return (
             <View>
                 <Text numberOfLines={1}></Text>
@@ -82,21 +100,19 @@ const SubscriptionScreen = ({ navigation }) => {
 
     React.useEffect(async () => {
         getStudentCourses()
-        await getUserSubscription()
     }, [])
 
   return (
       <NativeBaseProvider>
         <View>
-
             <ScrollView>
-                {renderCurrentSubs()}
+                <Heading fontSize="lg">{JSON.stringify(subscriptionDesc)}</Heading>
                 { subscriptions.map(item => {
                     return (
 
                             <Pressable
                                 key={item.suscriptionName}
-                                onPress={async () => {
+                                onPress={ () => {
                                     console.log("local sub:", localSub);
                                     console.log("Details es:", subscriptionDetails.description);
                                     console.log("Details es:", subsDet);
