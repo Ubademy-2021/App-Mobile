@@ -72,6 +72,7 @@ export default function LogInScreen ({ navigation }) {
               window.alert("This user has been blocked");
           }
           else{
+          console.log("json nuevo:",json);
               session.userData = json
               //console.log(session.userData)
               navigation.navigate('ProfileSelection')

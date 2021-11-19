@@ -1,7 +1,5 @@
 import React from 'react'
 import { ImageBackground, View, StyleSheet, Platform , Text} from 'react-native'
-import SubscriptionCard from '../components/SubscriptionCard'
-import CourseCard from '../components/CourseCard'
 import CourseInSubscriptionCard from "../components/CourseInSubscriptionCard";
 import {
     Avatar,
@@ -14,8 +12,6 @@ import {
     ScrollView,
     Button, Heading
 } from 'native-base'
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import session from "../session/token";
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -37,6 +33,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
                 console.error(error)
             })
     }
+
 
     React.useEffect(() => {
         getSuscriptionsCourses()
@@ -64,7 +61,8 @@ export default function StudentCourseDetailsScreen ({ route }) {
                     <Text numberOfLines={1}></Text>
                     <Button
                         onPress={() => {
-                            window.alert("Te suscribiste!");
+                            window.alert("Te suscribiste!. ");
+                            //Aca hago un post, y obtengo si se pudo suscribir o no
                         }
                         }
                     >
@@ -74,5 +72,4 @@ export default function StudentCourseDetailsScreen ({ route }) {
             </Box>
         </NativeBaseProvider>
     )
-
 }
