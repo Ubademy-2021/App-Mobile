@@ -38,15 +38,18 @@ export default function ProfileEditionForm ({ navigation }) {
   }
 
   const putLocation = () => {
-    // console.log("Previous data:",session.userData[0]);
+
+      const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
+      const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
     dataToSend()
-    // console.log("Data to send es:",newUserData);
-    fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
+
+      fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
       method: 'PUT',
       mode: 'no-cors',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        [tokenHeader]: sessionToken
       },
       body: JSON.stringify({
         email: session.userData[0].email,
