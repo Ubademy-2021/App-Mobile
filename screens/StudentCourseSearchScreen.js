@@ -102,9 +102,12 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   const getRecommendationsURL = apiGatewayBaseUrl + 'courses/recommendation/'
 
   const studentId = session.userData[0].id
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
 
   const getCategoriesFromApi = () => {
-    return fetch(getCategoriesURL)
+    return fetch(getCategoriesURL,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         const localCategory = []
@@ -119,7 +122,8 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   const getSubscriptionsFromApi = () => {
-    return fetch(getSubscriptionsURL)
+    return fetch(getSubscriptionsURL,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         const localSub = []
@@ -134,7 +138,8 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   function getCoursesWithCategoryFromApi (selectedCategory) {
-    return fetch(getCoursesByCatURL + selectedCategory)
+    return fetch(getCoursesByCatURL + selectedCategory,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         // setCoursesFilteredByCategory(json)
@@ -148,7 +153,8 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   function getCoursesWithSubscriptionFromApi (selectedSubscription) {
-    return fetch(getCoursesBySubURL + selectedSubscription)
+    return fetch(getCoursesBySubURL + selectedSubscription,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         // setSearchResults(json)
@@ -161,7 +167,8 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   function getCoursesFromApi () {
-    return fetch(getCoursesURL)
+    return fetch(getCoursesURL,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         // setSearchResults(json)
@@ -173,7 +180,8 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   function getRecommendationsFromApi () {
-    return fetch(getRecommendationsURL + studentId)
+    return fetch(getRecommendationsURL + studentId,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then(async (json) => {
         setSearchResults(await json)

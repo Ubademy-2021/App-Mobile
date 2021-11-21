@@ -25,6 +25,8 @@ export default function LogInScreen ({ navigation }) {
   const [password, setPassword] = React.useState()
   // TODO add notification behaviour
   const [loginError, setLoginError] = React.useState('')
+    session.firebaseSession=false
+    session.facebookSession=false
   // asd
   const getLogInFacebook = () => {
     // console.log(session.token)
