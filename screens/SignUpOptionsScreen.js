@@ -66,11 +66,11 @@ export default function SignUpOptionsScreen ({ navigation }) {
       })
       if (type === 'success') {
         /* TODO: Este token lo tiene que recibir el back */
-        // facebookToken = token;
-        session.facebookToken = token
-        console.log(session.facebookToken);
+        // token = token;
+        session.token = token
+        console.log(session.token)
         /* En esta url, con el token, obtengo los datos del usuario */
-        const response = await fetch(`https://graph.facebook.com/me?fields=name,email&access_token=${session.facebookToken}`)
+        const response = await fetch(`https://graph.facebook.com/me?fields=name,email&access_token=${session.token}`)
         const jsonData = (await response.json())
         email = jsonData.email
         username = jsonData.name

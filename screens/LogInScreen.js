@@ -25,21 +25,19 @@ export default function LogInScreen ({ navigation }) {
   const [password, setPassword] = React.useState()
   // TODO add notification behaviour
   const [loginError, setLoginError] = React.useState('')
-
+  // asd
   const getLogInFacebook = () => {
-    //console.log(session.facebookToken)
+    // console.log(session.token)
     return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
-      { headers: { facebook_authentication: session.facebookToken } })
+      { headers: { facebook_authentication: session.token } })
       .then((response) => response.json())
       .then((json) => {
-          if(json[0].isBlock === true){
-            window.alert("This user has been blocked");
-          }
-          else{
-              session.userData = json;
-              navigation.navigate('ProfileSelection');
-          }
-
+        if (json[0].isBlock === true) {
+          window.alert('This user has been blocked')
+        } else {
+          session.userData = json
+          navigation.navigate('ProfileSelection')
+        }
       })
       .catch((error) => {
         /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
@@ -54,7 +52,7 @@ export default function LogInScreen ({ navigation }) {
         await auth.signInWithEmailAndPassword(email, password)
         const aux = await Firebase.auth().currentUser.getIdTokenResult()
         session.token = aux.token
-          console.log(session.token);
+        console.log(session.token)
         getLogIn()
       }
     } catch (error) {
@@ -68,16 +66,14 @@ export default function LogInScreen ({ navigation }) {
       { headers: { firebase_authentication: session.token } })
       .then((response) => response.json())
       .then((json) => {
-          if(json[0].isBlock === true){
-              window.alert("This user has been blocked");
-          }
-          else{
-          console.log("json nuevo:",json);
-              session.userData = json
-              //console.log(session.userData)
-              navigation.navigate('ProfileSelection')
-          }
-
+        if (json[0].isBlock === true) {
+          window.alert('This user has been blocked')
+        } else {
+          console.log('json nuevo:', json)
+          session.userData = json
+          // console.log(session.userData)
+          navigation.navigate('ProfileSelection')
+        }
       })
       .catch((error) => {
         /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
@@ -101,10 +97,10 @@ export default function LogInScreen ({ navigation }) {
         permissions: ['public_profile', 'email']
       })
       if (type === 'success') {
-        session.facebookToken = token
-          console.log(session.facebookToken);
+        session.token = token
+        console.log(session.token)
         /* En esta url, con el token, obtengo los datos del usuario */
-        const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`)
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${session.token}`)
         // window.alert(`Hi ${(await response.json()).name}!`)
         getLogInFacebook()
       } else {
