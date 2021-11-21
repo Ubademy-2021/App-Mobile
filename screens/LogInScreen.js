@@ -29,7 +29,7 @@ export default function LogInScreen ({ navigation }) {
   const getLogInFacebook = () => {
     // console.log(session.token)
     return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
-      { headers: { facebook_authentication: session.token } })
+      { headers: { facebook_authentication: session.facebookToken } })
       .then((response) => response.json())
       .then((json) => {
         if (json[0].isBlock === true) {
@@ -97,10 +97,10 @@ export default function LogInScreen ({ navigation }) {
         permissions: ['public_profile', 'email']
       })
       if (type === 'success') {
-        session.token = token
-        console.log(session.token)
+        session.facebookToken = token
+        console.log(session.facebookToken)
         /* En esta url, con el token, obtengo los datos del usuario */
-        const response = await fetch(`https://graph.facebook.com/me?access_token=${session.token}`)
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`)
         // window.alert(`Hi ${(await response.json()).name}!`)
         getLogInFacebook()
       } else {
