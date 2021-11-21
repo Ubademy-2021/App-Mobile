@@ -54,6 +54,7 @@ export default function LogInScreen ({ navigation }) {
         await auth.signInWithEmailAndPassword(email, password)
         const aux = await Firebase.auth().currentUser.getIdTokenResult()
         session.token = aux.token
+          console.log(session.token);
         getLogIn()
       }
     } catch (error) {
@@ -71,6 +72,7 @@ export default function LogInScreen ({ navigation }) {
               window.alert("This user has been blocked");
           }
           else{
+          console.log("json nuevo:",json);
               session.userData = json
               //console.log(session.userData)
               navigation.navigate('ProfileSelection')
@@ -100,6 +102,7 @@ export default function LogInScreen ({ navigation }) {
       })
       if (type === 'success') {
         session.facebookToken = token
+          console.log(session.facebookToken);
         /* En esta url, con el token, obtengo los datos del usuario */
         const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`)
         // window.alert(`Hi ${(await response.json()).name}!`)
