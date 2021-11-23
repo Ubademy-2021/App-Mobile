@@ -27,9 +27,12 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
 
   const favsURL = apiGatewayBaseUrl + 'users/favorites'
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
 
   const getStudentCourses = () => {
-    return fetch(getStudentCoursesURL + studentId)
+    return fetch(getStudentCoursesURL + studentId,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         const localCourseIds = []
@@ -45,7 +48,8 @@ export default function StudentCourseDetailsScreen ({ route }) {
   }
 
   const getStudentFavCourses = () => {
-    return fetch(favsURL + '/' + studentId)
+    return fetch(favsURL + '/' + studentId,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         const localCourseIds = []
@@ -88,7 +92,8 @@ export default function StudentCourseDetailsScreen ({ route }) {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        [tokenHeader]: sessionToken
       },
       body: JSON.stringify({
         userId: studentId,
@@ -110,7 +115,8 @@ export default function StudentCourseDetailsScreen ({ route }) {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        [tokenHeader]: sessionToken
       },
       body: JSON.stringify({
         userId: studentId,
@@ -133,7 +139,8 @@ export default function StudentCourseDetailsScreen ({ route }) {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          [tokenHeader]: sessionToken
         },
         body: JSON.stringify({
           userId: studentId,
@@ -153,7 +160,8 @@ export default function StudentCourseDetailsScreen ({ route }) {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          [tokenHeader]: sessionToken
         },
         body: JSON.stringify({
           userId: studentId,

@@ -14,6 +14,7 @@ import {
   VStack
 } from 'native-base'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
+import session from "../session/token";
 
 const postCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/user'
 const getCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/'
@@ -24,9 +25,12 @@ export default function InterestsScreen ({ navigation, route }) {
   const { userId } = route.params
   const [showNotificaction, setShowNotification] = React.useState(false)
   const [disableHomeButton, setDisableHomeButton] = React.useState(true)
+    const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
+    const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
 
   const getCategoriesFromApi = () => {
-    return fetch(getCategoriesURL)
+    return fetch(getCategoriesURL,
+        { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         const localCategory = []
@@ -46,7 +50,8 @@ export default function InterestsScreen ({ navigation, route }) {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+            [tokenHeader]: sessionToken
         },
         body: JSON.stringify({
           userId: userId,

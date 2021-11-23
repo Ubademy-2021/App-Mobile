@@ -30,8 +30,12 @@ const SubscriptionScreen = ({ navigation }) => {
     const studentId = session.userData[0].id
     var subscriptionDetails={}
     let subsDet;
+    const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
+    const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
+    console.log("session token:",sessionToken);
+    console.log("Header:",tokenHeader)
 
-    fetch(userSubscriptionURL+'1')
+    fetch(userSubscriptionURL+'1', { headers: { [tokenHeader]: sessionToken } })
         .then((response) => response.json())
         .then((json) => {
 
@@ -45,7 +49,7 @@ const SubscriptionScreen = ({ navigation }) => {
         })
 
     const getStudentCourses = () => {
-        return fetch(getSuscriptionsURL)
+        return fetch(getSuscriptionsURL, { headers: { [tokenHeader]: sessionToken } })
             .then((response) => response.json())
             .then((json) => {
                 for (let i = 0; i < json.length; i++) {
