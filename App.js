@@ -13,7 +13,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import SignUpOptionsScreen from './screens/SignUpOptionsScreen'
 import StudentCourseSearchScreen from './screens/StudentCourseSearchScreen'
 import StudentCourseDetailsScreen from './screens/StudentCourseDetailsScreen'
-import StudentCoursesScreen from './screens/StudentCoursesScreen'
+import StudentMyCoursesScreen from './screens/StudentMyCoursesScreen'
 import SubscriptionScreen from './screens/SusbscriptionScreen'
 import SubscriptionDetailsScreen from './screens/SubscriptionDetailsScreen'
 import { AntDesign } from '@expo/vector-icons'
@@ -28,7 +28,7 @@ function StudentHome () {
     <Tab.Navigator initialRouteName='Profile'>
       <Tab.Screen
         name="MyCourses"
-        component={StudentCoursesScreen}
+        component={StudentMyCoursesScreen}
         options={{
           headerShown: false,
           tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> }
@@ -57,7 +57,7 @@ function StudentHome () {
 function CreatorHome () {
   return (
     <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+      <Tab.Screen name="MyCourses" component={StudentMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
       <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
     </Tab.Navigator>
   )
@@ -66,7 +66,7 @@ function CreatorHome () {
 function CollaboratorHome () {
   return (
     <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCourses" component={StudentCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+      <Tab.Screen name="MyCourses" component={StudentMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
       <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
     </Tab.Navigator>
   )
