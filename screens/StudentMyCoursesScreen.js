@@ -7,9 +7,9 @@ import session from '../session/token'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-export default function StudentCoursesScreen ({ navigation }) {
+export default function StudentMyCoursesScreen ({ navigation }) {
   const [searchResults, setSearchResults] = React.useState([])
-  /*
+
   const [studentCourses, setStudentCourses] = React.useState([])
   const studentId = session.userData[0].id
 
@@ -29,30 +29,6 @@ export default function StudentCoursesScreen ({ navigation }) {
         console.error(error)
       })
   }
-
-  const getStudentFavCourses = () => {
-    return fetch(favsURL + '/' + studentId)
-      .then((response) => response.json())
-      .then((json) => {
-        const localCourseIds = []
-        for (let i = 0; i < json.length; i++) {
-          localCourseIds.push(json[i].id)
-        }
-        console.log(localCourseIds)
-        console.log(course.id)
-        setStudentFavCourses(localCourseIds)
-        setAddedToFavs(localCourseIds.includes(course.id))
-        if (localCourseIds.includes(course.id)) {
-          setFavButtonName('star')
-        } else {
-          setFavButtonName('staro')
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
-*/
 
   return (
     <NativeBaseProvider>

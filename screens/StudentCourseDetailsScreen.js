@@ -4,6 +4,7 @@ import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import Notification from '../components/Notification'
 import session from '../session/token'
 import { AntDesign } from '@expo/vector-icons'
+import EnrrollAndUnenrrollButtonWithConfirmation from '../components/EnrrollAndUnenrrollButtonWithConfirmation'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -27,12 +28,12 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
 
   const favsURL = apiGatewayBaseUrl + 'users/favorites'
-  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
-  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
   const getStudentCourses = () => {
     return fetch(getStudentCoursesURL + studentId,
-        { headers: { [tokenHeader]: sessionToken } })
+      { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         const localCourseIds = []
@@ -49,7 +50,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
 
   const getStudentFavCourses = () => {
     return fetch(favsURL + '/' + studentId,
-        { headers: { [tokenHeader]: sessionToken } })
+      { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         const localCourseIds = []
@@ -195,25 +196,12 @@ export default function StudentCourseDetailsScreen ({ route }) {
         </VStack>
       </Box>
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
-        <Button
-          onPress={handleEnrollment}
-          isDisabled={!activeCourse || alreadyEnrrolled}
-        >
-          Enroll
-        </Button>
-        <Button
-          onPress={handleUnenrollment}
-          isDisabled={!activeCourse || !alreadyEnrrolled}
-          colorScheme='danger'
-        >
-          Unenroll
-        </Button>
-        <Collapse isOpen={!activeCourse}>
-          <Notification
-            status='error'
-            message={'This course is not active at the moment'}
-          />
-        </Collapse>
+        <EnrrollAndUnenrrollButtonWithConfirmation
+          activeCourse={activeCourse}
+          alreadyEnrolled={alreadyEnrrolled}
+          handleEnrollment={handleEnrollment}
+          handleUnenrollment={handleUnenrollment}
+        />
         <Collapse isOpen={successfulInscription && alreadyEnrrolled}>
           <Notification
             status='success'
