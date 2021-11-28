@@ -28,6 +28,7 @@ export default function StudentMyCoursesScreen ({ navigation }) {
       .then((response) => response.json())
       .then(async (json) => {
         setSearchResults(await json)
+        setStudentHasCourses(json.length > 0)
       })
       .catch((error) => {
         console.error(error)
@@ -37,7 +38,6 @@ export default function StudentMyCoursesScreen ({ navigation }) {
   React.useEffect(() => {
     if (tabIsFocused) {
       getStudentCourses()
-      setStudentHasCourses(searchResults.length > 0)
     }
   }, [tabIsFocused])
 
