@@ -1,18 +1,13 @@
 import React from 'react'
-import { ImageBackground, View, StyleSheet, Platform, Text } from 'react-native'
+import { Text } from 'react-native'
 import CourseInSubscriptionCard from '../components/CourseInSubscriptionCard'
 import {
-  Avatar,
   Box,
-  Center,
   VStack,
-  IconButton,
-  HStack,
   NativeBaseProvider,
-  ScrollView,
   Button, Heading
 } from 'native-base'
-import session from "../session/token";
+import session from '../session/token'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -21,11 +16,12 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
   const localCourses = []
   const [courses, setCourses] = React.useState([])
-    const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
-    const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
+
   const getSuscriptionsCourses = () => {
     return fetch(suscriptionCoursesURL + subscription.key,
-        { headers: { [tokenHeader]: sessionToken } })
+      { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         for (let i = 0; i < json.length; i++) {

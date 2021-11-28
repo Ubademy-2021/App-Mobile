@@ -31,7 +31,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
-  const getStudentCourses = () => {
+  const getStudentCoursesIds = () => {
     return fetch(getStudentCoursesURL + studentId,
       { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
@@ -84,7 +84,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
       setCategories(cats)
     }
 
-    getStudentCourses()
+    getStudentCoursesIds()
     getStudentFavCourses()
   }, [])
 
