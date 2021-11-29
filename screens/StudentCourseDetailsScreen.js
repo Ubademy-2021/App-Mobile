@@ -149,7 +149,6 @@ export default function StudentCourseDetailsScreen ({ route }) {
         })
       }).then((response) => response.json())
         .then((json) => {
-          console.log(json)
           setAddedToFavs(!addedToFavs)
         })
         .catch((error) => {
@@ -170,7 +169,6 @@ export default function StudentCourseDetailsScreen ({ route }) {
         })
       }).then((response) => response.json())
         .then((json) => {
-          console.log(json)
           setAddedToFavs(!addedToFavs)
         })
         .catch((error) => {

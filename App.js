@@ -19,6 +19,7 @@ import SubscriptionDetailsScreen from './screens/SubscriptionDetailsScreen'
 import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
+import StudentMyFavouritesScreen from './screens/StudentMyFavouritesScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -32,6 +33,13 @@ function StudentHome () {
         options={{
           headerShown: false,
           tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> }
+        }} />
+      <Tab.Screen
+        name="MyFavourites"
+        component={StudentMyFavouritesScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => { return <AntDesign name="star" size={24} color="black" /> }
         }} />
       <Tab.Screen
         name="Search"
