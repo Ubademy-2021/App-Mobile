@@ -11,7 +11,7 @@ import session from '../session/token'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-export default function StudentCourseDetailsScreen ({ route }) {
+export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const { subscription } = route.params
   const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
   const localCourses = []
@@ -28,6 +28,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
             window.alert('Session expired')
             session.facebookSession = false
             session.firebaseSession = false
+            navigation.navigate('Login')
             /* No se recibe un navigation para ir al login */
           } else {
             window.alert('There was an error while handling your request')
