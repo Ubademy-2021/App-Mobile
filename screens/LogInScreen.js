@@ -34,14 +34,20 @@ export default function LogInScreen ({ navigation }) {
     console.log('Response status:', response.status)
     if (response.status === 200) {
       response.json().then(data => {
-        console.log('json nuevo:', data)
-        session.userData = data
-        session.facebookSession = true
-        // console.log(session.userData)
-        navigation.navigate('ProfileSelection')
+        if (data[0].isBlock === true) {
+          window.alert('This user has been blocked')
+        } else {
+          console.log('json nuevo:', data)
+          session.userData = data
+          session.facebookSession = true
+          // console.log(session.userData)
+          navigation.navigate('ProfileSelection')
+        }
       })
     } else {
-      console.log('Status code:', response.status)
+      if (response.status === 409) {
+        window.alert('This is user has been blocked')
+      }
       window.alert('Invalid user')
     }
   }
@@ -67,14 +73,20 @@ export default function LogInScreen ({ navigation }) {
     console.log('Response status:', response.status)
     if (response.status === 200) {
       response.json().then(data => {
-        console.log('json nuevo:', data)
-        session.userData = data
-        session.firebaseSession = true
-        // console.log(session.userData)
-        navigation.navigate('ProfileSelection')
+        if (data[0].isBlock === true) {
+          window.alert('This user has been blocked')
+        } else {
+          console.log('json nuevo:', data)
+          session.userData = data
+          session.firebaseSession = true
+          // console.log(session.userData)
+          navigation.navigate('ProfileSelection')
+        }
       })
     } else {
-      console.log('Status code:', response.status)
+      if (response.status === 409) {
+        window.alert('This is user has been blocked')
+      }
       window.alert('Invalid user')
     }
   }
