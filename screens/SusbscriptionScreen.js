@@ -48,7 +48,20 @@ const SubscriptionScreen = ({ navigation }) => {
 
   const getStudentCourses = () => {
     return fetch(getSuscriptionsURL, { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         for (let i = 0; i < json.length; i++) {
           if (json[i].id === subscriptionDetails.id) {
