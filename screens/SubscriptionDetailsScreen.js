@@ -28,6 +28,7 @@ export default function StudentCourseDetailsScreen ({ route }) {
             window.alert('Session expired')
             session.facebookSession = false
             session.firebaseSession = false
+            /* No se recibe un navigation para ir al login */
           } else {
             window.alert('There was an error while handling your request')
           }
