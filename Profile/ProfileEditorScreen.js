@@ -37,13 +37,12 @@ export default function ProfileEditionForm ({ navigation }) {
     newUserData.newAddress = (locationData.address === undefined) ? session.userData[0].address : locationData.address
   }
 
-  const putLocation = () => {
-
-      const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
-      const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
+  const putLocation = async () => {
+    const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
+    const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
     dataToSend()
 
-      fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
+    const response = await fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + session.userData[0].id, {
       method: 'PUT',
       mode: 'no-cors',
       headers: {
@@ -62,14 +61,23 @@ export default function ProfileEditionForm ({ navigation }) {
         country: newUserData.newCountry,
         address: newUserData.newAddress
       })
-    }).then(response => response.json())
-      .then(data => {
-        // console.log("Data received:",data);
+    })
+    if (response.status === 200) {
+      response.json().then(data => {
         reAssignUserData(data)
         window.alert('Profile saved')
         // console.log("New data es:",session.userData[0]);
-      }) // En data va a estar el nuevo "user" con sus campos, si to.do sale bien
-      .catch(err => window.alert('An error occurred while processing your request'))
+      })
+    } else {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert('An error occurred while processing your request')
+      }
+    }
   }
 
   const [locationData, setLocationData] = React.useState({
