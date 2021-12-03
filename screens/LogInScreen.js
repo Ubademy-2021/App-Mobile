@@ -34,6 +34,7 @@ export default function LogInScreen ({ navigation }) {
       { headers: { facebook_authentication: session.facebookToken } })
       .then((response) => response.json())
       .then((json) => {
+          console.log("Response:",json);
         if (json[0].isBlock === true) {
           window.alert('This user has been blocked')
         } else {
@@ -64,26 +65,50 @@ export default function LogInScreen ({ navigation }) {
     }
   }
 
-  const getLogIn = () => {
-    return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
-      { headers: { firebase_authentication: session.token } })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json[0].isBlock === true) {
-          window.alert('This user has been blocked')
-        } else {
-          console.log('json nuevo:', json)
-          session.userData = json
-            session.firebaseSession=true;
-          // console.log(session.userData)
-          navigation.navigate('ProfileSelection')
-        }
-      })
-      .catch((error) => {
-        /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
-        window.alert('Invalid user')
-        console.error(error)
-      })
+  const getLogIn = async () => {
+      const response = await fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
+          {headers: {firebase_authentication: session.token}});
+      console.log("Response status:",response.status);
+      if(response.status===200){
+          response.json().then(data => {
+
+              console.log('json nuevo:', data)
+              session.userData = data
+              session.firebaseSession=true;
+              // console.log(session.userData)
+              navigation.navigate('ProfileSelection')
+
+          })
+      }
+      else{
+          window.alert('Invalid user')
+      }
+/*
+      return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
+          {headers: {firebase_authentication: session.token}})
+          .then(response => {
+              console.log("Response:", response);
+              if (!response.ok) throw Error(response.status)
+              response.json()
+          })
+          .then(data => {
+                  console.log("data:", data);
+                  //console.log("response:",response);
+                  /*
+              if (json[0].isBlock === true) {
+                window.alert('This user has been blocked')
+              } else {
+                console.log('json nuevo:', json)
+                session.userData = json
+                  session.firebaseSession=true;
+                // console.log(session.userData)
+                navigation.navigate('ProfileSelection')
+              }
+          )
+          .catch((error) => {
+              window.alert('Invalid user')
+              console.error(error)
+          })*/
   }
 
   const onLoginWithFacebookPress = async () => {
