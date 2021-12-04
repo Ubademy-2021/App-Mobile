@@ -14,7 +14,7 @@ import {
   VStack
 } from 'native-base'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
-import session from "../session/token";
+import session from '../session/token'
 
 const postCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/user'
 const getCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/'
@@ -25,13 +25,26 @@ export default function InterestsScreen ({ navigation, route }) {
   const { userId } = route.params
   const [showNotificaction, setShowNotification] = React.useState(false)
   const [disableHomeButton, setDisableHomeButton] = React.useState(true)
-    const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
-    const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
   const getCategoriesFromApi = () => {
     return fetch(getCategoriesURL,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         const localCategory = []
         for (let i = 0; i < json.length; i++) {
@@ -51,7 +64,7 @@ export default function InterestsScreen ({ navigation, route }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-            [tokenHeader]: sessionToken
+          [tokenHeader]: sessionToken
         },
         body: JSON.stringify({
           userId: userId,

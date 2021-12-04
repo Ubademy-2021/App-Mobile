@@ -102,13 +102,26 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   const getRecommendationsURL = apiGatewayBaseUrl + 'courses/recommendation/'
 
   const studentId = session.userData[0].id
-  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
-  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
   const getCategoriesFromApi = () => {
     return fetch(getCategoriesURL,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         const localCategory = []
         for (let i = 0; i < json.length; i++) {
@@ -123,8 +136,21 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   const getSubscriptionsFromApi = () => {
     return fetch(getSubscriptionsURL,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         const localSub = []
         for (let i = 0; i < json.length; i++) {
@@ -139,8 +165,21 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   function getCoursesWithCategoryFromApi (selectedCategory) {
     return fetch(getCoursesByCatURL + selectedCategory,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         // setCoursesFilteredByCategory(json)
         // setSearchResults(json)
@@ -154,8 +193,21 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   function getCoursesWithSubscriptionFromApi (selectedSubscription) {
     return fetch(getCoursesBySubURL + selectedSubscription,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         // setSearchResults(json)
         // console.log(json)
@@ -168,8 +220,21 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   function getCoursesFromApi () {
     return fetch(getCoursesURL,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         // setSearchResults(json)
         return json
@@ -181,8 +246,21 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   function getRecommendationsFromApi () {
     return fetch(getRecommendationsURL + studentId,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then(async (json) => {
         setSearchResults(await json)
         // return json
