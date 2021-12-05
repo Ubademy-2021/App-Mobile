@@ -19,6 +19,7 @@ import SubscriptionDetailsScreen from './screens/SubscriptionDetailsScreen'
 import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
+import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -58,6 +59,13 @@ function CreatorHome () {
   return (
     <Tab.Navigator initialRouteName='Profile'>
       <Tab.Screen name="MyCourses" component={StudentMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+      <Tab.Screen
+        name="CreateCourse"
+        component={CreatorAddNewCourseScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => { return <AntDesign name="plus" size={24} color="black" /> }
+        }} />
       <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
     </Tab.Navigator>
   )

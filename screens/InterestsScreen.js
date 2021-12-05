@@ -14,7 +14,9 @@ import {
   VStack
 } from 'native-base'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
-import session from "../session/token";
+import session from '../session/token'
+import getResourcesFromApi from '../common/ApiCommunication'
+import { formatForCategories, formatForSelectMultipleButton } from '../common/Format'
 
 const postCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/user'
 const getCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/'
@@ -25,24 +27,8 @@ export default function InterestsScreen ({ navigation, route }) {
   const { userId } = route.params
   const [showNotificaction, setShowNotification] = React.useState(false)
   const [disableHomeButton, setDisableHomeButton] = React.useState(true)
-    const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
-    const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
-
-  const getCategoriesFromApi = () => {
-    return fetch(getCategoriesURL,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
-      .then((json) => {
-        const localCategory = []
-        for (let i = 0; i < json.length; i++) {
-          localCategory.push({ value: json[i].id, displayValue: json[i].name })
-        }
-        setCategories(localCategory)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
   const handleSubmit = () => {
     for (let i = 0; i < selectedCateogries.length; i++) {
@@ -51,7 +37,7 @@ export default function InterestsScreen ({ navigation, route }) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-            [tokenHeader]: sessionToken
+          [tokenHeader]: sessionToken
         },
         body: JSON.stringify({
           userId: userId,
@@ -65,7 +51,14 @@ export default function InterestsScreen ({ navigation, route }) {
     setShowNotification(true)
   }
 
-  getCategoriesFromApi()
+  React.useEffect(() => {
+    async function fetchData () {
+      const cats = await getResourcesFromApi(getCategoriesURL, tokenHeader, sessionToken, navigation)
+      setCategories(formatForCategories(cats))
+    }
+
+    fetchData()
+  }, [])
   return (
         <NativeBaseProvider>
             <ScrollView>

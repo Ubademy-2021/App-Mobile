@@ -5,8 +5,6 @@ import {
   Input,
   VStack,
   Icon,
-  Select,
-  CheckIcon,
   Text,
   Button,
   Collapse, ScrollView
@@ -18,6 +16,9 @@ import CourseCard from '../components/CourseCard'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import Notification from '../components/Notification'
 import session from '../session/token'
+import SelectDropdownList from '../components/SelectDropdownList'
+import { formatForCategories, formatForSelectDropDownList, formatForSubscriptions } from '../common/Format'
+import getResourcesFromApi from '../common/ApiCommunication'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -61,36 +62,11 @@ function SearchBar () {
   )
 }
 
-export const SelectDropdownList = (props) => {
-  return (
-    <VStack space={4}>
-      <Select
-        selectedValue={props.var}
-        minWidth="200"
-        accessibilityLabel="Choose Service"
-        placeholder="Choose Service"
-        _selectedItem={{
-          bg: 'teal.600',
-          endIcon: <CheckIcon size="5" />
-        }}
-        mt={1}
-        onValueChange={(itemValue) => props.setter(itemValue)}
-        defaultValue = 'Any'
-      >
-        <Select.Item key='Any' label='Any' value='Any' />
-        { props.items.map(item => {
-          return (<Select.Item key={item.value} label={item.displayValue} value={item.value} />)
-        }) }
-      </Select>
-    </VStack>
-  )
-}
-
 export default function StudentCourseSearchScreen ({ navigation }) {
   const [categories, setCategories] = React.useState([])
   const [subscriptions, setSubscriptions] = React.useState([])
   const [selectedCategory, setSelectedCategory] = React.useState('Any')
-  const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
+  const [selectedSubscription, setSelectedSubscription] = React.useState(null)
   const [searchResults, setSearchResults] = React.useState([])
   const [searchSubmitted, setSearchSubmitted] = React.useState(false)
 
@@ -102,44 +78,12 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   const getRecommendationsURL = apiGatewayBaseUrl + 'courses/recommendation/'
 
   const studentId = session.userData[0].id
-  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication';
-  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken;
-
-  const getCategoriesFromApi = () => {
-    return fetch(getCategoriesURL,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
-      .then((json) => {
-        const localCategory = []
-        for (let i = 0; i < json.length; i++) {
-          localCategory.push({ value: json[i].id, displayValue: json[i].name })
-        }
-        setCategories(localCategory)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
-
-  const getSubscriptionsFromApi = () => {
-    return fetch(getSubscriptionsURL,
-        { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
-      .then((json) => {
-        const localSub = []
-        for (let i = 0; i < json.length; i++) {
-          localSub.push({ value: json[i].id, displayValue: json[i].description })
-        }
-        setSubscriptions(localSub)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
+  const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
+  const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
   function getCoursesWithCategoryFromApi (selectedCategory) {
     return fetch(getCoursesByCatURL + selectedCategory,
-        { headers: { [tokenHeader]: sessionToken } })
+      { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         // setCoursesFilteredByCategory(json)
@@ -154,7 +98,7 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   function getCoursesWithSubscriptionFromApi (selectedSubscription) {
     return fetch(getCoursesBySubURL + selectedSubscription,
-        { headers: { [tokenHeader]: sessionToken } })
+      { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         // setSearchResults(json)
@@ -168,7 +112,7 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   function getCoursesFromApi () {
     return fetch(getCoursesURL,
-        { headers: { [tokenHeader]: sessionToken } })
+      { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then((json) => {
         // setSearchResults(json)
@@ -181,7 +125,7 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
   function getRecommendationsFromApi () {
     return fetch(getRecommendationsURL + studentId,
-        { headers: { [tokenHeader]: sessionToken } })
+      { headers: { [tokenHeader]: sessionToken } })
       .then((response) => response.json())
       .then(async (json) => {
         setSearchResults(await json)
@@ -220,8 +164,14 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   React.useEffect(() => {
-    getCategoriesFromApi()
-    getSubscriptionsFromApi()
+    async function fetchData () {
+      const subs = await getResourcesFromApi(getSubscriptionsURL, tokenHeader, sessionToken, navigation)
+      const cats = await getResourcesFromApi(getCategoriesURL, tokenHeader, sessionToken, navigation)
+      setSubscriptions(formatForSubscriptions(subs))
+      setCategories(formatForCategories(cats))
+    }
+
+    fetchData()
     getRecommendationsFromApi()
   }, [])
 
@@ -230,9 +180,9 @@ export default function StudentCourseSearchScreen ({ navigation }) {
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
         <Heading fontSize="lg">Filter by</Heading>
         <Text>Category</Text>
-        <SelectDropdownList items={categories} var={selectedCategory} setter={setSelectedCategory}/>
-        <Text>Membership</Text>
-        <SelectDropdownList items={subscriptions} var={selectedSubscription} setter={setSelectedSubscription}/>
+        <SelectDropdownList items={categories} var={selectedCategory} setter={setSelectedCategory} defaultValue='Any'/>
+        <Text>Subscription</Text>
+        <SelectDropdownList items={subscriptions} var={selectedSubscription} setter={setSelectedSubscription} defaultValue='Any'/>
         <Button onPress={handleSubmit}>
           Search
         </Button>
