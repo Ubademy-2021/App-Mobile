@@ -75,29 +75,8 @@ const SubscriptionScreen = ({ navigation }) => {
         console.error(error)
       })
   }
-  /*
-    const getUserSubscription = () => {
-
-        // TODO: No hardcodear este fetch
-        return fetch(userSubscriptionURL+'1')
-            .then((response) => response.json())
-            .then((json) => {
-                console.log("URL de suscricpion:",userSubscriptionURL+studentId);
-                console.log("Student id:",studentId);
-                console.log("Suscripcion:",json);
-
-                subscriptionDetails.description=json.description;
-                console.log("Description aca es:",json.description);
-                subscriptionDetails.id=json.id;
-                subsDet=JSON.stringify(json.description);
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    } */
 
   function renderCurrentSubs () {
-    // await getUserSubscription();
     console.log('SUBS DET ES:', subsDet)
     return (
             <View>
