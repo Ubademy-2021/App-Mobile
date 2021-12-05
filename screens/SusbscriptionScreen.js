@@ -31,10 +31,10 @@ const SubscriptionScreen = ({ navigation }) => {
   let subsDet
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
-  console.log('session token:', sessionToken)
-  console.log('Header:', tokenHeader)
+  // console.log('session token:', sessionToken)
+  // console.log('Header:', tokenHeader)
 
-  fetch(userSubscriptionURL + '1', { headers: { [tokenHeader]: sessionToken } })
+  fetch(userSubscriptionURL + studentId, { headers: { [tokenHeader]: sessionToken } })
     .then((response) => response.json())
     .then((json) => {
       subscriptionDetails.description = json.description
@@ -64,6 +64,8 @@ const SubscriptionScreen = ({ navigation }) => {
       })
       .then((json) => {
         for (let i = 0; i < json.length; i++) {
+          console.log('Currently in subs:', subscriptionDetails.id)
+          console.log('Subscription iterating:', json[i])
           if (json[i].id === subscriptionDetails.id) {
             continue
           }
