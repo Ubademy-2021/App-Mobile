@@ -94,9 +94,12 @@ const SubscriptionScreen = ({ navigation }) => {
       <NativeBaseProvider>
         <View>
             <ScrollView>
-                <Heading fontSize="lg">Current subscription:</Heading>
-                <Heading fontSize="lg">{JSON.stringify(subscriptionDesc)}</Heading>
-                <Heading fontSize="lg">Change subscription:</Heading>
+                <Center>
+                    <Heading fontSize="lg">Current subscription:</Heading>
+                    <Heading fontSize="lg">{JSON.stringify(subscriptionDesc)}</Heading>
+                    <Text numberOfLines={1}></Text>
+                    <Heading fontSize="lg">Change subscription:</Heading>
+                </Center>
                 { subscriptions.map(item => {
                   return (
                             <Pressable
