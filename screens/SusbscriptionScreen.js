@@ -96,7 +96,7 @@ const SubscriptionScreen = ({ navigation }) => {
             <ScrollView>
                 <Center>
                     <Heading fontSize="lg">Current subscription:</Heading>
-                    <Heading fontSize="lg">{JSON.stringify(subscriptionDesc)}</Heading>
+                    <Heading fontSize="lg">{JSON.stringify(subscriptionDesc).replace(/[^a-zA-Z 0-9]+/g, '')}</Heading>
                     <Text numberOfLines={1}></Text>
                     <Heading fontSize="lg">Change subscription:</Heading>
                 </Center>
