@@ -66,6 +66,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                     { courses.map(item => {
                       return (
                                 <CourseInSubscriptionCard
+                                    key={item.key}
                                     title={item.courseName}
                                     price={item.price}
                                     duration={item.duration}/>
