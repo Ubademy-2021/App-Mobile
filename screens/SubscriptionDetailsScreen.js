@@ -11,6 +11,7 @@ import {
   Collapse
 } from 'native-base'
 import session from '../session/token'
+import Notification from '../components/Notification'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -59,14 +60,26 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   function renderConfirmation () {
     return (
             <View>
-                <Text numberOfLines={1}></Text>
-                <Text>Detalles</Text>
+                <ConfirmationAlert
+                    buttonStatus='danger'
+                    buttonLabel='Unenroll'
+                    header='Unenroll to this course'
+                    body='Are u sure u want to unenroll from this course?'
+                    confirmButtonLabel='Unenroll'
+                    onConfirm={console.log('hola')}
+                />
             </View>
     )
   }
 
   function renderVoid () {
 
+  }
+
+  const onConfirm_ = () => {
+    window.alert('hola')
+    /* ACA LE TENGO QUE MANDAR AL BACK QUE QUIERO PAGAR */
+    navigation.navigate('ProfileSelection')
   }
 
   return (
@@ -96,7 +109,16 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                             }) }
                             <Text numberOfLines={1}></Text>
                             <Text numberOfLines={1}></Text>
-                            <Button
+
+                            <ConfirmationAlert
+                                buttonStatus='primary'
+                                buttonLabel='Subscribe'
+                                header='Subscription to this course'
+                                body='Are u sure u want to pay this subscription?'
+                                confirmButtonLabel='Subscribe'
+                                onConfirm={onConfirm_}
+                            />
+   {/*                         <Button
                                 onPress={() => {
                                   setConfirmation(true)
                                   // Aca hago un post, y obtengo si se pudo suscribir o no
@@ -104,7 +126,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                                 }
                             >
                                 Subscribe
-                            </Button>
+                            </Button> */}
                         </VStack>
                     </Box>
                 </Collapse>
