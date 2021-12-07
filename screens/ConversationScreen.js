@@ -8,7 +8,7 @@ import {StyleSheet, Text, TextInput, View, YellowBox, Button} from 'react-native
 import {StatusBar} from 'expo-status-bar'
 import Firebase from '../config/firebase'
 import {GiftedChat} from 'react-native-gifted-chat'
-
+import session from '../session/token'
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
 
@@ -20,7 +20,7 @@ const App = () => {
 
     useEffect(() => {
         readUser()
-        console.log(chatsRef.onSnapshot)
+
         const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
             const messagesFirestore = querySnapshot
                 .docChanges()
@@ -44,10 +44,14 @@ const App = () => {
     )
 
     async function readUser(){
-        const user = await AsyncStorage.getItem('user')
+        //const user= { session.userData[0].id , session.userData[0].username}
+        console.log(session.userData[0].id)
+        const user=session.userData[0].id
+        setUser(session.userData[0].id)
+        /*const user = await AsyncStorage.getItem('user')
         if(user){
             setUser(JSON.parse(user));
-        }
+        }*/
     }
 
     async function handlePress(){
@@ -74,8 +78,8 @@ const App = () => {
         )
     }
     return  <GiftedChat messages={messages} user={user} onSend={handleSend}/>
-
 }
+
 export default App
 const styles = StyleSheet.create({
     container_: {
