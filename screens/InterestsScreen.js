@@ -16,7 +16,7 @@ import {
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
 import session from '../session/token'
 import getResourcesFromApi from '../common/ApiCommunication'
-import { formatForCategories, formatForSelectMultipleButton } from '../common/Format'
+import { formatForCategories } from '../common/Format'
 
 const postCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/user'
 const getCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/'
@@ -46,7 +46,6 @@ export default function InterestsScreen ({ navigation, route }) {
       })
     }
 
-    // navigation.navigate('Login', { signupStatus: 'success' })
     setDisableHomeButton(false)
     setShowNotification(true)
   }

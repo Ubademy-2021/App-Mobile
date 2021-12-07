@@ -12,10 +12,10 @@ import session from '../session/token'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
 import {
   formatForCategories,
-  formatForSelectDropDownList,
-  formatForSelectMultipleButton, formatForSubscriptions
+  formatForSubscriptions
 } from '../common/Format'
-import getResourcesFromApi from '../common/ApiCommunication'
+import { getResourcesFromApi, postNewCourseToApi } from '../common/ApiCommunication'
+import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -27,23 +27,27 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
   const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
   const [categories, setCategories] = React.useState([])
   const [selectedCateogries, setSelectedCategories] = React.useState([])
+  const creatorId = session.userData[0].id
 
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
+  const postNewCourseURL = apiGatewayBaseUrl + 'courses'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
+  const tabIsFocused = useIsFocused()
+
   const validate = () => {
-    if (formData.title === undefined || formData.title.length === 0) {
+    if (formData.courseName === undefined || formData.courseName.length === 0) {
       setErrors({
         ...errors,
-        title: 'Title is required'
+        courseName: 'Title is required'
       })
       return false
     } else {
       const copyErrors = errors
-      delete copyErrors.title
+      delete copyErrors.courseName
       setErrors(copyErrors)
     }
 
@@ -65,6 +69,24 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
       setErrors(copyErrors)
     }
 
+    if (formData.duration === undefined || formData.duration.length === 0) {
+      setErrors({
+        ...errors,
+        duration: 'Duration is required'
+      })
+      return false
+    } else if (formData.duration[formData.duration.length - 3] !== ':' || formData.duration[formData.duration.length - 6] !== ':') {
+      setErrors({
+        ...errors,
+        duration: 'Invalid duration format'
+      })
+      return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.duration
+      setErrors(copyErrors)
+    }
+
     return true
   }
 
@@ -76,7 +98,11 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
     if (submittedForm) {
       setSubmittedForm(false)
       if (validate()) {
-        console.log('Formulario exitoso')
+        setData({
+          ...formData,
+          ownerId: creatorId
+        })
+        postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, navigation)
       }
     }
   }, [submittedForm])
@@ -97,16 +123,16 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
        <ScrollView>
          <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
            <VStack width="80%" space={4}>
-             <FormControl isRequired isInvalid={'title' in errors}>
+             <FormControl isRequired isInvalid={'courseName' in errors}>
                <FormControl.Label>Title</FormControl.Label>
                <Input
                  placeholder="Python 101"
-                 onChangeText={(value) => setData({ ...formData, title: value })}
+                 onChangeText={(value) => setData({ ...formData, courseName: value })}
                />
                <FormControl.HelperText>
-                 Write a title for the course
+                 Choose a name for the course
                </FormControl.HelperText>
-               <FormControl.ErrorMessage>{errors.title}</FormControl.ErrorMessage>
+               <FormControl.ErrorMessage>{errors.courseName}</FormControl.ErrorMessage>
              </FormControl>
              <FormControl isRequired isInvalid={'description' in errors}>
                <FormControl.Label>Description</FormControl.Label>
@@ -118,6 +144,17 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
                  Description should contain at least 20 characters.
                </FormControl.HelperText>
                <FormControl.ErrorMessage>{errors.description}</FormControl.ErrorMessage>
+             </FormControl>
+             <FormControl isRequired isInvalid={'duration' in errors}>
+               <FormControl.Label>Duration</FormControl.Label>
+               <Input
+                 placeholder="22:05:42"
+                 onChangeText={(value) => setData({ ...formData, duration: value })}
+               />
+               <FormControl.HelperText>
+                 Indicate the duration of the course in HH:MM:SS format
+               </FormControl.HelperText>
+               <FormControl.ErrorMessage>{errors.duration}</FormControl.ErrorMessage>
              </FormControl>
              <FormControl isInvalid={'subscription' in errors}>
                <FormControl.Label>Subscription</FormControl.Label>
@@ -137,9 +174,11 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
                </FormControl.HelperText>
              </FormControl>
            </VStack>
-           <Button onPress={onSubmit} >
+         </Box>
+         <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
+          <Button onPress={onSubmit}>
              Create
-           </Button>
+          </Button>
          </Box>
        </ScrollView>
      </NativeBaseProvider>
