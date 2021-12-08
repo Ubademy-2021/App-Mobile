@@ -9,6 +9,7 @@ import {StatusBar} from 'expo-status-bar'
 import Firebase from '../config/firebase'
 import {GiftedChat} from 'react-native-gifted-chat'
 import session from '../session/token'
+
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
 
@@ -16,24 +17,66 @@ const chatsRef = db.collection('chats')
 const App = () => {
     const [user, setUser] = useState(null)
     const [name, setName] = useState(null)
+    const [realName, setRealName] = useState(null)
     const [messages, setMessages] = useState([])
 
     useEffect(() => {
         readUser()
 
-        const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
+        chatsRef.where('senderId','==',52)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log("Dato:",documentSnapshot.data())
+                });
+            });
+
+        /*chatsRef.get().then(querySnapshot =>{
+            querySnapshot.forEach(documentSnapshot => {
+                console.log("Dato:",documentSnapshot.data())
+            });
+        })*/
+        /*const unsubscribe = chatsRef.where('text','===',"Segunda mensaje").get().then(querySnapshot => {
             const messagesFirestore = querySnapshot
                 .docChanges()
-                .filter(({ type }) => type === 'added')
-                .map(({ doc }) => {
+                .map(({doc}) => {
                     const message = doc.data()
+
+                    const json =JSON.parse(JSON.stringify(message))
+
+                    //console.log("User id:",json['user'])
+                    console.log("Sender id:",json['user']['id'])
+                    console.log("Receiver id:",json['user']['receiverId'])
                     //createdAt is firebase.firestore.Timestamp instance
                     //https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp
-                    return { ...message, createdAt: message.createdAt.toDate() }
+                    return {...message, createdAt: message.createdAt.toDate()}
                 })
+            console.log(messagesFirestore);
             appendMessages(messagesFirestore)
-        })
-        return () => unsubscribe()
+        })*/
+
+        /*const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
+            const messagesFirestore = querySnapshot
+                .docChanges()
+                .map(({doc}) => {
+                    const message = doc.data()
+
+                    const json =JSON.parse(JSON.stringify(message))
+
+                    //console.log("User id:",json['user'])
+                    console.log("Sender id:",json['user']['id'])
+                    console.log("Receiver id:",json['user']['receiverId'])
+                    if(json['user']['id'] !== 52){
+                        continue
+                    }
+                    //createdAt is firebase.firestore.Timestamp instance
+                    //https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp
+                    return {...message, createdAt: message.createdAt.toDate()}
+                })
+            console.log(messagesFirestore);
+            appendMessages(messagesFirestore)
+        })*/
+        //return () => unsubscribe()
     }, [])
 
     const appendMessages = useCallback(
@@ -46,8 +89,11 @@ const App = () => {
     async function readUser(){
         //const user= { session.userData[0].id , session.userData[0].username}
         console.log(session.userData[0].id)
-        const user=session.userData[0].id
-        setUser(session.userData[0].id)
+        const id=session.userData[0].id
+        const receiverId=21
+        setRealName(session.userData[0].username)
+        const user={id, receiverId}
+        setUser(user)
         /*const user = await AsyncStorage.getItem('user')
         if(user){
             setUser(JSON.parse(user));
@@ -66,7 +112,7 @@ const App = () => {
         const writes = messages.map(m => chatsRef.add(m))
         await Promise.all(writes)
     }
-    if(!user){
+    /*if(!user){
         return (
             <View style={styles.container}>
                 <Text numberOfLines={1}></Text>
@@ -76,7 +122,7 @@ const App = () => {
                 <Button onPress={handlePress} title="Enter the chat"/>
             </View>
         )
-    }
+    }*/
     return  <GiftedChat messages={messages} user={user} onSend={handleSend}/>
 }
 
