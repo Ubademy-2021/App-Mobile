@@ -23,36 +23,24 @@ const App = () => {
     useEffect(() => {
         readUser()
 
-        chatsRef.where('senderId','==',52)
+        const unsubscribe =chatsRef.where('senderId','==',52)
             .get()
             .then(querySnapshot => {
-                querySnapshot.forEach(documentSnapshot => {
-                    console.log("Dato:",documentSnapshot.data())
+                const messagesFirestore = querySnapshot
+                    .docChanges()
+                    .map(({doc}) => {
+                //const messagesFirestore = querySnapshot.forEach(documentSnapshot => {
+                    console.log("Dato:",doc.data())
+                    const message = doc.data()
+                    return {...message, createdAt: message.createdAt.toDate()}
                 });
+                appendMessages(messagesFirestore)
             });
 
         /*chatsRef.get().then(querySnapshot =>{
             querySnapshot.forEach(documentSnapshot => {
                 console.log("Dato:",documentSnapshot.data())
             });
-        })*/
-        /*const unsubscribe = chatsRef.where('text','===',"Segunda mensaje").get().then(querySnapshot => {
-            const messagesFirestore = querySnapshot
-                .docChanges()
-                .map(({doc}) => {
-                    const message = doc.data()
-
-                    const json =JSON.parse(JSON.stringify(message))
-
-                    //console.log("User id:",json['user'])
-                    console.log("Sender id:",json['user']['id'])
-                    console.log("Receiver id:",json['user']['receiverId'])
-                    //createdAt is firebase.firestore.Timestamp instance
-                    //https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp
-                    return {...message, createdAt: message.createdAt.toDate()}
-                })
-            console.log(messagesFirestore);
-            appendMessages(messagesFirestore)
         })*/
 
         /*const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
@@ -76,7 +64,7 @@ const App = () => {
             console.log(messagesFirestore);
             appendMessages(messagesFirestore)
         })*/
-        //return () => unsubscribe()
+        return () => unsubscribe()
     }, [])
 
     const appendMessages = useCallback(
