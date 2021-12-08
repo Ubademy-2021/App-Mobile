@@ -16,54 +16,29 @@ const chatsRef = db.collection('chats')
 
 const App = () => {
     const [user, setUser] = useState(null)
+    const [user2, setUser2] = useState(null)
     const [name, setName] = useState(null)
     const [realName, setRealName] = useState(null)
     const [messages, setMessages] = useState([])
+    const [senderId, setSenderId] = useState(null);
+    const [receiverId, setReceiverId] = useState(null);
 
     useEffect(() => {
         readUser()
 
-        const unsubscribe =chatsRef.where('senderId','==',52)
-            .get()
-            .then(querySnapshot => {
+        const unsubscribe =chatsRef.where('user.senderId','==',52)
+            .onSnapshot(
+            (querySnapshot) => {
                 const messagesFirestore = querySnapshot
                     .docChanges()
+                    .filter(({ type }) => type === 'added')
                     .map(({doc}) => {
-                //const messagesFirestore = querySnapshot.forEach(documentSnapshot => {
-                    console.log("Dato:",doc.data())
-                    const message = doc.data()
-                    return {...message, createdAt: message.createdAt.toDate()}
-                });
+                        console.log("Dato:",doc.data())
+                        const message = doc.data()
+                        return {...message, createdAt: message.createdAt.toDate()}
+                    });
                 appendMessages(messagesFirestore)
             });
-
-        /*chatsRef.get().then(querySnapshot =>{
-            querySnapshot.forEach(documentSnapshot => {
-                console.log("Dato:",documentSnapshot.data())
-            });
-        })*/
-
-        /*const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
-            const messagesFirestore = querySnapshot
-                .docChanges()
-                .map(({doc}) => {
-                    const message = doc.data()
-
-                    const json =JSON.parse(JSON.stringify(message))
-
-                    //console.log("User id:",json['user'])
-                    console.log("Sender id:",json['user']['id'])
-                    console.log("Receiver id:",json['user']['receiverId'])
-                    if(json['user']['id'] !== 52){
-                        continue
-                    }
-                    //createdAt is firebase.firestore.Timestamp instance
-                    //https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp
-                    return {...message, createdAt: message.createdAt.toDate()}
-                })
-            console.log(messagesFirestore);
-            appendMessages(messagesFirestore)
-        })*/
         return () => unsubscribe()
     }, [])
 
@@ -75,17 +50,10 @@ const App = () => {
     )
 
     async function readUser(){
-        //const user= { session.userData[0].id , session.userData[0].username}
-        console.log(session.userData[0].id)
-        const id=session.userData[0].id
+        const senderId=session.userData[0].id
         const receiverId=21
-        setRealName(session.userData[0].username)
-        const user={id, receiverId}
-        setUser(user)
-        /*const user = await AsyncStorage.getItem('user')
-        if(user){
-            setUser(JSON.parse(user));
-        }*/
+        const user_={senderId, receiverId}
+        setUser(user_)
     }
 
     async function handlePress(){
