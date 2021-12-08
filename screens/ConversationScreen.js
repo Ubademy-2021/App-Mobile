@@ -13,7 +13,13 @@ import session from '../session/token'
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
 
-
+function getChatRef(userId1, userId2) {
+    if (userId1 < userId2) {
+        return userId1 + '_' + userId2;
+    } else {
+        return userId2 + '_' + userId1;
+    }
+};
 const App = () => {
     const [user, setUser] = useState(null)
     const [user2, setUser2] = useState(null)
@@ -22,11 +28,15 @@ const App = () => {
     const [messages, setMessages] = useState([])
     const [senderId, setSenderId] = useState(null);
     const [receiverId, setReceiverId] = useState(null);
+    const chatId= getChatRef(session.userData[0].id,51)
+
+
 
     useEffect(() => {
         readUser()
 
-        const unsubscribe =chatsRef.where('user.senderId','==',52)
+        //const unsubscribe =chatsRef.where('user.senderId','!=',11)
+        const unsubscribe =chatsRef
             .onSnapshot(
             (querySnapshot) => {
                 const messagesFirestore = querySnapshot
@@ -52,16 +62,9 @@ const App = () => {
 
     async function readUser(){
         const senderId=session.userData[0].id
-        const receiverId=21
-        const user_={senderId, receiverId}
+        //const receiverId=21
+        const user_={senderId}
         setUser(user_)
-    }
-
-    async function handlePress(){
-        const _id = Math.random().toString(36).substring(7) //ID DEL USUARIO DE AUTH
-        const user= {_id, name}
-        await AsyncStorage.setItem('user',JSON.stringify(user))
-        setUser(user)
     }
 
     //Me manda los mensajes a la DB
@@ -69,18 +72,8 @@ const App = () => {
         const writes = messages.map(m => chatsRef.add(m))
         await Promise.all(writes)
     }
-    /*if(!user){
-        return (
-            <View style={styles.container}>
-                <Text numberOfLines={1}></Text>
-                <Text numberOfLines={1}></Text>
-                <Text numberOfLines={1}></Text>
-                <TextInput style={styles.input} placeholder = "Enter your name" value={name} onChangeText={setName}/>
-                <Button onPress={handlePress} title="Enter the chat"/>
-            </View>
-        )
-    }*/
-    return  <GiftedChat messages={messages} user={user} onSend={handleSend}/>
+
+    return  <GiftedChat messages={messages} user={{_id : session.userData[0].id}} onSend={handleSend}/>
 }
 
 export default App
