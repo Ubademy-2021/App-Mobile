@@ -2,10 +2,7 @@
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 import React, {useState, useEffect, useCallback} from 'react'
-//import AsyncStorage from '@react-native-community/async-storage'
-import { AsyncStorage}  from "react-native";
 import {StyleSheet, Text, TextInput, View, YellowBox, Button} from 'react-native'
-import {StatusBar} from 'expo-status-bar'
 import Firebase from '../config/firebase'
 import {GiftedChat} from 'react-native-gifted-chat'
 import session from '../session/token'
@@ -31,7 +28,6 @@ const App = () => {
         readUser()
 
         //On snapshot hace que sea en tiempo real
-        console.log("CHAT ID ES:",chatId)
         const unsubscribe =db.collection('chats').where('user.chatID','==',chatId)
             .onSnapshot(
             (querySnapshot) => {
