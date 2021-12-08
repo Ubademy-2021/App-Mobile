@@ -66,7 +66,7 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   const [categories, setCategories] = React.useState([])
   const [subscriptions, setSubscriptions] = React.useState([])
   const [selectedCategory, setSelectedCategory] = React.useState('Any')
-  const [selectedSubscription, setSelectedSubscription] = React.useState(null)
+  const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
   const [searchResults, setSearchResults] = React.useState([])
   const [searchSubmitted, setSearchSubmitted] = React.useState(false)
 
