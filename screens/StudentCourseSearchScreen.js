@@ -17,8 +17,8 @@ import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import Notification from '../components/Notification'
 import session from '../session/token'
 import SelectDropdownList from '../components/SelectDropdownList'
-import { formatForCategories, formatForSelectDropDownList, formatForSubscriptions } from '../common/Format'
-import getResourcesFromApi from '../common/ApiCommunication'
+import { formatForCategories, formatForSubscriptions } from '../common/Format'
+import { getResourcesFromApi } from '../common/ApiCommunication'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
