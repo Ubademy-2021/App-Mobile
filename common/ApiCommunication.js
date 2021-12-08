@@ -54,7 +54,7 @@ export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken,
       }
     } else {
       window.alert('Course created successfully')
-      navigation.getParent().navigate('MyCourses')
+      navigation.navigate('MyCourses')
     }
 
     return response.status
