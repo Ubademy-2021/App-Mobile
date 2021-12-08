@@ -24,13 +24,15 @@ const App = () => {
     const [user, setUser] = useState(null)
     const [name, setName] = useState(null)
     const [messages, setMessages] = useState([])
-    const chatId= getChatRef(session.userData[0].id,51)
+    const [conversationID,setConversationID] =useState([])
+    const chatId= getChatRef(session.userData[0].id,21)
 
     useEffect(() => {
         readUser()
 
         //On snapshot hace que sea en tiempo real
-        const unsubscribe =db.collection('chats')
+        console.log("CHAT ID ES:",chatId)
+        const unsubscribe =db.collection('chats').where('user.chatID','==',chatId)
             .onSnapshot(
             (querySnapshot) => {
                 const messagesFirestore = querySnapshot
@@ -55,8 +57,9 @@ const App = () => {
     )
 
     async function readUser(){
-        const senderId=session.userData[0].id
-        const user_={senderId}
+        const _id=session.userData[0].id
+        const chatID=getChatRef(_id,21)
+        const user_={_id,chatID}
         setUser(user_)
     }
 
@@ -67,7 +70,7 @@ const App = () => {
     }
 
     //Al enviar un mensaje, poniendo el _id identifico quien lo esta enviando. Me serve para el display
-    return  <GiftedChat messages={messages} user={{_id : session.userData[0].id}} onSend={handleSend}/>
+    return  <GiftedChat messages={messages} user={user} onSend={handleSend}/>
 }
 
 export default App
