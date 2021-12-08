@@ -22,12 +22,8 @@ function getChatRef(userId1, userId2) {
 };
 const App = () => {
     const [user, setUser] = useState(null)
-    const [user2, setUser2] = useState(null)
     const [name, setName] = useState(null)
-    const [realName, setRealName] = useState(null)
     const [messages, setMessages] = useState([])
-    const [senderId, setSenderId] = useState(null);
-    const [receiverId, setReceiverId] = useState(null);
     const chatId= getChatRef(session.userData[0].id,51)
 
 
@@ -35,7 +31,6 @@ const App = () => {
     useEffect(() => {
         readUser()
 
-        //const unsubscribe =chatsRef.where('user.senderId','!=',11)
         const unsubscribe =chatsRef
             .onSnapshot(
             (querySnapshot) => {
@@ -62,7 +57,6 @@ const App = () => {
 
     async function readUser(){
         const senderId=session.userData[0].id
-        //const receiverId=21
         const user_={senderId}
         setUser(user_)
     }
