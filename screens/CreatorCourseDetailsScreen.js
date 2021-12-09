@@ -1,43 +1,38 @@
 import React from 'react'
-import {
-  VStack,
-  Button,
-  FormControl,
-  Input,
-  NativeBaseProvider, Box, TextArea, ScrollView
-} from 'native-base'
-import SelectDropdownList from '../components/SelectDropdownList'
-
 import session from '../session/token'
+import { Box, Button, FormControl, Input, ScrollView, TextArea, VStack } from 'native-base'
+import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
+import SelectDropdownList from '../components/SelectDropdownList'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
-import {
-  formatForCategories,
-  formatForSubscriptions
-} from '../common/Format'
-import { getResourcesFromApi, postCategoryToCourse, postNewCourseToApi } from '../common/ApiCommunication'
-import { useIsFocused } from '@react-navigation/native'
+import { getResourcesFromApi } from '../common/ApiCommunication'
+import { formatForCategories, formatForSubscriptions } from '../common/Format'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-export default function CreatorAddNewCourseScreen ({ navigation }) {
-  const [formData, setData] = React.useState({})
+export default function CreatorCourseDetailsScreen ({ navigation, route }) {
+  const { course } = route.params
+  const creatorId = session.userData[0].id
+
+  const [editEnabled, setEditEnabled] = React.useState(false)
+  const [formData, setData] = React.useState(course)
   const [errors, setErrors] = React.useState({})
   const [submittedForm, setSubmittedForm] = React.useState(false)
   const [subscriptions, setSubscriptions] = React.useState([])
   const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
   const [categories, setCategories] = React.useState([])
   const [selectedCateogries, setSelectedCategories] = React.useState([])
-  const creatorId = session.userData[0].id
-
-  const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
-  const getCategoriesURL = apiGatewayBaseUrl + 'categories'
-  const postNewCourseURL = apiGatewayBaseUrl + 'courses'
-  const postCategoryToCourseURL = apiGatewayBaseUrl + 'courses/category'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
-  const tabIsFocused = useIsFocused()
+  const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
+  const getCategoriesURL = apiGatewayBaseUrl + 'categories'
+
+  console.log(formData)
+
+  const onSubmit = () => {
+    setSubmittedForm(true)
+  }
 
   const validate = () => {
     if (formData.courseName === undefined || formData.courseName.length === 0) {
@@ -91,18 +86,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
     return true
   }
 
-  const onSubmit = () => {
-    setSubmittedForm(true)
-  }
-
   React.useEffect(() => {
-    async function postCats () {
-      for (let i = 0; i < selectedCateogries.length; i++) {
-        const status = await postCategoryToCourse(postCategoryToCourseURL, tokenHeader, sessionToken, creatorId, selectedCateogries[i], navigation)
-        console.log(status)
-      }
-    }
-
     if (submittedForm) {
       setSubmittedForm(false)
       if (validate()) {
@@ -110,7 +94,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
           ...formData,
           ownerId: creatorId
         })
-        postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, navigation).then(postCats())
+        // postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, navigation)
       }
     }
   }, [submittedForm])
@@ -131,47 +115,50 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
        <ScrollView>
          <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
            <VStack width="80%" space={4}>
-             <FormControl isRequired isInvalid={'courseName' in errors}>
+             <FormControl isDisabled={!editEnabled} isRequired isInvalid={'courseName' in errors}>
                <FormControl.Label>Title</FormControl.Label>
                <Input
                  placeholder="Python 101"
                  onChangeText={(value) => setData({ ...formData, courseName: value })}
+                 defaultValue={formData.courseName}
                />
                <FormControl.HelperText>
                  Choose a name for the course
                </FormControl.HelperText>
                <FormControl.ErrorMessage>{errors.courseName}</FormControl.ErrorMessage>
              </FormControl>
-             <FormControl isRequired isInvalid={'description' in errors}>
+             <FormControl isDisabled={!editEnabled} isRequired isInvalid={'description' in errors}>
                <FormControl.Label>Description</FormControl.Label>
                <TextArea
                  placeholder="In this course you will learn the python basics"
                  onChangeText={(value) => setData({ ...formData, description: value })}
+                 defaultValue={formData.description}
                />
                <FormControl.HelperText>
                  Description should contain at least 20 characters.
                </FormControl.HelperText>
                <FormControl.ErrorMessage>{errors.description}</FormControl.ErrorMessage>
              </FormControl>
-             <FormControl isRequired isInvalid={'duration' in errors}>
+             <FormControl isDisabled={!editEnabled} isRequired isInvalid={'duration' in errors}>
                <FormControl.Label>Duration</FormControl.Label>
                <Input
                  placeholder="22:05:42"
                  onChangeText={(value) => setData({ ...formData, duration: value })}
+                 defaultValue={formData.duration}
                />
                <FormControl.HelperText>
                  Indicate the duration of the course in HH:MM:SS format
                </FormControl.HelperText>
                <FormControl.ErrorMessage>{errors.duration}</FormControl.ErrorMessage>
              </FormControl>
-             <FormControl isInvalid={'subscription' in errors}>
+             <FormControl isDisabled={!editEnabled} isInvalid={'subscription' in errors}>
                <FormControl.Label>Subscription</FormControl.Label>
-               <SelectDropdownList items={subscriptions} var={selectedSubscription} setter={setSelectedSubscription} defaultValue='Basic Suscription'/>
+               <SelectDropdownList items={subscriptions} var={selectedSubscription} setter={setSelectedSubscription} defaultValue={formData.suscriptions[0].description}/>
                <FormControl.HelperText>
                  Choose the minimum subscription needed to access the course
                </FormControl.HelperText>
              </FormControl>
-             <FormControl>
+             <FormControl isDisabled={!editEnabled}>
                <FormControl.Label>Categories</FormControl.Label>
                <SelectMultipleGroupButton
                  group={categories}
@@ -184,8 +171,8 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
            </VStack>
          </Box>
          <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
-          <Button onPress={onSubmit}>
-             Create
+          <Button type='success' onPress={onSubmit}>
+             Confirm Changes
           </Button>
          </Box>
        </ScrollView>

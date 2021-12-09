@@ -63,3 +63,61 @@ export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken,
       console.error(error)
     })
 }
+
+export function postCategoryToUser (postCategoriesURL, tokenHeader, sessionToken, userId, categoryId, navigation) {
+  return fetch(postCategoriesURL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      userId: userId,
+      categoryId: categoryId
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert('There was an error while handling your request')
+      }
+    }
+    return response.status
+  }).catch((error) => {
+    console.error(error)
+  })
+}
+
+export function postCategoryToCourse (postCategoriesURL, tokenHeader, sessionToken, courseId, categoryId, navigation) {
+  return fetch(postCategoriesURL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      courseId: courseId,
+      categoryId: categoryId
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert('There was an error while handling your request')
+      }
+    }
+    return response.json()
+  }).catch((error) => {
+    console.error(error)
+  })
+}

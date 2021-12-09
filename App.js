@@ -21,6 +21,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
 import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
 import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
+import CreatorCourseDetailsScreen from './screens/CreatorCourseDetailsScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -105,6 +106,7 @@ const App = () => {
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
           <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetailsScreen} />
           <Stack.Screen name="CreateCourse" component={CreatorAddNewCourseScreen} options={{ title: 'Create Course' }} />
+          <Stack.Screen name="CreatorCourse" component={CreatorCourseDetailsScreen} options={{ title: 'Course details' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

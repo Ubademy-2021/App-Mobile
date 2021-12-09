@@ -15,7 +15,10 @@ import {
 } from 'native-base'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
 import session from '../session/token'
-import getResourcesFromApi from '../common/ApiCommunication'
+import {
+  getResourcesFromApi,
+  postCategoryToUser
+} from '../common/ApiCommunication'
 import { formatForCategories } from '../common/Format'
 
 const postCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/user'
@@ -32,7 +35,7 @@ export default function InterestsScreen ({ navigation, route }) {
 
   const handleSubmit = () => {
     for (let i = 0; i < selectedCateogries.length; i++) {
-      fetch(postCategoriesURL, {
+      /* fetch(postCategoriesURL, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -43,7 +46,8 @@ export default function InterestsScreen ({ navigation, route }) {
           userId: userId,
           categoryId: selectedCateogries[i]
         })
-      })
+      }) */
+      postCategoryToUser(postCategoriesURL, tokenHeader, sessionToken, userId, selectedCateogries[i], navigation)
     }
 
     setDisableHomeButton(false)
