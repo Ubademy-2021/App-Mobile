@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import { Heading } from 'native-base'
 
 export default function CourseCard (props) {
-    {/*const [subscription, setSubscription] = React.useState('None')*/}
+
     return (
         <View style={styles.card}>
             <View style={styles.cardContent}>

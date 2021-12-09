@@ -1,6 +1,6 @@
 import {Avatar, ListItem} from "react-native-elements";
 import React from 'react'
-import session from '../session/token'
+
 const CustomListItem = ({senderId, receiverId, username, enterChat}) => {
     return (
         <ListItem onPress={() => enterChat(senderId,receiverId)} bottomDivider>
