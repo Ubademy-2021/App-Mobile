@@ -56,7 +56,7 @@ function StudentHome () {
             name="Messages"
             component={ConversationScreen} options={{
           headerShown: false,
-          tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> }
+          tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
         }}/>
       </Tab.Navigator>
   )
