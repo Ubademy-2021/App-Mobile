@@ -21,6 +21,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
 import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
 import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
+import CollaboratorMyCollaborationsScreen from './screens/CollaboratorMyCollaborationsScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -68,7 +69,7 @@ function CreatorHome () {
 function CollaboratorHome () {
   return (
     <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCourses" component={StudentMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+      <Tab.Screen name="MyCollaborations" component={CollaboratorMyCollaborationsScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
       <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
     </Tab.Navigator>
   )
