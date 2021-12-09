@@ -24,7 +24,6 @@ export default function ConversationScreen ({ navigation, route }) {
     const [messages, setMessages] = useState([])
     const [conversationID,setConversationID] =useState([])
     const chatId= getChatRef(session.userData[0].id,21)
-
     console.log("Receiver id:",route.params.receiverId)
     console.log("Sender id:",route.params.senderId)
 
@@ -39,7 +38,7 @@ export default function ConversationScreen ({ navigation, route }) {
                     .docChanges()
                     .filter(({ type }) => type === 'added')
                     .map(({doc}) => {
-                        console.log("Dato:",doc.data())
+                        //console.log("Dato:",doc.data())
                         const message = doc.data()
                         return {...message, createdAt: message.createdAt.toDate()}
                     })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {StyleSheet, Text, TextInput, View, YellowBox, Button} from 'react-native'
 import session from '../session/token'
 import {ListItem, Avatar} from "react-native-elements"
@@ -14,33 +14,62 @@ const getUsersUrl = 'https://ubademy-user-service.herokuapp.com/api/users'
 const ListOfConversationsScreen = ({ navigation }) => {
     const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
     const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
-    console.log('session token:', sessionToken)
-    console.log('Header:', tokenHeader)
+    const [chats, setChats] = React.useState([])
+    //console.log('session token:', sessionToken)
+    //console.log('Header:', tokenHeader)
 
+    async function getUsersFromApi() {
+        return await fetch(getUsersUrl,
+            {headers: {[tokenHeader]: sessionToken}})
+            .then((response) => response.json())
+            .then((json) => {
+                //const [users_,setUsers_] = React.useState([])
+                const usersIds = []
+                for (const user of json){
+                    usersIds.push(user.id)
+                }
+                //setUsers_(usersIds)
+                //console.log("users idss:",users_)
+              //  console.log("Users ids:",usersIds)
+                //console.log("Users:", json[0].id)
+                return usersIds
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }
 
-    fetch(getUsersUrl,
-        {headers: {[tokenHeader]: sessionToken}})
-        .then((response) => response.json())
-        .then((json) => {
-            console.log("Users:",json)
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+    React.useEffect(() => {
+
+        async function fetchData(){
+            const users= await getUsersFromApi();
+            //console.log("users es:",users)
+            //console.log("Users aca es:",users)
+            setChats(users);
+            console.log("Chats aca es",chats)
+            //console.log("USers:",users)
+        }
+        fetchData()
+    }, [])
 
     const enterChat = (senderId,receiverId) => {
-        console.log("SENDER ID:",senderId,receiverId)
+        //console.log("SENDER ID:",senderId,receiverId)
         navigation.navigate("Conversation", { senderId: senderId, receiverId: receiverId });
     }
 
     return (
         <NativeBaseProvider>
             <ScrollView>
-                <CustomListItem
+
+                {chats.map(item => (
+                    <CustomListItem
+                        key={item}
                     senderId={52}
-                    receiverId={21}
-                enterChat = {enterChat}
-                />
+                    receiverId={item}
+                    enterChat = {enterChat}
+                    />
+                    ))}
+
             </ScrollView>
         </NativeBaseProvider>
     )
