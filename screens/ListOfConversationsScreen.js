@@ -36,6 +36,8 @@ const ListOfConversationsScreen = ({ navigation }) => {
         <NativeBaseProvider>
             <ScrollView>
                 <CustomListItem
+                    senderId={52}
+                    receiverId={21}
                 enterChat = {enterChat}
                 />
             </ScrollView>

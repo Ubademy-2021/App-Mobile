@@ -17,7 +17,8 @@ function getChatRef(userId1, userId2) {
         return userId2 + '_' + userId1;
     }
 };
-const App = () => {
+
+export default function ConversationScreen ({ navigation, params }) {
     const [user, setUser] = useState(null)
     const [name, setName] = useState(null)
     const [messages, setMessages] = useState([])
@@ -69,7 +70,7 @@ const App = () => {
     return  <GiftedChat messages={messages} user={user} onSend={handleSend}/>
 }
 
-export default App
+//export default ConversationScreen
 const styles = StyleSheet.create({
     container_: {
         flex: 1,
