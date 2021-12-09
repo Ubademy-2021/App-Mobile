@@ -15,7 +15,7 @@ import {
 } from 'native-base'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
 import session from '../session/token'
-import getResourcesFromApi from '../common/ApiCommunication'
+import { getResourcesFromApi } from '../common/ApiCommunication'
 import { formatForCategories } from '../common/Format'
 
 const postCategoriesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/categories/user'
