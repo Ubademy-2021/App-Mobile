@@ -23,7 +23,7 @@ export default function ConversationScreen ({ navigation, route }) {
     const [name, setName] = useState(null)
     const [messages, setMessages] = useState([])
     const [conversationID,setConversationID] =useState([])
-    const chatId= getChatRef(session.userData[0].id,21)
+    const chatId= getChatRef(session.userData[0].id,route.params.receiverId)
     console.log("Receiver id:",route.params.receiverId)
     console.log("Sender id:",route.params.senderId)
 
@@ -57,7 +57,7 @@ export default function ConversationScreen ({ navigation, route }) {
 
     async function readUser(){
         const _id=session.userData[0].id
-        const chatID=getChatRef(_id,21)
+        const chatID=getChatRef(_id,route.params.receiverId)
         const user_={_id,chatID}
         setUser(user_)
     }

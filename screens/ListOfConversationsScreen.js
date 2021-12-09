@@ -24,15 +24,16 @@ const ListOfConversationsScreen = ({ navigation }) => {
             .then((response) => response.json())
             .then((json) => {
                 //const [users_,setUsers_] = React.useState([])
-                const usersIds = []
+                const users__ = []
                 for (const user of json){
-                    usersIds.push(user.id)
+                    users__.push(user)
+                    console.log("Username: userId:",user.userName, user.id)
                 }
                 //setUsers_(usersIds)
                 //console.log("users idss:",users_)
               //  console.log("Users ids:",usersIds)
                 //console.log("Users:", json[0].id)
-                return usersIds
+                return users__
             })
             .catch((error) => {
                 console.error(error)
@@ -63,9 +64,10 @@ const ListOfConversationsScreen = ({ navigation }) => {
 
                 {chats.map(item => (
                     <CustomListItem
-                        key={item}
-                    senderId={52}
-                    receiverId={item}
+                        key={item.id}
+                    senderId={session.userData[0].id}
+                    receiverId={item.id}
+                        username={item.userName}
                     enterChat = {enterChat}
                     />
                     ))}

@@ -1,7 +1,7 @@
 import {Avatar, ListItem} from "react-native-elements";
 import React from 'react'
 import session from '../session/token'
-const CustomListItem = ({senderId, receiverId, enterChat}) => {
+const CustomListItem = ({senderId, receiverId, username, enterChat}) => {
     return (
         <ListItem onPress={() => enterChat(senderId,receiverId)}>
             <Avatar
@@ -10,12 +10,12 @@ const CustomListItem = ({senderId, receiverId, enterChat}) => {
             />
             <ListItem.Content>
                 <ListItem.Title style={{fontWeight: "800"}}>
-                    Usuario 2
+                    {username}
                 </ListItem.Title>
                 <ListItem.Subtitle
                     numberOfLines={1}
                     ellipsizeMode="tail">
-                    Hola, como te va?
+                    Tap to chat
                 </ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>
