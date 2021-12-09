@@ -18,6 +18,7 @@ import StudentMyCoursesScreen from './screens/StudentMyCoursesScreen'
 import SubscriptionScreen from './screens/SusbscriptionScreen'
 import SubscriptionDetailsScreen from './screens/SubscriptionDetailsScreen'
 import ConversationScreen from './screens/ConversationScreen'
+import ListOfConversationsScreen from './screens/ListOfConversationsScreen'
 import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
@@ -54,7 +55,7 @@ function StudentHome () {
         }}/>
         <Tab.Screen
             name="Messages"
-            component={ConversationScreen} options={{
+            component={ListOfConversationsScreen} options={{
           headerShown: false,
           tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
         }}/>
@@ -69,7 +70,7 @@ function CreatorHome () {
         <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
           <Tab.Screen
               name="Messages"
-              component={ConversationScreen} options={{
+              component={ListOfConversationsScreen} options={{
               headerShown: false,
               tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
           }}/>
@@ -84,7 +85,7 @@ function CollaboratorHome () {
         <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
           <Tab.Screen
               name="Messages"
-              component={ConversationScreen} options={{
+              component={ListOfConversationsScreen} options={{
               headerShown: false,
               tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
           }}/>
