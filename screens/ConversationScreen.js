@@ -18,12 +18,15 @@ function getChatRef(userId1, userId2) {
     }
 };
 
-export default function ConversationScreen ({ navigation, params }) {
+export default function ConversationScreen ({ navigation, route }) {
     const [user, setUser] = useState(null)
     const [name, setName] = useState(null)
     const [messages, setMessages] = useState([])
     const [conversationID,setConversationID] =useState([])
     const chatId= getChatRef(session.userData[0].id,21)
+
+    console.log("Receiver id:",route.params.receiverId)
+    console.log("Sender id:",route.params.senderId)
 
     useEffect(() => {
         readUser()

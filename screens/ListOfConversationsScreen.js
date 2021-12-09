@@ -28,8 +28,9 @@ const ListOfConversationsScreen = ({ navigation }) => {
             console.error(error)
         })
 
-    const enterChat = () => {
-        navigation.navigate("Conversation");
+    const enterChat = (senderId,receiverId) => {
+        console.log("SENDER ID:",senderId,receiverId)
+        navigation.navigate("Conversation", { senderId: senderId, receiverId: receiverId });
     }
 
     return (
