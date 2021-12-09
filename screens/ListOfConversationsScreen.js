@@ -1,9 +1,8 @@
-
-
-import React, {useState, useEffect, useCallback} from 'react'
+import React from 'react'
 import {StyleSheet, Text, TextInput, View, YellowBox, Button} from 'react-native'
 import session from '../session/token'
 import {ListItem, Avatar} from "react-native-elements"
+import CustomListItem from "../components/CustomListItem"
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 const getUsersUrl = 'https://ubademy-user-service.herokuapp.com/api/users'
@@ -26,12 +25,7 @@ const ListOfConversationsScreen = ({ navigation }) => {
 
 
     return (
-        <ListItem>
-            <Avatar
-                rounded
-                source={require('../assets/avatar.png')}
-                />
-        </ListItem>
+        <CustomListItem/>
     )
 }
 
