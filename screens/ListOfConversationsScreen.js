@@ -4,6 +4,11 @@ import session from '../session/token'
 import {ListItem, Avatar} from "react-native-elements"
 import CustomListItem from "../components/CustomListItem"
 
+import {
+ScrollView,
+    NativeBaseProvider
+} from 'native-base'
+
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 const getUsersUrl = 'https://ubademy-user-service.herokuapp.com/api/users'
 const ListOfConversationsScreen = ({ navigation }) => {
@@ -23,9 +28,18 @@ const ListOfConversationsScreen = ({ navigation }) => {
             console.error(error)
         })
 
+    const enterChat = () => {
+        navigation.navigate("Conversation");
+    }
 
     return (
-        <CustomListItem/>
+        <NativeBaseProvider>
+            <ScrollView>
+                <CustomListItem
+                enterChat = {enterChat}
+                />
+            </ScrollView>
+        </NativeBaseProvider>
     )
 }
 

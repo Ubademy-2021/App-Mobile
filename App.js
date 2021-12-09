@@ -123,6 +123,7 @@ const App = () => {
           <Stack.Screen name="StudentCourse" component={StudentCourseDetailsScreen} options={{ title: 'Course Details' }}/>
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
           <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetailsScreen} />
+            <Stack.Screen name="Conversation" component={ConversationScreen} />
         </Stack.Navigator>
       </NavigationContainer>
   )
