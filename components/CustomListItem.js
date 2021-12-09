@@ -3,7 +3,7 @@ import React from 'react'
 import session from '../session/token'
 const CustomListItem = ({senderId, receiverId, username, enterChat}) => {
     return (
-        <ListItem onPress={() => enterChat(senderId,receiverId)}>
+        <ListItem onPress={() => enterChat(senderId,receiverId)} bottomDivider>
             <Avatar
                 rounded
                 source={require('../assets/avatar.png')}
