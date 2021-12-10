@@ -31,8 +31,8 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
 
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
-  const postNewCourseURL = apiGatewayBaseUrl + 'courses'
-  const postCategoryToCourseURL = apiGatewayBaseUrl + 'courses/category'
+  // const postNewCourseURL = apiGatewayBaseUrl + 'courses'
+  const postNewCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
@@ -61,7 +61,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
     } else if (formData.description.length < 20) {
       setErrors({
         ...errors,
-        description: 'Description is too short'
+        description: 'Description should have at least 20 characters'
       })
       return false
     } else {
@@ -79,7 +79,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
     } else if (formData.duration[formData.duration.length - 3] !== ':' || formData.duration[formData.duration.length - 6] !== ':') {
       setErrors({
         ...errors,
-        duration: 'Invalid duration format'
+        duration: 'Duration should have HH:MM:SS format'
       })
       return false
     } else {
@@ -96,21 +96,16 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
   }
 
   React.useEffect(() => {
-    async function postCats () {
-      for (let i = 0; i < selectedCateogries.length; i++) {
-        const status = await postCategoryToCourse(postCategoryToCourseURL, tokenHeader, sessionToken, creatorId, selectedCateogries[i], navigation)
-        console.log(status)
-      }
-    }
-
     if (submittedForm) {
       setSubmittedForm(false)
       if (validate()) {
         setData({
           ...formData,
-          ownerId: creatorId
+          ownerId: creatorId,
+          suscriptionId: selectedSubscription,
+          categoryIds: selectedCateogries
         })
-        postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, navigation).then(postCats())
+        const status = postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, navigation)
       }
     }
   }, [submittedForm])

@@ -38,9 +38,12 @@ export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken,
     body: JSON.stringify({
       courseName: body.courseName,
       duration: body.duration,
-      // Supuestamnete ya el curso no tiene precio de inscripcion
+      // No deberia tener este campo,pero tampoco me toma la request si le pongo 0
       inscriptionPrice: 10,
-      ownerId: body.ownerId
+      description: body.description,
+      ownerId: body.ownerId,
+      suscriptionId: body.suscriptionId,
+      categoryIds: body.categoryIds
     })
   }).then((response) => {
     if (!response.ok) {
