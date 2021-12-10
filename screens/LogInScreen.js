@@ -37,7 +37,7 @@ export default function LogInScreen ({ navigation }) {
         if (data[0].isBlock === true) {
           window.alert('This user has been blocked')
         } else {
-          console.log('json nuevo:', data)
+          //console.log('json nuevo:', data)
           session.userData = data
           session.facebookSession = true
           // console.log(session.userData)
@@ -76,7 +76,7 @@ export default function LogInScreen ({ navigation }) {
         if (data[0].isBlock === true) {
           window.alert('This user has been blocked')
         } else {
-          console.log('json nuevo:', data)
+          //console.log('json nuevo:', data)
           session.userData = data
           session.firebaseSession = true
           // console.log(session.userData)
