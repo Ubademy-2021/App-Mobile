@@ -22,6 +22,7 @@ import ListOfConversationsScreen from './screens/ListOfConversationsScreen'
 import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
+import StudentMyFavouritesScreen from './screens/StudentMyFavouritesScreen'
 import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
 import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
 import CollaboratorMyCollaborationsScreen from './screens/CollaboratorMyCollaborationsScreen'
@@ -46,16 +47,26 @@ function StudentHome () {
               headerShown: false,
               tabBarIcon: () => { return <AntDesign name="search1" size={24} color="black" /> }
             }}/>
-        <Tab.Screen name="Suscribe" component={SubscriptionScreen} options={{
-          headerShown: false,
-          tabBarIcon: () => { return <Foundation name="sheriff-badge" size={24} color="black" /> }
-        }} />
         <Tab.Screen
-            name="Profile"
-            component={ProfileInfoScreen} options={{
-              headerShown: false,
-              tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> }
-            }}/>
+          name="MyFavourites"
+          component={StudentMyFavouritesScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: () => { return <AntDesign name="star" size={24} color="black" /> }
+          }} />
+        <Tab.Screen 
+          name="Suscribe" 
+          component={SubscriptionScreen} 
+          options={{
+            headerShown: false,
+            tabBarIcon: () => { return <Foundation name="sheriff-badge" size={24} color="black" /> }
+          }} />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileInfoScreen} options={{
+            headerShown: false,
+            tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> }
+          }}/>
         <Tab.Screen
             name="Messages"
             component={ListOfConversationsScreen} options={{

@@ -99,9 +99,6 @@ export default function StudentCourseSearchScreen ({ navigation }) {
         }
       })
       .then((json) => {
-        // setCoursesFilteredByCategory(json)
-        // setSearchResults(json)
-        // console.log(json)
         return json
       })
       .catch((error) => {
@@ -127,8 +124,6 @@ export default function StudentCourseSearchScreen ({ navigation }) {
         }
       })
       .then((json) => {
-        // setSearchResults(json)
-        // console.log(json)
         return json
       })
       .catch((error) => {
@@ -201,8 +196,6 @@ export default function StudentCourseSearchScreen ({ navigation }) {
   }
 
   const handleSubmit = async () => {
-    console.log(selectedCategory)
-    console.log(selectedSubscription)
     if (selectedCategory !== 'Any' && selectedSubscription !== 'Any') {
       setSearchResults(arrayInnerJoin(await getCoursesWithCategoryFromApi(selectedCategory), await getCoursesWithSubscriptionFromApi(selectedSubscription)))
     } else if (selectedCategory !== 'Any') {
@@ -247,7 +240,6 @@ export default function StudentCourseSearchScreen ({ navigation }) {
         </Collapse>
         <ScrollView>
           { searchResults.map(item => {
-            // console.log(item)
             return (
               <Pressable
                 key={item.id}
