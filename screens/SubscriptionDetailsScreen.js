@@ -93,8 +93,8 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
               [tokenHeader]: sessionToken
           },
       body: JSON.stringify({
-          "senderId": session.userData[0].id,
-          "suscriptionId": subscription.key
+          "suscriptionId": subscription.key,
+          "userId": session.userData[0].id
       })
       })
           .then((response) => {
