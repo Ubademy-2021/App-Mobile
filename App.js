@@ -22,6 +22,9 @@ import ListOfConversationsScreen from './screens/ListOfConversationsScreen'
 import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Foundation from 'react-native-vector-icons/Foundation'
+import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
+import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
+import CollaboratorMyCollaborationsScreen from './screens/CollaboratorMyCollaborationsScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -66,8 +69,8 @@ function StudentHome () {
 function CreatorHome () {
   return (
       <Tab.Navigator initialRouteName='Profile'>
-        <Tab.Screen name="MyCourses" component={StudentMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
-        <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
+      <Tab.Screen name="MyCourses" component={CreatorMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
           <Tab.Screen
               name="Messages"
               component={ListOfConversationsScreen} options={{
@@ -81,8 +84,8 @@ function CreatorHome () {
 function CollaboratorHome () {
   return (
       <Tab.Navigator initialRouteName='Profile'>
-        <Tab.Screen name="MyCourses" component={StudentMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
-        <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
+      <Tab.Screen name="MyCollaborations" component={CollaboratorMyCollaborationsScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
           <Tab.Screen
               name="Messages"
               component={ListOfConversationsScreen} options={{
@@ -90,6 +93,10 @@ function CollaboratorHome () {
               tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
           }}/>
       </Tab.Navigator>
+    <Tab.Navigator initialRouteName='Profile'>
+      <Tab.Screen name="MyCollaborations" component={CollaboratorMyCollaborationsScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
+    </Tab.Navigator>
   )
 }
 
@@ -123,7 +130,8 @@ const App = () => {
           <Stack.Screen name="StudentCourse" component={StudentCourseDetailsScreen} options={{ title: 'Course Details' }}/>
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
           <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetailsScreen} />
-            <Stack.Screen name="Conversation" component={ConversationScreen} />
+          <Stack.Screen name="Conversation" component={ConversationScreen} />
+          <Stack.Screen name="CreateCourse" component={CreatorAddNewCourseScreen} options={{ title: 'Create Course' }} />
         </Stack.Navigator>
       </NavigationContainer>
   )
