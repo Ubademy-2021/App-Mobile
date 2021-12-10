@@ -52,11 +52,11 @@ function StudentHome () {
           component={StudentMyFavouritesScreen}
           options={{
             headerShown: false,
-            tabBarIcon: () => { return <AntDesign name="star" size={24} color="black" /> }
+            tabBarIcon: () => { return <AntDesign name="staro" size={24} color="black" /> }
           }} />
-        <Tab.Screen 
-          name="Suscribe" 
-          component={SubscriptionScreen} 
+        <Tab.Screen
+          name="Suscribe"
+          component={SubscriptionScreen}
           options={{
             headerShown: false,
             tabBarIcon: () => { return <Foundation name="sheriff-badge" size={24} color="black" /> }
