@@ -45,6 +45,20 @@ You must replace constructor and componentDidMount functions and replace compone
     return null;
   }
  ```
+
+WARNING: Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android as it keeps the timer module awake, and timers can only be called when the app is in the foreground.
+
+Fix:
+To fix this issue...
+
+    Navigate to your node_modules/react-native/Libraries/Core/Timers/JSTimers.js file.
+
+    Look for the variable MAX_TIMER_DURATION_MS
+
+    Change its value to 10000 * 1000
+
+    Save the changes (with auto format turned off) and re-build your app.
+
 ## Details
 
 ### Installation of Native Base library:
