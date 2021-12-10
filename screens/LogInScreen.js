@@ -25,28 +25,31 @@ export default function LogInScreen ({ navigation }) {
   const [password, setPassword] = React.useState()
   // TODO add notification behaviour
   const [loginError, setLoginError] = React.useState('')
-    session.firebaseSession=false
-    session.facebookSession=false
+  session.firebaseSession = false
+  session.facebookSession = false
   // asd
-  const getLogInFacebook = () => {
-    // console.log(session.token)
-    return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
+  const getLogInFacebook = async () => {
+    const response = await fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
       { headers: { facebook_authentication: session.facebookToken } })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json[0].isBlock === true) {
+    console.log('Response status:', response.status)
+    if (response.status === 200) {
+      response.json().then(data => {
+        if (data[0].isBlock === true) {
           window.alert('This user has been blocked')
         } else {
-            session.facebookSession=true;
-          session.userData = json
+          //console.log('json nuevo:', data)
+          session.userData = data
+          session.facebookSession = true
+          // console.log(session.userData)
           navigation.navigate('ProfileSelection')
         }
       })
-      .catch((error) => {
-        /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
-        window.alert('Invalid user')
-        console.error(error)
-      })
+    } else {
+      if (response.status === 409) {
+        window.alert('This is user has been blocked')
+      }
+      window.alert('Invalid user')
+    }
   }
 
   const onLogin = async (email, password) => {
@@ -64,26 +67,28 @@ export default function LogInScreen ({ navigation }) {
     }
   }
 
-  const getLogIn = () => {
-    return fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
+  const getLogIn = async () => {
+    const response = await fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
       { headers: { firebase_authentication: session.token } })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json[0].isBlock === true) {
+    console.log('Response status:', response.status)
+    if (response.status === 200) {
+      response.json().then(data => {
+        if (data[0].isBlock === true) {
           window.alert('This user has been blocked')
         } else {
-          console.log('json nuevo:', json)
-          session.userData = json
-            session.firebaseSession=true;
+          //console.log('json nuevo:', data)
+          session.userData = data
+          session.firebaseSession = true
           // console.log(session.userData)
           navigation.navigate('ProfileSelection')
         }
       })
-      .catch((error) => {
-        /* NO SE PUDO LOGGEAR, MOSTRAR MENSAJE */
-        window.alert('Invalid user')
-        console.error(error)
-      })
+    } else {
+      if (response.status === 409) {
+        window.alert('This is user has been blocked')
+      }
+      window.alert('Invalid user')
+    }
   }
 
   const onLoginWithFacebookPress = async () => {

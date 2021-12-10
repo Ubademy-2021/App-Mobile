@@ -8,7 +8,7 @@ import EnrrollAndUnenrrollButtonWithConfirmation from '../components/EnrrollAndU
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-export default function StudentCourseDetailsScreen ({ route }) {
+export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const { course } = route.params
   const studentId = session.userData[0].id
 
@@ -34,7 +34,16 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const getStudentCoursesIds = () => {
     return fetch(getStudentCoursesURL + studentId,
       { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 403) {
+          window.alert('Session expired')
+          session.facebookSession = false
+          session.firebaseSession = false
+          navigation.navigate('Login')
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         const localCourseIds = []
         for (let i = 0; i < json.length; i++) {
@@ -51,7 +60,16 @@ export default function StudentCourseDetailsScreen ({ route }) {
   const getStudentFavCourses = () => {
     return fetch(favsURL + '/' + studentId,
       { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 403) {
+          window.alert('Session expired')
+          session.facebookSession = false
+          session.firebaseSession = false
+          navigation.navigate('Login')
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         const localCourseIds = []
         for (let i = 0; i < json.length; i++) {
@@ -100,7 +118,16 @@ export default function StudentCourseDetailsScreen ({ route }) {
         userId: studentId,
         courseId: course.id
       })
-    }).then((response) => response.json())
+    }).then((response) => {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        return response.json()
+      }
+    })
       .then((json) => {
         setSuccessfulInscription(true)
         setAlreadyEnrolled(true)
@@ -123,7 +150,16 @@ export default function StudentCourseDetailsScreen ({ route }) {
         userId: studentId,
         courseId: course.id
       })
-    }).then((response) => response.json())
+    }).then((response) => {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        return response.json()
+      }
+    })
       .then((json) => {
         setSuccessfulUnenrrollment(true)
         setAlreadyEnrolled(false)
@@ -147,7 +183,16 @@ export default function StudentCourseDetailsScreen ({ route }) {
           userId: studentId,
           courseId: course.id
         })
-      }).then((response) => response.json())
+      }).then((response) => {
+        if (response.status === 403) {
+          window.alert('Session expired')
+          session.facebookSession = false
+          session.firebaseSession = false
+          navigation.navigate('Login')
+        } else {
+          return response.json()
+        }
+      })
         .then((json) => {
           setAddedToFavs(!addedToFavs)
         })

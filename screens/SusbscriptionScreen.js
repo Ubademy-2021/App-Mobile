@@ -22,7 +22,7 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 const SubscriptionScreen = ({ navigation }) => {
   const [subscriptions, setSubscriptions] = React.useState([])
   const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
-  const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
+  //const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
   const userSubscriptionURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/suscriptions/inscription/'
   const localSub = []
   const [subscriptionDesc, setSubscriptionDesc] = React.useState([])
@@ -31,10 +31,10 @@ const SubscriptionScreen = ({ navigation }) => {
   let subsDet
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
-  console.log('session token:', sessionToken)
-  console.log('Header:', tokenHeader)
+  // console.log('session token:', sessionToken)
+  // console.log('Header:', tokenHeader)
 
-  fetch(userSubscriptionURL + '1', { headers: { [tokenHeader]: sessionToken } })
+  fetch(userSubscriptionURL + studentId, { headers: { [tokenHeader]: sessionToken } })
     .then((response) => response.json())
     .then((json) => {
       subscriptionDetails.description = json.description
@@ -48,9 +48,24 @@ const SubscriptionScreen = ({ navigation }) => {
 
   const getStudentCourses = () => {
     return fetch(getSuscriptionsURL, { headers: { [tokenHeader]: sessionToken } })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 403) {
+            window.alert('Session expired')
+            session.facebookSession = false
+            session.firebaseSession = false
+            navigation.navigate('Login')
+          } else {
+            window.alert('There was an error while handling your request')
+          }
+        } else {
+          return response.json()
+        }
+      })
       .then((json) => {
         for (let i = 0; i < json.length; i++) {
+          console.log('Currently in subs:', subscriptionDetails.id)
+          console.log('Subscription iterating:', json[i])
           if (json[i].id === subscriptionDetails.id) {
             continue
           }
@@ -62,29 +77,8 @@ const SubscriptionScreen = ({ navigation }) => {
         console.error(error)
       })
   }
-  /*
-    const getUserSubscription = () => {
-
-        // TODO: No hardcodear este fetch
-        return fetch(userSubscriptionURL+'1')
-            .then((response) => response.json())
-            .then((json) => {
-                console.log("URL de suscricpion:",userSubscriptionURL+studentId);
-                console.log("Student id:",studentId);
-                console.log("Suscripcion:",json);
-
-                subscriptionDetails.description=json.description;
-                console.log("Description aca es:",json.description);
-                subscriptionDetails.id=json.id;
-                subsDet=JSON.stringify(json.description);
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    } */
 
   function renderCurrentSubs () {
-    // await getUserSubscription();
     console.log('SUBS DET ES:', subsDet)
     return (
             <View>
@@ -102,9 +96,12 @@ const SubscriptionScreen = ({ navigation }) => {
       <NativeBaseProvider>
         <View>
             <ScrollView>
-                <Heading fontSize="lg">Current subscription:</Heading>
-                <Heading fontSize="lg">{JSON.stringify(subscriptionDesc)}</Heading>
-                <Heading fontSize="lg">Change subscription:</Heading>
+                <Center>
+                    <Heading fontSize="lg">Current subscription:</Heading>
+                    <Heading fontSize="lg">{JSON.stringify(subscriptionDesc).replace(/[^a-zA-Z 0-9]+/g, '')}</Heading>
+                    <Text numberOfLines={1}></Text>
+                    <Heading fontSize="lg">Change subscription:</Heading>
+                </Center>
                 { subscriptions.map(item => {
                   return (
                             <Pressable
