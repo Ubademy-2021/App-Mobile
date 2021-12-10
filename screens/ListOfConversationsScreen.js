@@ -26,6 +26,9 @@ const ListOfConversationsScreen = ({ navigation }) => {
                 //const [users_,setUsers_] = React.useState([])
                 const users__ = []
                 for (const user of json){
+                    if(user.id === session.userData[0].id){
+                        continue
+                    }
                     users__.push(user)
                     //console.log("Username: userId:",user.userName, user.id)
                 }
