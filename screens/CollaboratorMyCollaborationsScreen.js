@@ -1,7 +1,6 @@
 import React from 'react'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import { Box, Center, Collapse, Heading, ScrollView } from 'native-base'
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import CourseCard from '../components/CourseCard'
 import session from '../session/token'
 import { useIsFocused } from '@react-navigation/native'
@@ -16,7 +15,7 @@ export default function CollaboratorMyCollaborationsScreen ({ navigation }) {
   const [collaboratorHasCourses, setCollaboratorHasCourses] = React.useState(searchResults.length > 0)
   const collaboratorId = session.userData[0].id
 
-  const getCollaboratorCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/' + 'courses?collaborator_id='
+  const getCollaboratorCoursesURL = apiGatewayBaseUrl + 'courses?collaborator_id='
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken

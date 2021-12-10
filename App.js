@@ -53,15 +53,15 @@ function StudentHome () {
         <Tab.Screen
             name="Profile"
             component={ProfileInfoScreen} options={{
-          headerShown: false,
-          tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> }
-        }}/>
+              headerShown: false,
+              tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> }
+            }}/>
         <Tab.Screen
             name="Messages"
             component={ListOfConversationsScreen} options={{
-          headerShown: false,
-          tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
-        }}/>
+              headerShown: false,
+              tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
+            }}/>
       </Tab.Navigator>
   )
 }
@@ -71,12 +71,12 @@ function CreatorHome () {
       <Tab.Navigator initialRouteName='Profile'>
       <Tab.Screen name="MyCourses" component={CreatorMyCoursesScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
       <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
-          <Tab.Screen
-              name="Messages"
-              component={ListOfConversationsScreen} options={{
-              headerShown: false,
-              tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
-          }}/>
+      <Tab.Screen
+        name="Messages"
+        component={ListOfConversationsScreen} options={{
+          headerShown: false,
+          tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
+        }}/>
       </Tab.Navigator>
   )
 }
@@ -89,9 +89,9 @@ function CollaboratorHome () {
           <Tab.Screen
               name="Messages"
               component={ListOfConversationsScreen} options={{
-              headerShown: false,
-              tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
-          }}/>
+                headerShown: false,
+                tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
+              }}/>
       </Tab.Navigator>
   )
 }
@@ -149,7 +149,6 @@ import {GiftedChat} from 'react-native-gifted-chat'
 
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
-
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -231,4 +230,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderColor: 'gray',
   },
-})*/
+}) */
