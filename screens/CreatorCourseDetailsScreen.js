@@ -1,11 +1,12 @@
 import React from 'react'
 import session from '../session/token'
-import { Box, Button, FormControl, Input, ScrollView, TextArea, VStack } from 'native-base'
+import { Box, Button, FormControl, Heading, HStack, Input, ScrollView, Text, TextArea, VStack } from 'native-base'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import SelectDropdownList from '../components/SelectDropdownList'
 import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
 import { getResourcesFromApi } from '../common/ApiCommunication'
 import { formatForCategories, formatForSubscriptions } from '../common/Format'
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -21,14 +22,14 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
   const [categories, setCategories] = React.useState([])
   const [selectedCateogries, setSelectedCategories] = React.useState([])
+  const [students, setStudents] = React.useState([])
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
-
-  console.log(formData)
+  const getCourseStudentsURL = apiGatewayBaseUrl + 'courses/students/'
 
   const onSubmit = () => {
     setSubmittedForm(true)
@@ -103,8 +104,10 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
     async function fetchData () {
       const subs = await getResourcesFromApi(getSubscriptionsURL, tokenHeader, sessionToken, navigation)
       const cats = await getResourcesFromApi(getCategoriesURL, tokenHeader, sessionToken, navigation)
+      const students = await getResourcesFromApi(getCourseStudentsURL + course.id, tokenHeader, sessionToken, navigation)
       setSubscriptions(formatForSubscriptions(subs))
       setCategories(formatForCategories(cats))
+      setStudents(students)
     }
 
     fetchData()
@@ -169,11 +172,38 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                </FormControl.HelperText>
              </FormControl>
            </VStack>
-         </Box>
-         <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
           <Button type='success' onPress={onSubmit}>
              Confirm Changes
           </Button>
+         </Box>
+         <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
+           <Heading>Students</Heading>
+            <ScrollView>
+              <VStack space={4} alignItems="center">
+                { students.map(item => {
+                  return (
+                  <Pressable
+                    key={item.id}
+                    onPress={() => {
+                      console.log('click en usuario')
+                    }}
+                  >
+                    {({ isHovered }) => {
+                      return (
+                        <Box
+                          bg={isHovered ? 'cyan.800' : 'transparent'}
+                          p="5"
+                          rounded="8"
+                        >
+                          <Text fontSize="sm">{item.name + ' ' + item.surname}</Text>
+                        </Box>
+                      )
+                    }}
+                  </Pressable>
+                  )
+                }) }
+              </VStack>
+          </ScrollView>
          </Box>
        </ScrollView>
      </NativeBaseProvider>
