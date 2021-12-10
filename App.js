@@ -84,8 +84,8 @@ function CreatorHome () {
 function CollaboratorHome () {
   return (
       <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCollaborations" component={CollaboratorMyCollaborationsScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
-      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
+          <Tab.Screen name="MyCollaborations" component={CollaboratorMyCollaborationsScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
+          <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
           <Tab.Screen
               name="Messages"
               component={ListOfConversationsScreen} options={{
@@ -93,10 +93,6 @@ function CollaboratorHome () {
               tabBarIcon: () => { return <AntDesign name="message1" size={24} color="black" /> }
           }}/>
       </Tab.Navigator>
-    <Tab.Navigator initialRouteName='Profile'>
-      <Tab.Screen name="MyCollaborations" component={CollaboratorMyCollaborationsScreen} options={{ headerShown: false, tabBarIcon: () => { return <MaterialIcons name="class" size={24} color="black" /> } }} />
-      <Tab.Screen name="Profile" component={ProfileInfoScreen} options={{ headerShown: false, tabBarIcon: () => { return <AntDesign name="user" size={24} color="black" /> } }}/>
-    </Tab.Navigator>
   )
 }
 
