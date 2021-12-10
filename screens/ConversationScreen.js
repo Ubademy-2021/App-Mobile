@@ -24,8 +24,8 @@ export default function ConversationScreen ({ navigation, route }) {
     const [messages, setMessages] = useState([])
     const [conversationID,setConversationID] =useState([])
     const chatId= getChatRef(session.userData[0].id,route.params.receiverId)
-    console.log("Receiver id:",route.params.receiverId)
-    console.log("Sender id:",route.params.senderId)
+    //console.log("Receiver id:",route.params.receiverId)
+    //console.log("Sender id:",route.params.senderId)
 
     useEffect(() => {
         readUser()

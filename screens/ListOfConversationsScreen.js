@@ -27,7 +27,7 @@ const ListOfConversationsScreen = ({ navigation }) => {
                 const users__ = []
                 for (const user of json){
                     users__.push(user)
-                    console.log("Username: userId:",user.userName, user.id)
+                    //console.log("Username: userId:",user.userName, user.id)
                 }
                 //setUsers_(usersIds)
                 //console.log("users idss:",users_)
@@ -47,7 +47,7 @@ const ListOfConversationsScreen = ({ navigation }) => {
             //console.log("users es:",users)
             //console.log("Users aca es:",users)
             setChats(users);
-            console.log("Chats aca es",chats)
+            //console.log("Chats aca es",chats)
             //console.log("USers:",users)
         }
         fetchData()
