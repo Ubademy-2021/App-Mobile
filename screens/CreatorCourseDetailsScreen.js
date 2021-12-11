@@ -16,10 +16,10 @@ import {
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import SelectDropdownList from '../components/SelectDropdownList'
 import {
-  getResourcesFromApi,
+  getResourcesFromApi, postNewCollaborator,
   putCourseToApi
 } from '../common/ApiCommunication'
-import { formatForCategories, formatForSubscriptions } from '../common/Format'
+import { formatForCategories, formatForCollaborations, formatForSubscriptions } from '../common/Format'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
@@ -35,16 +35,21 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
   const [categories, setCategories] = React.useState([])
   const [students, setStudents] = React.useState([])
+  const [collaborators, setCollaborators] = React.useState([])
   const [editEnabled, setEditEnabled] = React.useState(false)
+  const [addCollaborator, setAddCollaborator] = React.useState(false)
+  const [newCollaboratorId, setNewCollaboratorId] = React.useState([])
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
-  // const getCourseStudentsURL = apiGatewayBaseUrl + 'courses/students/'
-  const getCourseStudentsURL = 'https://course-service-ubademy.herokuapp.com/api/courses/students/'
+  const getCourseStudentsURL = apiGatewayBaseUrl + 'courses/students/'
+  const getCollaboratorsURL = apiGatewayBaseUrl + 'collaborators/'
+  // const getCourseStudentsURL = 'https://course-service-ubademy.herokuapp.com/api/courses/students/'
   // const putCourseURL = apiGatewayBaseUrl + 'courses/' + course.id
   const putCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses/' + course.id
+  const postNewCollaboratorURL = apiGatewayBaseUrl + 'collaborators'
 
   const validate = () => {
     if (formData.courseName === undefined || formData.courseName.length === 0) {
@@ -98,6 +103,16 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
     return true
   }
 
+  const addNewCollaborator = async () => {
+    const status = await postNewCollaborator(postNewCollaboratorURL, tokenHeader, sessionToken, course.id, newCollaboratorId, navigation)
+    console.log(status)
+    if (status === 201) {
+      const collabs = await getResourcesFromApi(getCollaboratorsURL + course.id, tokenHeader, sessionToken, navigation)
+      setCollaborators(formatForCollaborations(collabs))
+      setAddCollaborator(false)
+    }
+  }
+
   const onSubmit = () => {
     setSubmittedForm(true)
   }
@@ -117,10 +132,11 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
       const subs = await getResourcesFromApi(getSubscriptionsURL, tokenHeader, sessionToken, navigation)
       const cats = await getResourcesFromApi(getCategoriesURL, tokenHeader, sessionToken, navigation)
       const students = await getResourcesFromApi(getCourseStudentsURL + course.id, tokenHeader, sessionToken, navigation)
+      const collabs = await getResourcesFromApi(getCollaboratorsURL + course.id, tokenHeader, sessionToken, navigation)
       setSubscriptions(formatForSubscriptions(subs))
       setCategories(formatForCategories(cats))
       setStudents(students)
-      console.log(students)
+      setCollaborators(formatForCollaborations(collabs))
     }
 
     fetchData()
@@ -247,7 +263,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                           color="coolGray.800"
                           bold
                         >
-                          {item.name ? item.name + ' ' + item.surname : item.userName}
+                          {item.name !== 'null' ? item.name + ' ' + item.surname : item.userName}
                         </Text>
                         <Spacer />
                         <Text
@@ -265,7 +281,79 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                   )
                 }) }
               </VStack>
-          </ScrollView>
+           </ScrollView>
+           <HStack>
+             <Heading>Collaborators</Heading>
+             <Spacer />
+             <IconButton
+               key='outline'
+               size='sm'
+               variant='outline'
+               _icon={{
+                 as: AntDesign,
+                 name: 'plus'
+               }}
+               onPress={() => {
+                 setAddCollaborator(!addCollaborator)
+               }}
+             />
+           </HStack>
+           <Collapse isOpen={addCollaborator}>
+             <FormControl isRequired isInvalid={'newCollaborator' in errors}>
+               <FormControl.Label>User Id</FormControl.Label>
+               <Input
+                 placeholder="1"
+                 onChangeText={(value) => setNewCollaboratorId(value)}
+                 defaultValue='0'
+                 keyboardType='numeric'
+               />
+               <FormControl.ErrorMessage>{errors.newCollaborator}</FormControl.ErrorMessage>
+             </FormControl>
+             <Button onPress={() => { addNewCollaborator() }}>Add Collaborator</Button>
+           </Collapse>
+           <ScrollView>
+             <VStack space={4} >
+               { collaborators.map(item => {
+                 return (
+                   <Pressable
+                     key={item.id}
+                     onPress={() => {
+                       console.log('click en colaborador')
+                     }}
+                   >
+                     <Box
+                       safeArea flex={1} p="3" w="90%"
+                       bg='transparent'
+                       borderColor="gray.900"
+                       rounded="4"
+                     >
+                       <HStack space={3} justifyContent="space-between">
+                         <Text
+                           _dark={{
+                             color: 'warmGray.50'
+                           }}
+                           color="coolGray.800"
+                           bold
+                         >
+                           {item.name !== 'null' ? item.name + ' ' + item.surname : item.userName}
+                         </Text>
+                         <Spacer />
+                         <Text
+                           _dark={{
+                             color: 'warmGray.50'
+                           }}
+                           color="coolGray.800"
+                           alignSelf="flex-start"
+                         >
+                           User Id: {item.id}
+                         </Text>
+                       </HStack>
+                     </Box>
+                   </Pressable>
+                 )
+               }) }
+             </VStack>
+           </ScrollView>
          </Box>
        </ScrollView>
      </NativeBaseProvider>

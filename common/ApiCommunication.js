@@ -28,7 +28,6 @@ export function getResourcesFromApi (endpoint, tokenHeader, sessionToken, naviga
 }
 
 export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken, body, ownerId, suscriptionId, categoryIds, navigation) {
-  console.log(suscriptionId)
   return fetch(postNewCourseURL, {
     method: 'POST',
     headers: {
@@ -161,4 +160,39 @@ export function postCategoryToCourse (postCategoriesURL, tokenHeader, sessionTok
   }).catch((error) => {
     console.error(error)
   })
+}
+
+export function postNewCollaborator (postNewCollaboratorURL, tokenHeader, sessionToken, courseId, userId, navigation) {
+  return fetch(postNewCollaboratorURL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      courseId: courseId,
+      userId: userId
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else if (response.status === 400) {
+        window.alert('User does not exist')
+      } else {
+        window.alert('There was an error while handling your request')
+      }
+    } else {
+      window.alert('Collaborator added successfully')
+    }
+
+    return response.status
+  })
+    .catch((error) => {
+      console.error(error)
+    })
 }
