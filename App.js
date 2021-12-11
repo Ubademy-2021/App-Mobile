@@ -25,6 +25,7 @@ import Foundation from 'react-native-vector-icons/Foundation'
 import StudentMyFavouritesScreen from './screens/StudentMyFavouritesScreen'
 import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
 import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
+import CreatorCourseDetailsScreen from './screens/CreatorCourseDetailsScreen'
 import CollaboratorMyCollaborationsScreen from './screens/CollaboratorMyCollaborationsScreen'
 
 const Stack = createNativeStackNavigator()
@@ -139,8 +140,9 @@ const App = () => {
           <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetailsScreen} />
           <Stack.Screen name="Conversation" component={ConversationScreen} />
           <Stack.Screen name="CreateCourse" component={CreatorAddNewCourseScreen} options={{ title: 'Create Course' }} />
-        </Stack.Navigator>
-      </NavigationContainer>
+          <Stack.Screen name="CreatorCourse" component={CreatorCourseDetailsScreen} options={{ title: 'Course details' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 

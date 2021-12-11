@@ -17,7 +17,8 @@ export default function CreatorMyCoursesScreen ({ navigation }) {
   const [creatorHasCourses, setCreatorHasCourses] = React.useState(searchResults.length > 0)
   const creatorId = session.userData[0].id
 
-  const getCreatorCoursesURL = apiGatewayBaseUrl + 'courses?owner_id='
+  // const getCreatorCoursesURL = apiGatewayBaseUrl + 'courses?owner_id='
+  const getCreatorCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?owner_id='
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken

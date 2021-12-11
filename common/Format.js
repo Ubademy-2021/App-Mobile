@@ -15,3 +15,11 @@ export function formatForCategories (list) {
   }
   return localList
 }
+
+export function formatForCollaborations (array) {
+  const aux = []
+  for (let i = 1; i < array.length; i++) {
+    aux.push(array[i])
+  }
+  return aux
+}
