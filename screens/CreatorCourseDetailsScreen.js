@@ -2,8 +2,8 @@ import React from 'react'
 import session from '../session/token'
 import {
   Box,
-  Button, Center,
-  Collapse, FlatList,
+  Button,
+  Collapse,
   FormControl,
   Heading,
   HStack, IconButton,
@@ -15,8 +15,10 @@ import {
 } from 'native-base'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import SelectDropdownList from '../components/SelectDropdownList'
-import SelectMultipleGroupButton from 'react-native-selectmultiple-button/libraries/SelectMultipleGroupButton'
-import { getResourcesFromApi, postCategoryToCourse, postNewCourseToApi } from '../common/ApiCommunication'
+import {
+  getResourcesFromApi,
+  putCourseToApi
+} from '../common/ApiCommunication'
 import { formatForCategories, formatForSubscriptions } from '../common/Format'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -25,8 +27,6 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 
 export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const { course } = route.params
-  console.log(course)
-  const creatorId = session.userData[0].id
 
   const [formData, setData] = React.useState(course)
   const [errors, setErrors] = React.useState({})
@@ -34,18 +34,17 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const [subscriptions, setSubscriptions] = React.useState([])
   const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
   const [categories, setCategories] = React.useState([])
-  const [selectedCateogries, setSelectedCategories] = React.useState([])
   const [students, setStudents] = React.useState([])
   const [editEnabled, setEditEnabled] = React.useState(false)
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
-
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
-  const getCourseStudentsURL = apiGatewayBaseUrl + 'courses/students/'
-  const postNewCourseURL = apiGatewayBaseUrl + 'courses'
-  const postCategoryToCourseURL = apiGatewayBaseUrl + 'courses/category'
+  // const getCourseStudentsURL = apiGatewayBaseUrl + 'courses/students/'
+  const getCourseStudentsURL = 'https://course-service-ubademy.herokuapp.com/api/courses/students/'
+  // const putCourseURL = apiGatewayBaseUrl + 'courses/' + course.id
+  const putCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses/' + course.id
 
   const validate = () => {
     if (formData.courseName === undefined || formData.courseName.length === 0) {
@@ -104,21 +103,10 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   }
 
   React.useEffect(() => {
-    async function postCats () {
-      for (let i = 0; i < selectedCateogries.length; i++) {
-        const status = await postCategoryToCourse(postCategoryToCourseURL, tokenHeader, sessionToken, creatorId, selectedCateogries[i], navigation)
-        console.log(status)
-      }
-    }
-
     if (submittedForm) {
       setSubmittedForm(false)
       if (validate()) {
-        setData({
-          ...formData,
-          ownerId: creatorId
-        })
-        postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, navigation).then(postCats())
+        putCourseToApi(putCourseURL, tokenHeader, sessionToken, formData, selectedSubscription, navigation)
         setEditEnabled(false)
       }
     }
@@ -132,6 +120,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
       setSubscriptions(formatForSubscriptions(subs))
       setCategories(formatForCategories(cats))
       setStudents(students)
+      console.log(students)
     }
 
     fetchData()
@@ -190,19 +179,25 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                <FormControl.Label>Subscription</FormControl.Label>
                <SelectDropdownList items={subscriptions} var={selectedSubscription} setter={setSelectedSubscription} defaultValue={formData.suscriptions[0].description}/>
              </FormControl>
+             <Collapse isOpen={editEnabled}>
+               <Button type='success' onPress={onSubmit}>
+                 Confirm Changes
+               </Button>
+             </Collapse>
              <FormControl>
                <FormControl.Label>Categories</FormControl.Label>
-               <Collapse isOpen={editEnabled}>
+               {/* <Collapse isOpen={editEnabled}>
                  <SelectMultipleGroupButton
                    group={categories}
                    onSelectedValuesChange={(values) => setSelectedCategories(values)}
                  />
-               </Collapse>
-               <Collapse isOpen={!editEnabled}>
+               </Collapse> */}
+               {/* <Collapse isOpen={!editEnabled}> */}
                  <VStack space={4} alignItems="center">
                    { course.categories.map(item => {
                      return (
                        <Box
+                         key={item.id}
                          flex={1} p="1" w="90%"
                          bg='transparent'
                          rounded="4"
@@ -222,19 +217,14 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                      )
                    }) }
                  </VStack>
-               </Collapse>
+               {/* </Collapse> */}
              </FormControl>
            </VStack>
-           <Collapse isOpen={editEnabled}>
-             <Button type='success' onPress={onSubmit}>
-               Confirm Changes
-             </Button>
-           </Collapse>
          </Box>
          <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
            <Heading>Students</Heading>
            <ScrollView>
-              <VStack space={4} alignItems="center">
+              <VStack space={4} >
                 { students.map(item => {
                   return (
                   <Pressable
@@ -245,7 +235,8 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                   >
                     <Box
                       safeArea flex={1} p="3" w="90%"
-                      bg='grey'
+                      bg='transparent'
+                      borderColor="gray.900"
                       rounded="4"
                     >
                       <HStack space={3} justifyContent="space-between">

@@ -27,7 +27,8 @@ export function getResourcesFromApi (endpoint, tokenHeader, sessionToken, naviga
     })
 }
 
-export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken, body, navigation) {
+export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken, body, ownerId, suscriptionId, categoryIds, navigation) {
+  console.log(suscriptionId)
   return fetch(postNewCourseURL, {
     method: 'POST',
     headers: {
@@ -41,9 +42,9 @@ export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken,
       // No deberia tener este campo,pero tampoco me toma la request si le pongo 0
       inscriptionPrice: 10,
       description: body.description,
-      ownerId: body.ownerId,
-      suscriptionId: body.suscriptionId,
-      categoryIds: body.categoryIds
+      ownerId: ownerId,
+      suscriptionId: suscriptionId,
+      categoryIds: categoryIds
     })
   }).then((response) => {
     if (!response.ok) {
@@ -60,7 +61,44 @@ export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken,
       navigation.navigate('MyCourses')
     }
 
-    return response.status
+    return response.json()
+  })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function putCourseToApi (putCourseURL, tokenHeader, sessionToken, body, suscriptionId, navigation) {
+  return fetch(putCourseURL, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      courseName: body.courseName,
+      duration: body.duration,
+      // No deberia tener este campo,pero tampoco me toma la request si le pongo 0
+      inscriptionPrice: 10,
+      description: body.description,
+      suscriptionId: suscriptionId
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert('There was an error while handling your request')
+      }
+    } else {
+      window.alert('Course updated successfully')
+    }
+
+    return response.json()
   })
     .catch((error) => {
       console.error(error)
