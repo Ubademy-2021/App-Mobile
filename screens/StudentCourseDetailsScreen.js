@@ -119,18 +119,25 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
         courseId: course.id
       })
     }).then((response) => {
-      if (response.status === 403) {
-        window.alert('Session expired')
-        session.facebookSession = false
-        session.firebaseSession = false
-        navigation.navigate('Login')
-      } else {
-        return response.json()
+      if (!response.ok) {
+        if (response.status === 403) {
+          window.alert('Session expired')
+          session.facebookSession = false
+          session.firebaseSession = false
+          navigation.navigate('Login')
+        } else if (response.status === 400) {
+          window.alert('Inscription not allowed because of suscription level')
+        } else {
+          window.alert('There was an error while handling your request')
+        }
       }
+      return response.status
     })
-      .then((json) => {
-        setSuccessfulInscription(true)
-        setAlreadyEnrolled(true)
+      .then((status) => {
+        if (status === 201) {
+          setSuccessfulInscription(true)
+          setAlreadyEnrolled(true)
+        }
       })
       .catch((error) => {
         console.error(error)

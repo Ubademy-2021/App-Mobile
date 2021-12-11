@@ -25,7 +25,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
   const [confirmation, setConfirmation] = React.useState(false)
-    //const []
+  // const []
   const getSuscriptionsCourses = () => {
     return fetch(suscriptionCoursesURL + subscription.key,
       { headers: { [tokenHeader]: sessionToken } })
@@ -79,38 +79,37 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
 
   }
 
-
-
   const onConfirm_ = () => {
-      console.log("user id es:",session.userData[0].id)
-      console.log("subs id es:",subscription.key)
-      fetch("https://course-service-ubademy.herokuapp.com/api/suscriptions/inscription", {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              [tokenHeader]: sessionToken
-          },
+    console.log('user id es:', session.userData[0].id)
+    console.log('subs id es:', subscription.key)
+    fetch('https://course-service-ubademy.herokuapp.com/api/suscriptions/inscription', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        [tokenHeader]: sessionToken
+      },
       body: JSON.stringify({
-          "suscriptionId": subscription.key,
-          "userId": session.userData[0].id
+        suscriptionId: subscription.key,
+        userId: session.userData[0].id
       })
+    })
+      .then((response) => {
+        if (!response.ok) {
+          window.alert("You don't have enough keth")
+          console.log('Status:', response.status)
+        } else {
+          console.log('POST OK')
+          window.alert('Payment successful')
+        }
       })
-          .then((response) => {
-              if (!response.ok) {
-                  window.alert("You don't have enough keth")
-                  console.log("Status:",response.status)
-              } else {
-                  console.log("POST OK");
-              }
-          })
-          .then((json) => {
-              console.log("json:",json)
-          })
-          .catch((error) => {
-              console.error(error)
-          })
+      .then((json) => {
+        console.log('json:', json)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   return (

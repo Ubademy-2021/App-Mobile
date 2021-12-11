@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, View, StyleSheet, Platform } from 'react-native'
+import { View } from 'react-native'
 import SubscriptionCard from '../components/SubscriptionCard'
 
 import {
@@ -16,13 +16,14 @@ import {
 } from 'native-base'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import session from '../session/token'
+import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
 const SubscriptionScreen = ({ navigation }) => {
   const [subscriptions, setSubscriptions] = React.useState([])
   const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
-  //const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
+  // const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
   const userSubscriptionURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/suscriptions/inscription/'
   const localSub = []
   const [subscriptionDesc, setSubscriptionDesc] = React.useState([])
@@ -46,7 +47,7 @@ const SubscriptionScreen = ({ navigation }) => {
       console.error(error)
     })
 
-  const getStudentCourses = () => {
+  const getSuscriptions = () => {
     return fetch(getSuscriptionsURL, { headers: { [tokenHeader]: sessionToken } })
       .then((response) => {
         if (!response.ok) {
@@ -88,9 +89,13 @@ const SubscriptionScreen = ({ navigation }) => {
     )
   }
 
+  const tabIsFocused = useIsFocused()
+
   React.useEffect(() => {
-    getStudentCourses()
-  }, [])
+    if (tabIsFocused) {
+      getSuscriptions()
+    }
+  }, [tabIsFocused])
 
   return (
       <NativeBaseProvider>
