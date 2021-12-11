@@ -103,6 +103,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
           console.log('POST OK')
           window.alert('Payment successful')
         }
+        navigation.navigate('Suscribe')
       })
       .then((json) => {
         console.log('json:', json)
