@@ -117,6 +117,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
     setSubmittedForm(true)
   }
 
+  // TODO Revisar el editar porque habia errores
   React.useEffect(() => {
     if (submittedForm) {
       setSubmittedForm(false)
@@ -167,7 +168,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isDisabled={!editEnabled} isInvalid={'courseName' in errors}>
                <FormControl.Label>Title</FormControl.Label>
                <Input
-                 placeholder="Python 101"
+                 placeholder="Ej:Python 101"
                  onChangeText={(value) => setData({ ...formData, courseName: value })}
                  defaultValue={formData.courseName}
                />
@@ -176,7 +177,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isDisabled={!editEnabled} isInvalid={'description' in errors}>
                <FormControl.Label>Description</FormControl.Label>
                <TextArea
-                 placeholder="In this course you will learn the python basics"
+                 placeholder="Ej:In this course you will learn the python basics"
                  onChangeText={(value) => setData({ ...formData, description: value })}
                  defaultValue={formData.description}
                />
@@ -185,7 +186,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isDisabled={!editEnabled} isInvalid={'duration' in errors}>
                <FormControl.Label>Duration</FormControl.Label>
                <Input
-                 placeholder="22:05:42"
+                 placeholder="Ej:22:05:42"
                  onChangeText={(value) => setData({ ...formData, duration: value })}
                  defaultValue={formData.duration}
                />
@@ -281,6 +282,9 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                   )
                 }) }
               </VStack>
+              <Collapse isOpen={students.length === 0}>
+                <Text>Currently there are no students enrolled to this course</Text>
+              </Collapse>
            </ScrollView>
            <HStack>
              <Heading>Collaborators</Heading>
@@ -302,7 +306,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isInvalid={'newCollaborator' in errors}>
                <FormControl.Label>User Id</FormControl.Label>
                <Input
-                 placeholder="1"
+                 placeholder="Ej:1"
                  onChangeText={(value) => setNewCollaboratorId(value)}
                  defaultValue='0'
                  keyboardType='numeric'
@@ -353,6 +357,9 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                  )
                }) }
              </VStack>
+             <Collapse isOpen={collaborators.length === 0}>
+               <Text>Currently there are no collaborators added in this course</Text>
+             </Collapse>
            </ScrollView>
          </Box>
        </ScrollView>
