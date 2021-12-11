@@ -15,7 +15,7 @@ import Notification from '../components/Notification'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-const paymentsServiceUrl = 'https://ubademy-payments-service.herokuapp.com/deposit'
+const suscriptionServiceUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/suscriptions/inscription/'
 
 export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const { subscription } = route.params
@@ -93,12 +93,13 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
               [tokenHeader]: sessionToken
           },
       body: JSON.stringify({
-          "userId": session.userData[0].id,
-          "suscriptionId": subscription.key
+          "suscriptionId": subscription.key,
+          "userId": session.userData[0].id
       })
       })
           .then((response) => {
               if (!response.ok) {
+                  window.alert("You don't have enough keth")
                   console.log("Status:",response.status)
               } else {
                   console.log("POST OK");
