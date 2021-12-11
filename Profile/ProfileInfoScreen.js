@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, View, StyleSheet, Platform } from 'react-native'
+import { ImageBackground, View, StyleSheet, Platform ,TouchableOpacity} from 'react-native'
 import session from '../session/token'
 import getCapitalLetters from './AvatarLetters'
 import logo from '../assets/backgroundProfile.jpg'
@@ -100,7 +100,21 @@ export default function ProfileInfo ({ navigation }) {
                 </ImageBackground>
                 <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
                     <VStack space={4} alignItems="flex-end">
-                            <IconButton
+                        <Center flex={1} px="125">
+                        <TouchableOpacity
+                            style={{
+                                alignItems: "center",
+                                backgroundColor: "#DDDDDD",
+                                padding: 10
+                            }}
+                            onPress={() => {
+                                navigation.navigate('ProfileEditor')
+                            }}
+                        >
+                            <Text>Edit Profile</Text>
+                        </TouchableOpacity>
+                        </Center>
+                        {/*<IconButton
                                 colorScheme="indigo"
                                 variant="solid"
                                 _icon={{
@@ -110,7 +124,8 @@ export default function ProfileInfo ({ navigation }) {
                                 onPress={() => {
                                   navigation.navigate('ProfileEditor')
                                 }}
-                            />
+                            />*/}
+                        <Text numberOfLines={1}></Text>
                     </VStack>
                     <Text style={styles.headerText}> Profile Information</Text>
                     {session.userData[0].name === 'null' ? renderVoid() : renderName()}
