@@ -1,68 +1,58 @@
 import React from 'react'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
-import { Box, Center, Collapse, Heading, HStack, IconButton, ScrollView } from 'native-base'
+import { Box, Center, Collapse, Heading, ScrollView } from 'native-base'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import CourseCard from '../components/CourseCard'
 import session from '../session/token'
 import { useIsFocused } from '@react-navigation/native'
 import Notification from '../components/Notification'
-import { getResourcesFromApi } from '../common/ApiCommunication'
-import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-export default function CreatorMyCoursesScreen ({ navigation }) {
+export default function StudentMyFavouritesScreen ({ navigation }) {
   const [searchResults, setSearchResults] = React.useState([])
 
-  const [creatorHasCourses, setCreatorHasCourses] = React.useState(searchResults.length > 0)
-  const creatorId = session.userData[0].id
+  const [studentHasFavs, setStudentHasFavs] = React.useState(searchResults.length > 0)
+  const studentId = session.userData[0].id
 
-  // const getCreatorCoursesURL = apiGatewayBaseUrl + 'courses?owner_id='
-  const getCreatorCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?owner_id='
+  const favsURL = apiGatewayBaseUrl + 'users/favorites'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
   const tabIsFocused = useIsFocused()
 
-  React.useEffect(() => {
-    async function fetchData () {
-      const courses = await getResourcesFromApi(getCreatorCoursesURL + creatorId, tokenHeader, sessionToken, navigation)
-      setSearchResults(courses)
-      setCreatorHasCourses(courses.length > 0)
-    }
+  const getStudentFavCourses = () => {
+    return fetch(favsURL + '/' + studentId,
+      { headers: { [tokenHeader]: sessionToken } })
+      .then((response) => response.json())
+      .then(async (json) => {
+        setSearchResults(await json)
+        setStudentHasFavs(json.length > 0)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 
+  React.useEffect(() => {
     if (tabIsFocused) {
-      // getCreatorCourses()
-      fetchData()
+      getStudentFavCourses()
     }
   }, [tabIsFocused])
 
   return (
     <NativeBaseProvider>
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
-        <HStack space={3} direction='row-reverse' alignItems="center">
-          <IconButton
-            key='outline'
-            variant='outline'
-            _icon={{
-              as: AntDesign,
-              name: 'plus'
-            }}
-            onPress={() => {
-              navigation.navigate('CreateCourse')
-            }}
-          />
-          <Center w="250">
-            <Heading>
-              My Courses
-            </Heading>
-          </Center>
-        </HStack>
-        <Collapse isOpen={!creatorHasCourses}>
+        <Center>
+          <Heading>
+            My Favourite Courses
+          </Heading>
+        </Center>
+        <Collapse isOpen={!studentHasFavs}>
           <Notification
             status='info'
-            message={'You have not created any courses yet'}
+            message={'You have not added any course to your favourites yet\nYou can do this by clicking the fav button \nin the course view'}
           />
         </Collapse>
         <ScrollView>
@@ -71,7 +61,7 @@ export default function CreatorMyCoursesScreen ({ navigation }) {
               <Pressable
                 key={item.id}
                 onPress={() => {
-                  navigation.navigate('CreatorCourse', { course: item })
+                  navigation.navigate('StudentCourse', { course: item })
                 }}
               >
                 <CourseCard

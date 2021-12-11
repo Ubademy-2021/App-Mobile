@@ -194,7 +194,6 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
         }
       })
         .then((json) => {
-          console.log(json)
           setAddedToFavs(!addedToFavs)
         })
         .catch((error) => {
@@ -215,7 +214,6 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
         })
       }).then((response) => response.json())
         .then((json) => {
-          console.log(json)
           setAddedToFavs(!addedToFavs)
         })
         .catch((error) => {

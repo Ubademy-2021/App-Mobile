@@ -84,7 +84,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const onConfirm_ = () => {
       console.log("user id es:",session.userData[0].id)
       console.log("subs id es:",subscription.key)
-      fetch(suscriptionCoursesURL, {
+      fetch("https://course-service-ubademy.herokuapp.com/api/suscriptions/inscription", {
           method: 'POST',
           mode: 'no-cors',
           headers: {

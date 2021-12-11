@@ -15,7 +15,6 @@ import {
   formatForSubscriptions
 } from '../common/Format'
 import { getResourcesFromApi, postNewCourseToApi } from '../common/ApiCommunication'
-import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -24,19 +23,18 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
   const [errors, setErrors] = React.useState({})
   const [submittedForm, setSubmittedForm] = React.useState(false)
   const [subscriptions, setSubscriptions] = React.useState([])
-  const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
+  const [selectedSubscription, setSelectedSubscription] = React.useState(1)
   const [categories, setCategories] = React.useState([])
   const [selectedCateogries, setSelectedCategories] = React.useState([])
   const creatorId = session.userData[0].id
 
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
-  const postNewCourseURL = apiGatewayBaseUrl + 'courses'
+  // const postNewCourseURL = apiGatewayBaseUrl + 'courses'
+  const postNewCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
-
-  const tabIsFocused = useIsFocused()
 
   const validate = () => {
     if (formData.courseName === undefined || formData.courseName.length === 0) {
@@ -60,7 +58,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
     } else if (formData.description.length < 20) {
       setErrors({
         ...errors,
-        description: 'Description is too short'
+        description: 'Description should have at least 20 characters'
       })
       return false
     } else {
@@ -78,7 +76,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
     } else if (formData.duration[formData.duration.length - 3] !== ':' || formData.duration[formData.duration.length - 6] !== ':') {
       setErrors({
         ...errors,
-        duration: 'Invalid duration format'
+        duration: 'Duration should have HH:MM:SS format'
       })
       return false
     } else {
@@ -98,11 +96,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
     if (submittedForm) {
       setSubmittedForm(false)
       if (validate()) {
-        setData({
-          ...formData,
-          ownerId: creatorId
-        })
-        postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, navigation)
+        postNewCourseToApi(postNewCourseURL, tokenHeader, sessionToken, formData, creatorId, selectedSubscription, selectedCateogries, navigation)
       }
     }
   }, [submittedForm])
@@ -158,7 +152,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
              </FormControl>
              <FormControl isInvalid={'subscription' in errors}>
                <FormControl.Label>Subscription</FormControl.Label>
-               <SelectDropdownList items={subscriptions} var={selectedSubscription} setter={setSelectedSubscription} defaultValue='Basic Suscription'/>
+               <SelectDropdownList items={subscriptions} var={selectedSubscription} setter={setSelectedSubscription} defaultValue='Basic'/>
                <FormControl.HelperText>
                  Choose the minimum subscription needed to access the course
                </FormControl.HelperText>
