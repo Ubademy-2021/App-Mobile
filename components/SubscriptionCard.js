@@ -8,9 +8,7 @@ export default function CourseCard (props) {
         <View style={styles.card}>
             <View style={styles.cardContent}>
                 <Heading fontSize="md">{props.title}</Heading>
-                <Heading fontSize="sm">Price: {props.price}</Heading>
                 <Heading fontSize="sm">Duration: {props.duration} hours</Heading>
-                <Heading fontSize="sm">Subscription: 9</Heading>
             </View>
         </View>
     )
