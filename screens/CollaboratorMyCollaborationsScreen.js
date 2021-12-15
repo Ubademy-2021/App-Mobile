@@ -15,8 +15,8 @@ export default function CollaboratorMyCollaborationsScreen ({ navigation }) {
   const [collaboratorHasCourses, setCollaboratorHasCourses] = React.useState(searchResults.length > 0)
   const collaboratorId = session.userData[0].id
 
-  // const getCollaboratorCoursesURL = apiGatewayBaseUrl + 'courses?collaborator_id='
-  const getCollaboratorCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?collaborator_id='
+  const getCollaboratorCoursesURL = apiGatewayBaseUrl + 'courses?collaborator_id='
+  // const getCollaboratorCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?collaborator_id='
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken

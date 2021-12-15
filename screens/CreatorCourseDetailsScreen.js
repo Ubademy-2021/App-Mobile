@@ -47,8 +47,8 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const getCourseStudentsURL = apiGatewayBaseUrl + 'courses/students/'
   const getCollaboratorsURL = apiGatewayBaseUrl + 'collaborators/'
   // const getCourseStudentsURL = 'https://course-service-ubademy.herokuapp.com/api/courses/students/'
-  // const putCourseURL = apiGatewayBaseUrl + 'courses/' + course.id
-  const putCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses/' + course.id
+  const putCourseURL = apiGatewayBaseUrl + 'courses/' + course.id
+  // const putCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses/' + course.id
   const postNewCollaboratorURL = apiGatewayBaseUrl + 'collaborators'
 
   const validate = () => {

@@ -30,8 +30,8 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
 
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
-  // const postNewCourseURL = apiGatewayBaseUrl + 'courses'
-  const postNewCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses'
+  const postNewCourseURL = apiGatewayBaseUrl + 'courses'
+  // const postNewCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
