@@ -30,8 +30,8 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
   const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
   const getStudentSubURL = apiGatewayBaseUrl + 'suscriptions/inscription/' + studentId
-
   const favsURL = apiGatewayBaseUrl + 'users/favorites'
+
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
