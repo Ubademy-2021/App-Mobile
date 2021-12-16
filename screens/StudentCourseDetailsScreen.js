@@ -1,10 +1,11 @@
 import React from 'react'
-import { Box, Button, Collapse, Heading, VStack } from 'native-base'
+import {Box, Button, Collapse, Heading, VStack} from 'native-base'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import Notification from '../components/Notification'
 import session from '../session/token'
 import { AntDesign } from '@expo/vector-icons'
 import EnrrollAndUnenrrollButtonWithConfirmation from '../components/EnrrollAndUnenrrollButtonWithConfirmation'
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -245,6 +246,18 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
           <Heading fontSize="lg">Categories: {categories}</Heading>
         </VStack>
       </Box>
+        {/*<Button
+            title="Course content"
+            onPress={ () => window.alert("Course content")}
+        />*/}
+        <View style={styles.container}>
+          <TouchableOpacity
+              style={styles.button}
+              onPress={ () => window.alert("Course content")}
+          >
+            <Text style={{color: "#ffffff"}}>Course content</Text>
+          </TouchableOpacity>
+        </View>
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
         <EnrrollAndUnenrrollButtonWithConfirmation
           activeCourse={activeCourse}
@@ -268,3 +281,21 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
     </NativeBaseProvider>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 10
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#bf2d2d",
+    padding: 10,
+    color: "#bf2d2d"
+  },
+  countContainer: {
+    alignItems: "center",
+    padding: 10
+  }
+});
