@@ -249,7 +249,9 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
       <Collapse isOpen={activeCourse && alreadyEnrrolled}>
           <TouchableOpacity
               style={styles.button}
-              onPress={ () => navigation.navigate('CourseContent')}
+              onPress={ () => {
+                navigation.navigate('CourseContent', {course: course})
+              }}
           >
             <Text style={{color: "#ffffff"}}>Course content</Text>
           </TouchableOpacity>

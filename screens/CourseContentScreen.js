@@ -14,9 +14,11 @@ import { StyleSheet , View, Alert} from 'react-native'
 import React, { useState, useCallback, useRef } from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
 
-export default function ProfileEditionForm ({ navigation }) {
+export default function ProfileEditionForm ({ navigation, route }) {
 
     const [playing, setPlaying] = useState(false);
+
+    const { course } = route.params
 
     const onStateChange = useCallback((state) => {
         if (state === "ended") {
@@ -35,11 +37,15 @@ export default function ProfileEditionForm ({ navigation }) {
                         Python course content
                     </Heading>
                 </Center>
+                {console.log("Course name es", {course})}
                 <Text numberOfLines={1}></Text>
                 <Text numberOfLines={1}></Text>
                 <Center>
                     <Heading>
                         Class 01 - Dictionary in Python
+                    </Heading>
+                    <Heading>
+                        Hoal
                     </Heading>
                 </Center>
                 <YoutubePlayer
