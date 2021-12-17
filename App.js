@@ -27,6 +27,7 @@ import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
 import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
 import CreatorCourseDetailsScreen from './screens/CreatorCourseDetailsScreen'
 import CollaboratorMyCollaborationsScreen from './screens/CollaboratorMyCollaborationsScreen'
+import CourseContentScreen from './screens/CourseContentScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -141,6 +142,7 @@ const App = () => {
           <Stack.Screen name="Conversation" component={ConversationScreen} />
           <Stack.Screen name="CreateCourse" component={CreatorAddNewCourseScreen} options={{ title: 'Create Course' }} />
           <Stack.Screen name="CreatorCourse" component={CreatorCourseDetailsScreen} options={{ title: 'Course details' }} />
+            <Stack.Screen name="CourseContent" component={CourseContentScreen} options={{ title: 'Course content' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

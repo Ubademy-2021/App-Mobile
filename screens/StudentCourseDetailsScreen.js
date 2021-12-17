@@ -246,18 +246,14 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
           <Heading fontSize="lg">Categories: {categories}</Heading>
         </VStack>
       </Box>
-        {/*<Button
-            title="Course content"
-            onPress={ () => window.alert("Course content")}
-        />*/}
-        <View style={styles.container}>
+      <Collapse isOpen={activeCourse && alreadyEnrrolled}>
           <TouchableOpacity
               style={styles.button}
-              onPress={ () => window.alert("Course content")}
+              onPress={ () => navigation.navigate('CourseContent')}
           >
             <Text style={{color: "#ffffff"}}>Course content</Text>
           </TouchableOpacity>
-        </View>
+      </Collapse>
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
         <EnrrollAndUnenrrollButtonWithConfirmation
           activeCourse={activeCourse}
@@ -290,7 +286,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#bf2d2d",
+    backgroundColor: "#5869b6",
     padding: 10,
     color: "#bf2d2d"
   },
