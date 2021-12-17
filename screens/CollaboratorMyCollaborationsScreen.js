@@ -16,6 +16,7 @@ export default function CollaboratorMyCollaborationsScreen ({ navigation }) {
   const collaboratorId = session.userData[0].id
 
   const getCollaboratorCoursesURL = apiGatewayBaseUrl + 'courses?collaborator_id='
+  // const getCollaboratorCoursesURL = 'https://course-service-ubademy.herokuapp.com/api/courses?collaborator_id='
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
@@ -71,7 +72,7 @@ export default function CollaboratorMyCollaborationsScreen ({ navigation }) {
                 title={item.courseName}
                 price={item.inscriptionPrice}
                 duration={item.duration}
-                subscriptions={item.suscriptions} />
+                subscription={item.suscriptions[0].description} />
             // </Pressable>
             )
           }) }

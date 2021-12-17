@@ -13,6 +13,7 @@ export default function EnrrollAndUnenrrollButtonWithConfirmation (props) {
         body='Are u sure u want to enroll in this course?'
         confirmButtonLabel='Enroll'
         onConfirm={props.handleEnrollment}
+        hasNecessarySub={props.hasNecessarySub}
       />
     )
   } else if (props.activeCourse && props.alreadyEnrolled) {
@@ -24,6 +25,7 @@ export default function EnrrollAndUnenrrollButtonWithConfirmation (props) {
           body='Are u sure u want to unenroll from this course?'
           confirmButtonLabel='Unenroll'
           onConfirm={props.handleUnenrollment}
+          hasNecessarySub={true}
       />
     )
   } else {

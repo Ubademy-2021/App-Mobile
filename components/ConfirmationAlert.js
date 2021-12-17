@@ -1,5 +1,5 @@
 import React from 'react'
-import { AlertDialog, Box, Button, Center } from 'native-base'
+import { AlertDialog, Box, Button } from 'native-base'
 
 export default function ConfirmationAlert (props) {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -13,7 +13,7 @@ export default function ConfirmationAlert (props) {
   const cancelRef = React.useRef(null)
   return (
     <Box>
-      <Button colorScheme={props.buttonStatus} onPress={() => setIsOpen(!isOpen)}>
+      <Button colorScheme={props.buttonStatus} onPress={() => setIsOpen(!isOpen)} isDisabled={!props.hasNecessarySub}>
         {props.buttonLabel}
       </Button>
       <AlertDialog

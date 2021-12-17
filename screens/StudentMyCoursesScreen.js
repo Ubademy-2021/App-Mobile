@@ -82,7 +82,7 @@ export default function StudentMyCoursesScreen ({ navigation }) {
                   title={item.courseName}
                   price={item.inscriptionPrice}
                   duration={item.duration}
-                  subscriptions={item.suscriptions} />
+                  subscription={item.suscriptions[0].description} />
               </Pressable>
             )
           }) }

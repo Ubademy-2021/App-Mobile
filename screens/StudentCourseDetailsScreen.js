@@ -6,11 +6,14 @@ import session from '../session/token'
 import { AntDesign } from '@expo/vector-icons'
 import EnrrollAndUnenrrollButtonWithConfirmation from '../components/EnrrollAndUnenrrollButtonWithConfirmation'
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { getResourcesFromApi } from '../common/ApiCommunication'
+
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
 export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const { course } = route.params
+  console.log(course)
   const studentId = session.userData[0].id
 
   const [subscription, setSubscription] = React.useState('None')
@@ -23,12 +26,14 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const [alreadyEnrrolled, setAlreadyEnrolled] = React.useState(false)
   const [favButtonName, setFavButtonName] = React.useState('staro')
   const [addedToFavs, setAddedToFavs] = React.useState(false)
+  const [studentSub, setStudentSub] = React.useState({})
 
   const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
   const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
   const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
-
+  const getStudentSubURL = apiGatewayBaseUrl + 'suscriptions/inscription/' + studentId
   const favsURL = apiGatewayBaseUrl + 'users/favorites'
+
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
@@ -90,6 +95,11 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   }
 
   React.useEffect(() => {
+    async function fetchSub () {
+      const sub = await getResourcesFromApi(getStudentSubURL, tokenHeader, sessionToken, navigation)
+      setStudentSub(sub)
+    }
+
     if (course.suscriptions.length > 0) {
       setSubscription(course.suscriptions[0].description)
     }
@@ -105,6 +115,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
 
     getStudentCoursesIds()
     getStudentFavCourses()
+    fetchSub()
   }, [])
 
   const handleEnrollment = () => {
@@ -262,6 +273,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
           alreadyEnrolled={alreadyEnrrolled}
           handleEnrollment={handleEnrollment}
           handleUnenrollment={handleUnenrollment}
+          hasNecessarySub={studentSub.id >= course.suscriptions[0].id}
         />
         <Collapse isOpen={successfulInscription && alreadyEnrrolled}>
           <Notification
@@ -273,6 +285,12 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
           <Notification
             status='info'
             message={'Your unenrrollment was processed successfully'}
+          />
+        </Collapse>
+        <Collapse isOpen={!(studentSub.id >= course.suscriptions[0].id) && !alreadyEnrrolled}>
+          <Notification
+            status='info'
+            message={'You dont have the necessary subscription\n to enroll to this course'}
           />
         </Collapse>
       </Box>

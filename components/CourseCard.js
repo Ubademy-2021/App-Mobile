@@ -3,21 +3,13 @@ import { StyleSheet, View } from 'react-native'
 import { Heading } from 'native-base'
 
 export default function CourseCard (props) {
-  const [subscription, setSubscription] = React.useState('None')
-
-  React.useEffect(() => {
-    if (props.subscriptions.length > 0) {
-      setSubscription(props.subscriptions[0].description)
-    }
-  }, [])
-
   return (
     <View style={styles.card}>
       <View style={styles.cardContent}>
         <Heading fontSize="md">{props.title}</Heading>
         <Heading fontSize="sm">Price: {props.price}</Heading>
         <Heading fontSize="sm">Duration: {props.duration} hours</Heading>
-        <Heading fontSize="sm">Subscription: {subscription}</Heading>
+        <Heading fontSize="sm">Subscription: {props.subscription}</Heading>
         { props.children }
       </View>
     </View>

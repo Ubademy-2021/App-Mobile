@@ -212,8 +212,19 @@ export default function StudentCourseSearchScreen ({ navigation }) {
     async function fetchData () {
       const subs = await getResourcesFromApi(getSubscriptionsURL, tokenHeader, sessionToken, navigation)
       const cats = await getResourcesFromApi(getCategoriesURL, tokenHeader, sessionToken, navigation)
+      subs.unshift({
+        description: 'Any',
+        id: 0,
+        price: 0
+      })
+      cats.unshift({
+        name: 'Any',
+        id: 0
+      })
+
       setSubscriptions(formatForSubscriptions(subs))
       setCategories(formatForCategories(cats))
+      console.log(categories)
     }
 
     fetchData()
@@ -252,7 +263,7 @@ export default function StudentCourseSearchScreen ({ navigation }) {
                   title={item.courseName}
                   price={item.inscriptionPrice}
                   duration={item.duration}
-                  subscriptions={item.suscriptions} />
+                  subscription={item.suscriptions[0].description} />
               </Pressable>
             )
           }) }
