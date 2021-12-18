@@ -3,7 +3,7 @@ import React from 'react'
 
 const CustomListItem = ({senderId, receiverId, username, enterChat}) => {
     return (
-        <ListItem onPress={() => enterChat(senderId,receiverId)} bottomDivider>
+        <ListItem onPress={() => enterChat(senderId,receiverId,username)} bottomDivider>
             <Avatar
                 rounded
                 source={require('../assets/avatar.png')}

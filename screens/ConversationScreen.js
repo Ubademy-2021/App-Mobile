@@ -26,12 +26,14 @@ export default function ConversationScreen ({ navigation, route }) {
     const chatId= getChatRef(session.userData[0].id,route.params.receiverId)
     //console.log("Receiver id:",route.params.receiverId)
     //console.log("Sender id:",route.params.senderId)
+    console.log("Username es",route.params.username)
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
                 <Button onPress={() => window.alert("Hola")} title="Update count" />
             ),
+            title: route.params.username
         });
     }, [navigation]);
 

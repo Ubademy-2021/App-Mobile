@@ -56,9 +56,9 @@ const ListOfConversationsScreen = ({ navigation }) => {
         fetchData()
     }, [])
 
-    const enterChat = (senderId,receiverId) => {
+    const enterChat = (senderId,receiverId, username) => {
         //console.log("SENDER ID:",senderId,receiverId)
-        navigation.navigate("Conversation", { senderId: senderId, receiverId: receiverId });
+        navigation.navigate("Conversation", { senderId: senderId, receiverId: receiverId, username: username });
     }
 
     return (
