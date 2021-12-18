@@ -31,9 +31,7 @@ Notifications.setNotificationHandler({
 });
 
 const SubscriptionScreen = ({ navigation }) => {
-    const [notification, setNotification] = useState(false);
-    const notificationListener = useRef();
-    const responseListener = useRef();
+
 
   const [subscriptions, setSubscriptions] = React.useState([])
   const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
@@ -106,21 +104,23 @@ const SubscriptionScreen = ({ navigation }) => {
   const tabIsFocused = useIsFocused()
 
   React.useEffect(() => {
-      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+     /* notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
           setNotification(notification);
       });
 
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
       responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
           console.log(response);
-      });
+          navigation.navigate("SubscriptionDetail");
+          //console.log("ACA REDIRECCIONO")
+      });*/
     if (tabIsFocused) {
       getSuscriptions()
     }
-      return () => {
+      /*return () => {
           Notifications.removeNotificationSubscription(notificationListener.current);
           Notifications.removeNotificationSubscription(responseListener.current);
-      };
+      };*/
 
   }, [tabIsFocused])
 
