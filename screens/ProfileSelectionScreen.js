@@ -12,9 +12,9 @@ import {
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import Firebase from '../config/firebase'
-
 const db = Firebase.firestore()
 const tokensRef = db.collection('tokensNotif')
+
 
 async function registerForPushNotificationsAsync() {
     let token;
