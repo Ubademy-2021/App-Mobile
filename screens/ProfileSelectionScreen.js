@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Platform, View} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import session from '../session/token'
 
 import {
   NativeBaseProvider,
@@ -55,7 +56,7 @@ export default function ProfileSelectionScreen ({ navigation }) {
                     setExpoPushToken(token);
                     console.log("Token aca es", token);
                     tokensRef.doc(token).set({
-                        userId: 4,
+                        userId: session.userData[0].id,
                         token: token
                     }).then(() => {
                         console.log("Token added!")

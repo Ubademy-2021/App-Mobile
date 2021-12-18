@@ -89,7 +89,7 @@ export default function ConversationScreen ({ navigation, route }) {
         console.log("Message text es",messages[0].text)
         const writes = messages.map(m => chatsRef.add(m))
         await Promise.all(writes)
-        tokensRef.where('userId','==',4).get().then(querySnapshot => {
+        tokensRef.where('userId','==',route.params.receiverId).get().then(querySnapshot => {
 
             console.log("TOtal users:",querySnapshot.size);
 

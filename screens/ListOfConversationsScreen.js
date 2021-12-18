@@ -28,8 +28,6 @@ const ListOfConversationsScreen = ({ navigation }) => {
     const [notification, setNotification] = useState(false);
     const notificationListener = useRef();
     const responseListener = useRef();
-    //console.log('session token:', sessionToken)
-    //console.log('Header:', tokenHeader)
 
     async function getUsersFromApi() {
         return await fetch(getUsersUrl,
