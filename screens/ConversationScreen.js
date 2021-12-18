@@ -19,12 +19,12 @@ function getChatRef(userId1, userId2) {
     }
 };
 
-async function sendPushNotification(expoPushToken) {
+async function sendPushNotification(expoPushToken, messageText, sender) {
     const message = {
         to: expoPushToken,
         sound: 'default',
-        title: 'Original Title',
-        body: 'And here is the body!',
+        title: 'New message from '+ sender,
+        body: messageText,
         data: { someData: 'goes here' },
     };
 
@@ -85,6 +85,8 @@ export default function ConversationScreen ({ navigation, route }) {
 
     //Me manda los mensajes a la DB
     async function handleSend(messages){
+        console.log("Messages es",messages)
+        console.log("Message text es",messages[0].text)
         const writes = messages.map(m => chatsRef.add(m))
         await Promise.all(writes)
         tokensRef.where('userId','==',4).get().then(querySnapshot => {
@@ -94,7 +96,7 @@ export default function ConversationScreen ({ navigation, route }) {
             querySnapshot.forEach(documentSnapshot => {
                 console.log("Datos del usuario al que le voy a enviar el msg:",documentSnapshot.data())
                 console.log("Token:",documentSnapshot.data().token)
-                sendPushNotification(documentSnapshot.data().token);
+                sendPushNotification(documentSnapshot.data().token, messages[0].text, session.userData[0].userName);
             })
         })
     }
