@@ -1,9 +1,9 @@
 import {Avatar, ListItem} from "react-native-elements";
 import React from 'react'
 
-const CustomListItem = ({senderId, receiverId, username, enterChat}) => {
+const CustomListItem = ({senderId, receiverId, username, enterChat, userInfo}) => {
     return (
-        <ListItem onPress={() => enterChat(senderId,receiverId,username)} bottomDivider>
+        <ListItem onPress={() => enterChat(senderId,receiverId,userInfo)} bottomDivider>
             <Avatar
                 rounded
                 source={require('../assets/avatar.png')}
