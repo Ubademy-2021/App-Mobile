@@ -9,6 +9,7 @@ import session from '../session/token'
 
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
+const tokensRef = db.collection('tokensNotif')
 
 function getChatRef(userId1, userId2) {
     if (userId1 < userId2) {
@@ -17,6 +18,26 @@ function getChatRef(userId1, userId2) {
         return userId2 + '_' + userId1;
     }
 };
+
+async function sendPushNotification(expoPushToken) {
+    const message = {
+        to: expoPushToken,
+        sound: 'default',
+        title: 'Original Title',
+        body: 'And here is the body!',
+        data: { someData: 'goes here' },
+    };
+
+    await fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(message),
+    });
+}
 
 export default function ConversationScreen ({ navigation, route }) {
     const [user, setUser] = useState(null)
@@ -66,6 +87,16 @@ export default function ConversationScreen ({ navigation, route }) {
     async function handleSend(messages){
         const writes = messages.map(m => chatsRef.add(m))
         await Promise.all(writes)
+        tokensRef.where('userId','==',4).get().then(querySnapshot => {
+
+            console.log("TOtal users:",querySnapshot.size);
+
+            querySnapshot.forEach(documentSnapshot => {
+                console.log("Datos del usuario al que le voy a enviar el msg:",documentSnapshot.data())
+                console.log("Token:",documentSnapshot.data().token)
+                sendPushNotification(documentSnapshot.data().token);
+            })
+        })
     }
 
     //Al enviar un mensaje, poniendo el _id identifico quien lo esta enviando. Me serve para el display

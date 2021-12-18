@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useRef, useState} from 'react'
 import { View } from 'react-native'
 import SubscriptionCard from '../components/SubscriptionCard'
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
 import {
   Avatar,
@@ -20,7 +22,19 @@ import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
+
 const SubscriptionScreen = ({ navigation }) => {
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
   const [subscriptions, setSubscriptions] = React.useState([])
   const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   // const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
@@ -92,9 +106,22 @@ const SubscriptionScreen = ({ navigation }) => {
   const tabIsFocused = useIsFocused()
 
   React.useEffect(() => {
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+          setNotification(notification);
+      });
+
+      // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+          console.log(response);
+      });
     if (tabIsFocused) {
       getSuscriptions()
     }
+      return () => {
+          Notifications.removeNotificationSubscription(notificationListener.current);
+          Notifications.removeNotificationSubscription(responseListener.current);
+      };
+
   }, [tabIsFocused])
 
   return (
