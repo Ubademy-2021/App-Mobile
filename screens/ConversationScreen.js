@@ -2,14 +2,16 @@
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 import React, {useState, useEffect, useCallback} from 'react'
-import {StyleSheet, Text, TextInput, View, YellowBox, Button} from 'react-native'
+import {StyleSheet, Text, TextInput, View, YellowBox, Button,TouchableOpacity} from 'react-native'
 import Firebase from '../config/firebase'
 import {GiftedChat} from 'react-native-gifted-chat'
 import session from '../session/token'
+import { IconButton, Icon, Center, NativeBaseProvider } from 'native-base'
+import { AntDesign } from '@expo/vector-icons'
 
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
-
+import { Entypo } from "@expo/vector-icons"
 function getChatRef(userId1, userId2) {
     if (userId1 < userId2) {
         return userId1 + '_' + userId2;
@@ -30,8 +32,11 @@ export default function ConversationScreen ({ navigation, route }) {
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <Button onPress={() => navigation.navigate("FriendProfile",{userInfo: route.params.userInfo})}
-                        title="Update count" />
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("FriendProfile",{userInfo: route.params.userInfo})}
+                >
+                    <AntDesign name="profile" size={24} color="black"/>
+                </TouchableOpacity>
             ),
             title: route.params.userInfo.userName
         });
