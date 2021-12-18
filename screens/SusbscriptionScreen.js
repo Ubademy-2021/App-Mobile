@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef, useState} from 'react'
 import { View } from 'react-native'
 import SubscriptionCard from '../components/SubscriptionCard'
 
@@ -20,7 +20,10 @@ import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
+
 const SubscriptionScreen = ({ navigation }) => {
+
+
   const [subscriptions, setSubscriptions] = React.useState([])
   const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   // const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
@@ -32,8 +35,6 @@ const SubscriptionScreen = ({ navigation }) => {
   let subsDet
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
-  // console.log('session token:', sessionToken)
-  // console.log('Header:', tokenHeader)
 
   fetch(userSubscriptionURL + studentId, { headers: { [tokenHeader]: sessionToken } })
     .then((response) => response.json())
@@ -95,6 +96,7 @@ const SubscriptionScreen = ({ navigation }) => {
     if (tabIsFocused) {
       getSuscriptions()
     }
+
   }, [tabIsFocused])
 
   return (

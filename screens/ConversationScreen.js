@@ -9,6 +9,7 @@ import session from '../session/token'
 
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
+const tokensRef = db.collection('tokensNotif')
 
 function getChatRef(userId1, userId2) {
     if (userId1 < userId2) {
@@ -17,6 +18,26 @@ function getChatRef(userId1, userId2) {
         return userId2 + '_' + userId1;
     }
 };
+
+async function sendPushNotification(expoPushToken, messageText, sender) {
+    const message = {
+        to: expoPushToken,
+        sound: 'default',
+        title: 'New message from '+ sender,
+        body: messageText,
+        data: { someData: 'goes here' },
+    };
+
+    await fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(message),
+    });
+}
 
 export default function ConversationScreen ({ navigation, route }) {
     const [user, setUser] = useState(null)
@@ -64,8 +85,20 @@ export default function ConversationScreen ({ navigation, route }) {
 
     //Me manda los mensajes a la DB
     async function handleSend(messages){
+        console.log("Messages es",messages)
+        console.log("Message text es",messages[0].text)
         const writes = messages.map(m => chatsRef.add(m))
         await Promise.all(writes)
+        tokensRef.where('userId','==',route.params.receiverId).get().then(querySnapshot => {
+
+            console.log("TOtal users:",querySnapshot.size);
+
+            querySnapshot.forEach(documentSnapshot => {
+                console.log("Datos del usuario al que le voy a enviar el msg:",documentSnapshot.data())
+                console.log("Token:",documentSnapshot.data().token)
+                sendPushNotification(documentSnapshot.data().token, messages[0].text, session.userData[0].userName);
+            })
+        })
     }
 
     //Al enviar un mensaje, poniendo el _id identifico quien lo esta enviando. Me serve para el display
