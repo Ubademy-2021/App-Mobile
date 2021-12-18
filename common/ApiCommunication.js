@@ -43,7 +43,8 @@ export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken,
       description: body.description,
       ownerId: ownerId,
       suscriptionId: suscriptionId,
-      categoryIds: categoryIds
+      categoryIds: categoryIds,
+      videos: body.videosId
     })
   }).then((response) => {
     if (!response.ok) {

@@ -31,42 +31,28 @@ export default function ProfileEditionForm ({ navigation, route }) {
     }, []);
     return (
         <NativeBaseProvider>
-            <View>
+            <ScrollView>
                 <Center>
                     <Heading>
-                        Python course content
+                        {course.courseName}
                     </Heading>
                 </Center>
-                {console.log("Course name es", {course})}
                 <Text numberOfLines={1}></Text>
                 <Text numberOfLines={1}></Text>
                 <Center>
                     <Heading>
-                        Class 01 - Dictionary in Python
-                    </Heading>
-                    <Heading>
-                        Hoal
+                        Class 01
                     </Heading>
                 </Center>
+                <Text numberOfLines={1}></Text>
+                <Text numberOfLines={1}></Text>
                 <YoutubePlayer
                     height={300}
                     play={playing}
-                    videoId={"2IsF7DEtVjg"}
+                    videoId={course.videos}
                     onChangeState={onStateChange}
                 />
-
-                <Center>
-                    <Heading>
-                        Class 02 - Concurrency in Python
-                    </Heading>
-                </Center>
-                <YoutubePlayer
-                    height={300}
-                    play={playing}
-                    videoId={"gCCVsvgR2KU"}
-                    onChangeState={onStateChange}
-                />
-            </View>
+            </ScrollView>
         </NativeBaseProvider>
     )
 }

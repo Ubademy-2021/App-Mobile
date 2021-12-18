@@ -66,6 +66,13 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
       delete copyErrors.description
       setErrors(copyErrors)
     }
+    if (formData.videosId === undefined || formData.videosId.length === 0) {
+      setErrors({
+        ...errors,
+        videosId: 'videosId is required'
+      })
+      return false
+    }
 
     if (formData.duration === undefined || formData.duration.length === 0) {
       setErrors({
@@ -149,6 +156,17 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
                  Indicate the duration of the course in HH:MM:SS format
                </FormControl.HelperText>
                <FormControl.ErrorMessage>{errors.duration}</FormControl.ErrorMessage>
+             </FormControl>
+             <FormControl isRequired isInvalid={'videosId' in errors}>
+               <FormControl.Label>Video</FormControl.Label>
+               <Input
+                   placeholder="2IsF7DEtVjg"
+                   onChangeText={(value) => setData({ ...formData, videosId: value })}
+               />
+               <FormControl.HelperText>
+                 Indicate the id of the video you want to add to the course
+               </FormControl.HelperText>
+               <FormControl.ErrorMessage>{errors.videosId}</FormControl.ErrorMessage>
              </FormControl>
              <FormControl isInvalid={'subscription' in errors}>
                <FormControl.Label>Subscription</FormControl.Label>
