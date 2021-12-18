@@ -1,4 +1,4 @@
-/*
+
 import LogInScreen from './screens/LogInScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import InterestsScreen from './screens/InterestsScreen'
@@ -148,7 +148,8 @@ const App = () => {
 
 export default App
 
-*/
+
+/*
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
@@ -187,9 +188,9 @@ export default function App() {
         }
         );
 
-        /* Obtiene el token de un usuario en especifico, devuelve un objeto con token y userId si ese user
-        tiene token, sino nada
-         */
+        //Obtiene el token de un usuario en especifico, devuelve un objeto con token y userId si ese user
+        //tiene token, sino nada
+
         tokensRef.where('userId','==',2).get().then(querySnapshot => {
 
             console.log("TOtal users:",querySnapshot.size);
@@ -258,35 +259,7 @@ async function sendPushNotification(expoPushToken) {
         },
         body: JSON.stringify(message),
     });
-}
+}*/
 
-async function registerForPushNotificationsAsync() {
-    let token;
-    if (Constants.isDevice) {
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-            const { status } = await Notifications.requestPermissionsAsync();
-            finalStatus = status;
-        }
-        if (finalStatus !== 'granted') {
-            alert('Failed to get push token for push notification!');
-            return;
-        }
-        token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
-    } else {
-        alert('Must use physical device for Push Notifications');
-    }
 
-    if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
-        });
-    }
-    return token;
-}
 

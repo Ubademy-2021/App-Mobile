@@ -1,5 +1,5 @@
-import React from 'react'
-import { View } from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {Platform, View} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import {
@@ -8,8 +8,64 @@ import {
   Text,
   Heading
 } from 'native-base'
+import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
+import Firebase from '../config/firebase'
+
+const db = Firebase.firestore()
+const tokensRef = db.collection('tokensNotif')
+
+async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            alert('Failed to get push token for push notification!');
+            return;
+        }
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
+    } else {
+        alert('Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+        });
+    }
+    return token;
+}
 
 export default function ProfileSelectionScreen ({ navigation }) {
+    const [expoPushToken, setExpoPushToken] = useState('');
+
+
+    useEffect(() => {
+        registerForPushNotificationsAsync()
+            .then((token) => {
+                    setExpoPushToken(token);
+                    console.log("Token aca es", token);
+                    tokensRef.doc(token).set({
+                        userId: 4,
+                        token: token
+                    }).then(() => {
+                        console.log("Token added!")
+                    })
+                }
+            );
+    })
+
+
+
   return (
     <NativeBaseProvider>
         <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
@@ -61,3 +117,4 @@ export default function ProfileSelectionScreen ({ navigation }) {
     </NativeBaseProvider>
   )
 }
+
