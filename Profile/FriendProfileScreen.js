@@ -20,12 +20,97 @@ import { FontAwesome5 } from '@expo/vector-icons'
 
 export default function ProfileInfo ({ navigation, route }) {
     console.log("Parametros recibidos:",route.params.userInfo)
+    const capitalLetters = getCapitalLetters(route.params.userInfo.userName)
+    function renderName () {
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>Name:</Text>
+                <Text style={styles.informationText}>{route.params.userInfo.name}</Text>
+            </View>
+        )
+    }
+    function renderSurname () {
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>Surname:</Text>
+                <Text style={styles.informationText}>{route.params.userInfo.surname}</Text>
+            </View>
+        )
+    }
+    function renderState () {
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>State:</Text>
+                <Text style={styles.informationText}>{route.params.userInfo.state}</Text>
+            </View>
+        )
+    }
 
+    function renderAddress () {
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>Address:</Text>
+                <Text style={styles.informationText}>{route.params.userInfo.address}</Text>
+            </View>
+        )
+    }
+    function renderPhoneNumber () {
+        return (
+            <View>
+                <Text numberOfLines={1}></Text>
+                <Text style={styles.fieldHeaderText}>PhoneNumber:</Text>
+                <Text style={styles.informationText}>{route.params.userInfo.phoneNumber}</Text>
+            </View>
+        )
+    }
+    function renderVoid () {
+
+    }
 
     return (
         <NativeBaseProvider>
             <ScrollView>
-                <Text>Hola</Text>
+                <ImageBackground source={logo} resizeMode="cover" style={styles.image}>
+                    <HStack>
+                        <Center flex={1} px="3">
+                            <View style={styles.headerColumn}>
+                                <Avatar
+                                    mr={1}
+                                    size="2xl"
+                                >
+                                    {capitalLetters}
+                                </Avatar>
+                                <Text style={styles.userNameText}>{route.params.userInfo.userName}</Text>
+                                <View style={styles.userAddressRow}>
+                                    <View style={styles.userCityRow}>
+                                        <Text style={styles.userCityText}>
+                                            {route.params.userInfo.city}, {route.params.userInfo.country}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </Center>
+                    </HStack>
+                    <Text numberOfLines={1}></Text>
+                    <Text numberOfLines={1}></Text>
+
+                </ImageBackground>
+                <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
+                    <Text style={styles.headerText}> Profile Information</Text>
+                    {route.params.userInfo.name === 'null' ? renderVoid() : renderName()}
+                    {route.params.userInfo.surname === 'null' ? renderVoid() : renderSurname()}
+                    <Text numberOfLines={1}></Text>
+                    <Text style={styles.fieldHeaderText}>Email:</Text>
+                    <Text style={styles.informationText}>{route.params.userInfo.email}</Text>
+                    {route.params.userInfo.phoneNumber === 'null' ? renderVoid() : renderPhoneNumber()}
+                    {route.params.userInfo.state === 'null' ? renderVoid() : renderState()}
+                    {route.params.userInfo.address === 'null' ? renderVoid() : renderAddress()}
+
+                </Box>
             </ScrollView>
         </NativeBaseProvider>
     )
