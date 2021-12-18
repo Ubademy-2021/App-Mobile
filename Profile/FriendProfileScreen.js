@@ -19,7 +19,7 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons'
 
 export default function ProfileInfo ({ navigation, route }) {
-    const capitalLetters = getCapitalLetters(session.userData[0].userName)
+    console.log("Parametros recibidos:",route.params.userInfo)
 
 
     return (

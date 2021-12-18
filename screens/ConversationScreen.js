@@ -30,7 +30,8 @@ export default function ConversationScreen ({ navigation, route }) {
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <Button onPress={() => window.alert("Hola")} title="Update count" />
+                <Button onPress={() => navigation.navigate("FriendProfile",{userInfo: route.params.userInfo})}
+                        title="Update count" />
             ),
             title: route.params.userInfo.userName
         });
