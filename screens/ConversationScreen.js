@@ -27,6 +27,14 @@ export default function ConversationScreen ({ navigation, route }) {
     //console.log("Receiver id:",route.params.receiverId)
     //console.log("Sender id:",route.params.senderId)
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Button onPress={() => window.alert("Hola")} title="Update count" />
+            ),
+        });
+    }, [navigation]);
+
     useEffect(() => {
         readUser()
 
