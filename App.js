@@ -1,4 +1,4 @@
-
+/*
 import LogInScreen from './screens/LogInScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import InterestsScreen from './screens/InterestsScreen'
@@ -133,9 +133,7 @@ const App = () => {
           <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="Interests" component={InterestsScreen} options={{ title: 'Interests' }}/>
           <Stack.Screen name="Location" component={LocationScreen} />
-          {/* <Stack.Screen name="ProfileInfo" component={ProfileInfoScreen} /> */}
           <Stack.Screen name="ProfileSelection" component={ProfileSelectionScreen} />
-          {/* <Stack.Screen name="StudentCourseSearch" component={StudentCourseSearchScreen} options={{ title: 'Course Search' }}/> */}
           <Stack.Screen name="StudentCourse" component={StudentCourseDetailsScreen} options={{ title: 'Course Details' }}/>
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
           <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetailsScreen} />
@@ -150,99 +148,145 @@ const App = () => {
 
 export default App
 
-/*
-//@refresh reset
-import * as firebase from 'firebase'
-import 'firebase/firestore'
-import React, {useState, useEffect, useCallback} from 'react'
-//import AsyncStorage from '@react-native-community/async-storage'
-import { AsyncStorage}  from "react-native";
-import {StyleSheet, Text, TextInput, View, YellowBox, Button} from 'react-native'
-import {StatusBar} from 'expo-status-bar'
+*/
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, Button, Platform } from 'react-native';
 import Firebase from './config/firebase'
-import {GiftedChat} from 'react-native-gifted-chat'
 
 const db = Firebase.firestore()
-const chatsRef = db.collection('chats')
+const tokensRef = db.collection('tokensNotif')
 
-const App = () => {
-  const [user, setUser] = useState(null)
-  const [name, setName] = useState(null)
-  const [messages, setMessages] = useState([])
 
-  useEffect(() => {
-    readUser()
-    console.log(chatsRef.onSnapshot)
-    const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
-      const messagesFirestore = querySnapshot
-          .docChanges()
-          .filter(({ type }) => type === 'added')
-          .map(({ doc }) => {
-            const message = doc.data()
-            //createdAt is firebase.firestore.Timestamp instance
-            //https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp
-            return { ...message, createdAt: message.createdAt.toDate() }
-          })
-      appendMessages(messagesFirestore)
-    })
-    return () => unsubscribe()
-  }, [])
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
 
-  const appendMessages = useCallback(
-      (messages) => {
-        setMessages((previousMessages) => GiftedChat.append(previousMessages, messages))
-      },
-      [messages]
-  )
+export default function App() {
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
 
-  async function readUser(){
-    const user = await AsyncStorage.getItem('user')
-    if(user){
-      setUser(JSON.parse(user));
-    }
-  }
+    useEffect(() => {
+        registerForPushNotificationsAsync()
+        .then((token) => {
+            setExpoPushToken(token);
+            console.log("Token aca es", token);
+            tokensRef.doc(token).set({
+                userId: 3,
+                token: token
+            }).then(() => {
+                console.log("Token added!")
+            })
+        }
+        );
 
-  async function handlePress(){
-    const _id = Math.random().toString(36).substring(7) //ID DEL USUARIO DE AUTH
-    const user= {_id, name}
-    await AsyncStorage.setItem('user',JSON.stringify(user))
-    setUser(user)
-  }
+        /* Obtiene el token de un usuario en especifico, devuelve un objeto con token y userId si ese user
+        tiene token, sino nada
+         */
+        tokensRef.where('userId','==',2).get().then(querySnapshot => {
 
-  //Me manda los mensajes a la DB
-  async function handleSend(messages){
-  const writes = messages.map(m => chatsRef.add(m))
-    await Promise.all(writes)
-  }
-  if(!user){
+            console.log("TOtal users:",querySnapshot.size);
+
+            querySnapshot.forEach(documentSnapshot => {
+                console.log("Datos:",documentSnapshot.data())
+            })
+
+        })
+
+
+        // This listener is fired whenever a notification is received while the app is foregrounded
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            setNotification(notification);
+        });
+
+        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log(response);
+        });
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener.current);
+            Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
+
     return (
-        <View style={styles.container}>
-          <Text numberOfLines={1}></Text>
-          <Text numberOfLines={1}></Text>
-          <Text numberOfLines={1}></Text>
-          <TextInput style={styles.input} placeholder = "Enter your name" value={name} onChangeText={setName}/>
-          <Button onPress={handlePress} title="Enter the chat"/>
+        <View
+            style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'space-around',
+            }}>
+            <Text>Your expo push token: {expoPushToken}</Text>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Title: {notification && notification.request.content.title} </Text>
+                <Text>Body: {notification && notification.request.content.body}</Text>
+                <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+            </View>
+            <Button
+                title="Press to Send Notification"
+                onPress={async () => {
+                    await sendPushNotification(expoPushToken);
+                }}
+            />
         </View>
-          )
-  }
-  return  <GiftedChat messages={messages} user={user} onSend={handleSend}/>
-
+    );
 }
-export default App
-const styles = StyleSheet.create({
-  container_: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 30,
-  },
-  input: {
-    height: 50,
-    width: '100%',
-    borderWidth: 1,
-    padding: 15,
-    marginBottom: 20,
-    borderColor: 'gray',
-  },
-}) */
+
+// Can use this function below, OR use Expo's Push Notification Tool-> https://expo.dev/notifications
+async function sendPushNotification(expoPushToken) {
+    const message = {
+        to: expoPushToken,
+        sound: 'default',
+        title: 'Original Title',
+        body: 'And here is the body!',
+        data: { someData: 'goes here' },
+    };
+
+    await fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(message),
+    });
+}
+
+async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            alert('Failed to get push token for push notification!');
+            return;
+        }
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
+    } else {
+        alert('Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+        });
+    }
+    return token;
+}
+
