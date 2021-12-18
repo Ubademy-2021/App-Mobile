@@ -28,6 +28,7 @@ import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
 import CreatorCourseDetailsScreen from './screens/CreatorCourseDetailsScreen'
 import CollaboratorMyCollaborationsScreen from './screens/CollaboratorMyCollaborationsScreen'
 import CourseContentScreen from './screens/CourseContentScreen'
+import FriendProfileScreen from './Profile/FriendProfileScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -137,6 +138,7 @@ const App = () => {
           <Stack.Screen name="StudentCourse" component={StudentCourseDetailsScreen} options={{ title: 'Course Details' }}/>
           <Stack.Screen name="ProfileEditor" component={ProfileEditorScreen} />
           <Stack.Screen name="SubscriptionDetail" component={SubscriptionDetailsScreen} />
+            <Stack.Screen name="FriendProfile" component={FriendProfileScreen} />
           <Stack.Screen name="Conversation" component={ConversationScreen} />
           <Stack.Screen name="CreateCourse" component={CreatorAddNewCourseScreen} options={{ title: 'Create Course' }} />
           <Stack.Screen name="CreatorCourse" component={CreatorCourseDetailsScreen} options={{ title: 'Course details' }} />

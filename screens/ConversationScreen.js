@@ -2,13 +2,16 @@
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 import React, {useState, useEffect, useCallback} from 'react'
-import {StyleSheet, Text, TextInput, View, YellowBox, Button} from 'react-native'
+import {StyleSheet, Text, TextInput, View, YellowBox, Button,TouchableOpacity} from 'react-native'
 import Firebase from '../config/firebase'
 import {GiftedChat} from 'react-native-gifted-chat'
 import session from '../session/token'
+import { IconButton, Icon, Center, NativeBaseProvider } from 'native-base'
+import { AntDesign } from '@expo/vector-icons'
 
 const db = Firebase.firestore()
 const chatsRef = db.collection('chats')
+
 const tokensRef = db.collection('tokensNotif')
 
 function getChatRef(userId1, userId2) {
@@ -47,6 +50,19 @@ export default function ConversationScreen ({ navigation, route }) {
     const chatId= getChatRef(session.userData[0].id,route.params.receiverId)
     //console.log("Receiver id:",route.params.receiverId)
     //console.log("Sender id:",route.params.senderId)
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("FriendProfile",{userInfo: route.params.userInfo})}
+                >
+                    <AntDesign name="profile" size={24} color="black"/>
+                </TouchableOpacity>
+            ),
+            title: route.params.userInfo.userName
+        });
+    }, [navigation]);
 
     useEffect(() => {
         readUser()
