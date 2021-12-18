@@ -1,8 +1,6 @@
 import React, {useRef, useState} from 'react'
 import { View } from 'react-native'
 import SubscriptionCard from '../components/SubscriptionCard'
-import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
 
 import {
   Avatar,
@@ -22,13 +20,6 @@ import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: false,
-        shouldSetBadge: false,
-    }),
-});
 
 const SubscriptionScreen = ({ navigation }) => {
 
@@ -44,8 +35,6 @@ const SubscriptionScreen = ({ navigation }) => {
   let subsDet
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
-  // console.log('session token:', sessionToken)
-  // console.log('Header:', tokenHeader)
 
   fetch(userSubscriptionURL + studentId, { headers: { [tokenHeader]: sessionToken } })
     .then((response) => response.json())
@@ -104,23 +93,9 @@ const SubscriptionScreen = ({ navigation }) => {
   const tabIsFocused = useIsFocused()
 
   React.useEffect(() => {
-     /* notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-          setNotification(notification);
-      });
-
-      // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-          console.log(response);
-          navigation.navigate("SubscriptionDetail");
-          //console.log("ACA REDIRECCIONO")
-      });*/
     if (tabIsFocused) {
       getSuscriptions()
     }
-      /*return () => {
-          Notifications.removeNotificationSubscription(notificationListener.current);
-          Notifications.removeNotificationSubscription(responseListener.current);
-      };*/
 
   }, [tabIsFocused])
 

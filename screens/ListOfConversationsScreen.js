@@ -11,6 +11,14 @@ ScrollView,
     NativeBaseProvider
 } from 'native-base'
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+    }),
+});
+
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 const getUsersUrl = 'https://ubademy-user-service.herokuapp.com/api/users'
 const ListOfConversationsScreen = ({ navigation }) => {
@@ -38,9 +46,6 @@ const ListOfConversationsScreen = ({ navigation }) => {
                     //console.log("Username: userId:",user.userName, user.id)
                 }
                 //setUsers_(usersIds)
-                //console.log("users idss:",users_)
-              //  console.log("Users ids:",usersIds)
-                //console.log("Users:", json[0].id)
                 return users__
             })
             .catch((error) => {
@@ -56,17 +61,14 @@ const ListOfConversationsScreen = ({ navigation }) => {
         // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
             console.log(response);
-            navigation.navigate("Conversation", { senderId: 4, receiverId: session.userData[0].id });
+            //navigation.navigate("Conversation", { senderId: 4, receiverId: session.userData[0].id });
+            navigation.navigate("Messages");
             //console.log("ACA REDIRECCIONO")
         });
 
         async function fetchData(){
             const users= await getUsersFromApi();
-            //console.log("users es:",users)
-            //console.log("Users aca es:",users)
             setChats(users);
-            //console.log("Chats aca es",chats)
-            //console.log("USers:",users)
         }
         fetchData()
         return () => {
