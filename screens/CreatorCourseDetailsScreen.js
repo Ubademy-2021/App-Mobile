@@ -23,6 +23,7 @@ import { formatForCategories, formatForCollaborations, formatForSubscriptions } 
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Notification from '../components/Notification'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -242,6 +243,14 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                  </VStack>
                {/* </Collapse> */}
              </FormControl>
+             <TouchableOpacity
+               style={styles.button}
+               onPress={ () => {
+                 navigation.navigate('CourseContent', { course: course })
+               }}
+             >
+               <Text style={{ color: '#ffffff' }}>Course content</Text>
+             </TouchableOpacity>
            </VStack>
          </Box>
          <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
@@ -249,11 +258,12 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
            <ScrollView>
               <VStack space={4} >
                 { students.map(item => {
+                  console.log(item)
                   return (
                   <Pressable
                     key={item.id}
                     onPress={() => {
-                      console.log('click en usuario')
+                      navigation.navigate('FriendProfile', { userInfo: item })
                     }}
                   >
                     <Box
@@ -333,7 +343,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                    <Pressable
                      key={item.id}
                      onPress={() => {
-                       console.log('click en colaborador')
+                       navigation.navigate('FriendProfile', { userInfo: item })
                      }}
                    >
                      <Box
@@ -445,3 +455,21 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
      </NativeBaseProvider>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#5869b6',
+    padding: 10,
+    color: '#bf2d2d'
+  },
+  countContainer: {
+    alignItems: 'center',
+    padding: 10
+  }
+})
