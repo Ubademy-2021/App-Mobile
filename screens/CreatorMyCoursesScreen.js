@@ -71,7 +71,7 @@ export default function CreatorMyCoursesScreen ({ navigation }) {
               <Pressable
                 key={item.id}
                 onPress={() => {
-                  navigation.navigate('CreatorCourse', { course: item })
+                  navigation.navigate('CreatorCourse', { course: item, creator: true })
                 }}
               >
                 <CourseCard

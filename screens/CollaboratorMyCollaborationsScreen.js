@@ -6,6 +6,7 @@ import session from '../session/token'
 import { useIsFocused } from '@react-navigation/native'
 import Notification from '../components/Notification'
 import { getResourcesFromApi } from '../common/ApiCommunication'
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -61,19 +62,19 @@ export default function CollaboratorMyCollaborationsScreen ({ navigation }) {
         <ScrollView>
           { searchResults.map(item => {
             return (
-            /* <Pressable
+            <Pressable
               key={item.id}
               onPress={() => {
-                navigation.navigate('CreatorCourse', { course: item })
+                navigation.navigate('CreatorCourse', { course: item, creator: false })
               }}
-            > */
+            >
               <CourseCard
                 key={item.id}
                 title={item.courseName}
                 price={item.inscriptionPrice}
                 duration={item.duration}
                 subscription={item.suscriptions[0].description} />
-            // </Pressable>
+            </Pressable>
             )
           }) }
         </ScrollView>

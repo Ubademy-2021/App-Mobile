@@ -196,3 +196,67 @@ export function postNewCollaborator (postNewCollaboratorURL, tokenHeader, sessio
       console.error(error)
     })
 }
+
+export function publishExam (publishExamURL, tokenHeader, sessionToken, navigation) {
+  return fetch(publishExamURL, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    }
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert('There was an error while handling your request')
+      }
+    } else {
+      window.alert('Exam published successfully')
+    }
+
+    return response.json()
+  })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function postCorrection (postCorrectionURL, tokenHeader, sessionToken, solutionInfo, results, navigation) {
+  return fetch(postCorrectionURL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      courseId: solutionInfo.courseId,
+      examNumber: solutionInfo.examNumber,
+      userId: solutionInfo.userId,
+      answers: results
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert(response.json().detail)
+      }
+    } else {
+      window.alert('Correction added successfully')
+    }
+
+    return response.json()
+  })
+    .catch((error) => {
+      console.error(error)
+    })
+}
