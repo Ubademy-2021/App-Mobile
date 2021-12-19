@@ -24,6 +24,7 @@ import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Notification from '../components/Notification'
 import { StyleSheet, TouchableOpacity } from 'react-native'
+import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -53,6 +54,8 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const getExamsURL = apiGatewayBaseUrl + 'exams?courseId='
   const putCourseURL = apiGatewayBaseUrl + 'courses/' + course.id
   const postNewCollaboratorURL = apiGatewayBaseUrl + 'collaborators'
+
+  const tabIsFocused = useIsFocused()
 
   const validate = () => {
     if (formData.courseName === undefined || formData.courseName.length === 0) {
@@ -147,6 +150,17 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
 
     fetchData()
   }, [])
+
+  React.useEffect(() => {
+    async function fetchData () {
+      const exms = await getResourcesFromApi(getExamsURL + course.id, tokenHeader, sessionToken, navigation)
+      setExams(exms)
+    }
+
+    if (tabIsFocused) {
+      fetchData()
+    }
+  }, [tabIsFocused])
 
   return (
      <NativeBaseProvider>
@@ -258,7 +272,6 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
            <ScrollView>
               <VStack space={4} >
                 { students.map(item => {
-                  console.log(item)
                   return (
                   <Pressable
                     key={item.id}
@@ -398,7 +411,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                    name: 'plus'
                  }}
                  onPress={() => {
-                   navigation.navigate('CreateExam')
+                   navigation.navigate('CreateExam', { course: course })
                  }}
                />
              </Collapse>
