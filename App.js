@@ -27,6 +27,9 @@ import CreatorAddNewCourseScreen from './screens/CreatorAddNewCourseScreen'
 import CreatorMyCoursesScreen from './screens/CreatorMyCoursesScreen'
 import CreatorCourseDetailsScreen from './screens/CreatorCourseDetailsScreen'
 import CollaboratorMyCollaborationsScreen from './screens/CollaboratorMyCollaborationsScreen'
+import ExamCreationScreen from './screens/ExamCreationScreen'
+import ExamDetailsScreen from './screens/ExamDetailsScreen'
+import ExamSolutionDetailsScreen from './screens/ExamSolutionDetailsScreen'
 import CourseContentScreen from './screens/CourseContentScreen'
 import FriendProfileScreen from './Profile/FriendProfileScreen'
 
@@ -142,7 +145,10 @@ const App = () => {
           <Stack.Screen name="Conversation" component={ConversationScreen} />
           <Stack.Screen name="CreateCourse" component={CreatorAddNewCourseScreen} options={{ title: 'Create Course' }} />
           <Stack.Screen name="CreatorCourse" component={CreatorCourseDetailsScreen} options={{ title: 'Course details' }} />
-            <Stack.Screen name="CourseContent" component={CourseContentScreen} options={{ title: 'Course content' }} />
+          <Stack.Screen name="CreateExam" component={ExamCreationScreen} options={{ title: 'Create Exam' }} />
+          <Stack.Screen name="ExamDetails" component={ExamDetailsScreen} options={{ title: 'Exam Details' }} />
+          <Stack.Screen name="ExamSolution" component={ExamSolutionDetailsScreen} options={{ title: 'Solution Details' }} />
+          <Stack.Screen name="CourseContent" component={CourseContentScreen} options={{ title: 'Course content' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

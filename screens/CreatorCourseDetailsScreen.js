@@ -22,11 +22,12 @@ import {
 import { formatForCategories, formatForCollaborations, formatForSubscriptions } from '../common/Format'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Notification from '../components/Notification'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
 export default function CreatorCourseDetailsScreen ({ navigation, route }) {
-  const { course } = route.params
+  const { course, creator } = route.params
 
   const [formData, setData] = React.useState(course)
   const [errors, setErrors] = React.useState({})
@@ -39,16 +40,17 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const [editEnabled, setEditEnabled] = React.useState(false)
   const [addCollaborator, setAddCollaborator] = React.useState(false)
   const [newCollaboratorId, setNewCollaboratorId] = React.useState([])
+  const [exams, setExams] = React.useState([])
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
+
   const getSubscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   const getCategoriesURL = apiGatewayBaseUrl + 'categories'
   const getCourseStudentsURL = apiGatewayBaseUrl + 'courses/students/'
   const getCollaboratorsURL = apiGatewayBaseUrl + 'collaborators/'
-  // const getCourseStudentsURL = 'https://course-service-ubademy.herokuapp.com/api/courses/students/'
+  const getExamsURL = apiGatewayBaseUrl + 'exams?courseId='
   const putCourseURL = apiGatewayBaseUrl + 'courses/' + course.id
-  // const putCourseURL = 'https://course-service-ubademy.herokuapp.com/api/courses/' + course.id
   const postNewCollaboratorURL = apiGatewayBaseUrl + 'collaborators'
 
   const validate = () => {
@@ -134,10 +136,12 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
       const cats = await getResourcesFromApi(getCategoriesURL, tokenHeader, sessionToken, navigation)
       const students = await getResourcesFromApi(getCourseStudentsURL + course.id, tokenHeader, sessionToken, navigation)
       const collabs = await getResourcesFromApi(getCollaboratorsURL + course.id, tokenHeader, sessionToken, navigation)
+      const exms = await getResourcesFromApi(getExamsURL + course.id, tokenHeader, sessionToken, navigation)
       setSubscriptions(formatForSubscriptions(subs))
       setCategories(formatForCategories(cats))
       setStudents(students)
       setCollaborators(formatForCollaborations(collabs))
+      setExams(exms)
     }
 
     fetchData()
@@ -152,17 +156,19 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                Basic Info
              </Heading>
              <Spacer />
-             <IconButton
-               key='outline'
-               variant='outline'
-               _icon={{
-                 as: AntDesign,
-                 name: 'edit'
-               }}
-               onPress={() => {
-                 setEditEnabled(!editEnabled)
-               }}
-             />
+             <Collapse isOpen={creator}>
+               <IconButton
+                 key='outline'
+                 variant='outline'
+                 _icon={{
+                   as: AntDesign,
+                   name: 'edit'
+                 }}
+                 onPress={() => {
+                   setEditEnabled(!editEnabled)
+                 }}
+               />
+             </Collapse>
            </HStack>
            <VStack width="80%" space={4}>
              <FormControl isRequired isDisabled={!editEnabled} isInvalid={'courseName' in errors}>
@@ -283,24 +289,29 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                 }) }
               </VStack>
               <Collapse isOpen={students.length === 0}>
-                <Text>Currently there are no students enrolled to this course</Text>
+                <Notification
+                  status='info'
+                  message='Currently there are no students enrolled to this course'
+                />
               </Collapse>
            </ScrollView>
            <HStack>
              <Heading>Collaborators</Heading>
              <Spacer />
-             <IconButton
-               key='outline'
-               size='sm'
-               variant='outline'
-               _icon={{
-                 as: AntDesign,
-                 name: 'plus'
-               }}
-               onPress={() => {
-                 setAddCollaborator(!addCollaborator)
-               }}
-             />
+             <Collapse isOpen={creator}>
+               <IconButton
+                 key='outline'
+                 size='sm'
+                 variant='outline'
+                 _icon={{
+                   as: AntDesign,
+                   name: 'plus'
+                 }}
+                 onPress={() => {
+                   setAddCollaborator(!addCollaborator)
+                 }}
+               />
+             </Collapse>
            </HStack>
            <Collapse isOpen={addCollaborator}>
              <FormControl isRequired isInvalid={'newCollaborator' in errors}>
@@ -358,9 +369,77 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                }) }
              </VStack>
              <Collapse isOpen={collaborators.length === 0}>
-               <Text>Currently there are no collaborators added in this course</Text>
+               <Notification
+                 status='info'
+                 message='Currently there are no collaborators added in this course'
+               />
              </Collapse>
            </ScrollView>
+           <HStack>
+             <Heading>Exams</Heading>
+             <Spacer />
+             <Collapse isOpen={creator}>
+               <IconButton
+                 key='outline'
+                 size='sm'
+                 variant='outline'
+                 _icon={{
+                   as: AntDesign,
+                   name: 'plus'
+                 }}
+                 onPress={() => {
+                   navigation.navigate('CreateExam')
+                 }}
+               />
+             </Collapse>
+           </HStack>
+             <VStack space={4} >
+               { exams.map(item => {
+                 return (
+                   <Pressable
+                     key={item.number}
+                     onPress={() => {
+                       navigation.navigate('ExamDetails', { exam: item })
+                     }}
+                   >
+                     <Box
+                       safeArea flex={1} p="3" w="90%"
+                       bg='transparent'
+                       borderColor="gray.900"
+                       rounded="4"
+                     >
+                       <HStack space={3} justifyContent="space-between">
+                         <Text
+                           _dark={{
+                             color: 'warmGray.50'
+                           }}
+                           color="coolGray.800"
+                           bold
+                         >
+                           Exam {item.number} : {item.description}
+                         </Text>
+                         <Spacer />
+                         <Text
+                           _dark={{
+                             color: 'warmGray.50'
+                           }}
+                           color="coolGray.800"
+                           alignSelf="flex-start"
+                         >
+                           Questions: {item.questions.length}
+                         </Text>
+                       </HStack>
+                     </Box>
+                   </Pressable>
+                 )
+               }) }
+             </VStack>
+             <Collapse isOpen={exams.length === 0}>
+               <Notification
+                 status='info'
+                 message='Currently there are no exams added in this course'
+               />
+             </Collapse>
          </Box>
        </ScrollView>
      </NativeBaseProvider>
