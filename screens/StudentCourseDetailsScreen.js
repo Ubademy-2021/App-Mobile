@@ -1,11 +1,13 @@
 import React from 'react'
-import { Box, Button, Collapse, Heading, VStack } from 'native-base'
+import {Box, Button, Collapse, Heading, VStack} from 'native-base'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import Notification from '../components/Notification'
 import session from '../session/token'
 import { AntDesign } from '@expo/vector-icons'
 import EnrrollAndUnenrrollButtonWithConfirmation from '../components/EnrrollAndUnenrrollButtonWithConfirmation'
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { getResourcesFromApi } from '../common/ApiCommunication'
+
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -251,10 +253,21 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
           <Heading fontSize="xl">{course.courseName}</Heading>
           <Heading fontSize="lg">Price: {course.inscriptionPrice}</Heading>
           <Heading fontSize="lg">Duration: {course.duration} hours</Heading>
+          <Heading fontSize="lg">Video id: {course.videos}</Heading>
           <Heading fontSize="lg">Subscription: {subscription}</Heading>
           <Heading fontSize="lg">Categories: {categories}</Heading>
         </VStack>
       </Box>
+      <Collapse isOpen={activeCourse && alreadyEnrrolled}>
+          <TouchableOpacity
+              style={styles.button}
+              onPress={ () => {
+                navigation.navigate('CourseContent', {course: course})
+              }}
+          >
+            <Text style={{color: "#ffffff"}}>Course content</Text>
+          </TouchableOpacity>
+      </Collapse>
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
         <EnrrollAndUnenrrollButtonWithConfirmation
           activeCourse={activeCourse}
@@ -285,3 +298,21 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
     </NativeBaseProvider>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 10
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#5869b6",
+    padding: 10,
+    color: "#bf2d2d"
+  },
+  countContainer: {
+    alignItems: "center",
+    padding: 10
+  }
+});
