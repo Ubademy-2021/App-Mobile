@@ -227,6 +227,41 @@ export function publishExam (publishExamURL, tokenHeader, sessionToken, navigati
     })
 }
 
+export function postExam (postExamURL, tokenHeader, sessionToken, description, courseInfo, questions, navigation) {
+  return fetch(postExamURL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      description: description,
+      courseId: courseInfo.id,
+      questions: questions
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert(response.json().detail)
+      }
+    } else {
+      window.alert('Exam created succesfully')
+      navigation.navigate('CreatorCourse', { course: courseInfo, creator: true })
+    }
+
+    return response.json()
+  })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
 export function postCorrection (postCorrectionURL, tokenHeader, sessionToken, solutionInfo, results, navigation) {
   return fetch(postCorrectionURL, {
     method: 'POST',
