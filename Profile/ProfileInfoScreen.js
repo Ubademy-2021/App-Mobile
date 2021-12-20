@@ -3,6 +3,7 @@ import { ImageBackground, View, StyleSheet, Platform ,TouchableOpacity} from 're
 import session from '../session/token'
 import getCapitalLetters from './AvatarLetters'
 import logo from '../assets/backgroundProfile.jpg'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import {
   Avatar,
@@ -101,7 +102,7 @@ export default function ProfileInfo ({ navigation }) {
                 <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
                     <VStack space={4} alignItems="flex-end">
                         <Center flex={1} px="125">
-                        <TouchableOpacity
+                            {/*<TouchableOpacity
                             style={{
                                 alignItems: "center",
                                 backgroundColor: "#DDDDDD",
@@ -112,19 +113,19 @@ export default function ProfileInfo ({ navigation }) {
                             }}
                         >
                             <Text>Edit Profile</Text>
-                        </TouchableOpacity>
-                        </Center>
-                        {/*<IconButton
-                                colorScheme="indigo"
-                                variant="solid"
+                        </TouchableOpacity>*/}
+                            <IconButton
+                                key='outline'
+                                variant='outline'
                                 _icon={{
-                                  as: FontAwesome5,
-                                  name: 'pen'
+                                    as: AntDesign,
+                                    name: 'edit'
                                 }}
                                 onPress={() => {
-                                  navigation.navigate('ProfileEditor')
+                                    navigation.navigate('ProfileEditor')
                                 }}
-                            />*/}
+                            />
+                        </Center>
                         <Text numberOfLines={1}></Text>
                     </VStack>
                     <Text style={styles.headerText}> Profile Information</Text>
