@@ -3,17 +3,18 @@ import { ImageBackground, View, StyleSheet, Platform ,TouchableOpacity} from 're
 import session from '../session/token'
 import getCapitalLetters from './AvatarLetters'
 import logo from '../assets/backgroundProfile.jpg'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import {
-  Avatar,
-  Box,
-  Center,
-  Text,
-  VStack,
-  IconButton,
-  HStack,
-  NativeBaseProvider,
-  ScrollView
+    Avatar,
+    Box,
+    Center,
+    Text,
+    VStack,
+    IconButton,
+    HStack,
+    NativeBaseProvider,
+    ScrollView, Heading, Spacer, Collapse
 } from 'native-base'
 
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -99,35 +100,23 @@ export default function ProfileInfo ({ navigation }) {
 
                 </ImageBackground>
                 <Box safeArea flex={1} p="2" py="8" w="90%" mx="auto">
-                    <VStack space={4} alignItems="flex-end">
-                        <Center flex={1} px="125">
-                        <TouchableOpacity
-                            style={{
-                                alignItems: "center",
-                                backgroundColor: "#DDDDDD",
-                                padding: 10
+                    <HStack space={3} alignItems="center">
+                        <Heading>
+                            Profile Information
+                        </Heading>
+                        <Spacer />
+                        <IconButton
+                            key='outline'
+                            variant='outline'
+                            _icon={{
+                                as: AntDesign,
+                                name: 'edit'
                             }}
                             onPress={() => {
                                 navigation.navigate('ProfileEditor')
                             }}
-                        >
-                            <Text>Edit Profile</Text>
-                        </TouchableOpacity>
-                        </Center>
-                        {/*<IconButton
-                                colorScheme="indigo"
-                                variant="solid"
-                                _icon={{
-                                  as: FontAwesome5,
-                                  name: 'pen'
-                                }}
-                                onPress={() => {
-                                  navigation.navigate('ProfileEditor')
-                                }}
-                            />*/}
-                        <Text numberOfLines={1}></Text>
-                    </VStack>
-                    <Text style={styles.headerText}> Profile Information</Text>
+                        />
+                    </HStack>
                     {session.userData[0].name === 'null' ? renderVoid() : renderName()}
                     {session.userData[0].surname === 'null' ? renderVoid() : renderSurname()}
                     <Text numberOfLines={1}></Text>
