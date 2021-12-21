@@ -11,58 +11,10 @@ import {
     ScrollView, Text, Center
 } from 'native-base'
 import { StyleSheet , View, Alert} from 'react-native'
-import WebView from "react-native-webview";
 import React, { useState, useCallback, useRef } from "react";
-import YoutubePlayer from "react-native-youtube-iframe";
 
 export default function ProfileEditionForm ({ navigation }) {
-    /*
-    const [playing, setPlaying] = useState(false);
 
-    const onStateChange = useCallback((state) => {
-        if (state === "ended") {
-            setPlaying(false);
-            Alert.alert("video has finished playing!");
-        }  }, []);
-    const togglePlaying = useCallback(() => {
-        setPlaying((prev) => !prev);
-    }, []);
-    return (
-        <NativeBaseProvider>
-            <View>
-                <Center>
-                    <Heading>
-                        Python course content
-                    </Heading>
-                </Center>
-                <Text numberOfLines={1}></Text>
-                <Text numberOfLines={1}></Text>
-                <Center>
-                    <Heading>
-                        Class 01 - Dictionary in Python
-                    </Heading>
-                </Center>
-                <YoutubePlayer
-                    height={300}
-                    play={playing}
-                    videoId={"2IsF7DEtVjg"}
-                    onChangeState={onStateChange}
-                />
-
-                <Center>
-                    <Heading>
-                        Class 02 - Concurrency in Python
-                    </Heading>
-                </Center>
-                <YoutubePlayer
-                    height={300}
-                    play={playing}
-                    videoId={"gCCVsvgR2KU"}
-                    onChangeState={onStateChange}
-                />
-            </View>
-        </NativeBaseProvider>
-    );*/
 
     const newUserData = {}
 
@@ -117,7 +69,6 @@ export default function ProfileEditionForm ({ navigation }) {
       response.json().then(data => {
         reAssignUserData(data)
         window.alert('Profile saved')
-        // console.log("New data es:",session.userData[0]);
       })
     } else {
       if (response.status === 403) {
@@ -153,7 +104,7 @@ export default function ProfileEditionForm ({ navigation }) {
                                 Username
                             </FormControl.Label>
                             <Input
-                                placeholder="Jorge06"
+                                placeholder="e.g: Jorge06"
                                 onChangeText={(value) => setLocationData({ ...locationData, userName: value })}
                             />
                         </FormControl>
@@ -163,7 +114,7 @@ export default function ProfileEditionForm ({ navigation }) {
                                 Name
                             </FormControl.Label>
                             <Input
-                                placeholder="Jorge"
+                                placeholder="e.g: Jorge"
                                 onChangeText={(value) => setLocationData({ ...locationData, name: value })}
                             />
                         </FormControl>
@@ -173,7 +124,7 @@ export default function ProfileEditionForm ({ navigation }) {
                                 Surname
                             </FormControl.Label>
                             <Input
-                                placeholder="Perez"
+                                placeholder="e.g: Perez"
                                 onChangeText={(value) => setLocationData({ ...locationData, surname: value })}
                             />
                         </FormControl>
@@ -183,7 +134,7 @@ export default function ProfileEditionForm ({ navigation }) {
                                 Address
                             </FormControl.Label>
                             <Input
-                                placeholder="Moldes 2032"
+                                placeholder="e.g: Moldes 2032"
                                 onChangeText={(value) => setLocationData({ ...locationData, address: value })}
                             />
                         </FormControl>
@@ -193,7 +144,7 @@ export default function ProfileEditionForm ({ navigation }) {
                                 City
                             </FormControl.Label>
                             <Input
-                                placeholder="CABA"
+                                placeholder="e.g: CABA"
                                 onChangeText={(value) => setLocationData({ ...locationData, city: value })}
                             />
                         </FormControl>
@@ -203,7 +154,7 @@ export default function ProfileEditionForm ({ navigation }) {
                                 State
                             </FormControl.Label>
                             <Input
-                                placeholder="Buenos Aires"
+                                placeholder="e.g: Buenos Aires"
                                 onChangeText={(value) => setLocationData({ ...locationData, state: value })}
                             />
                         </FormControl>
@@ -213,7 +164,7 @@ export default function ProfileEditionForm ({ navigation }) {
                                 Country
                             </FormControl.Label>
                             <Input
-                                placeholder="Argentina"
+                                placeholder="e.g: Argentina"
                                 onChangeText={(value) => setLocationData({ ...locationData, country: value })}
                             />
                         </FormControl>
