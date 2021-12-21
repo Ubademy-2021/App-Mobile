@@ -29,8 +29,8 @@ export default function ExamDetailsScreen ({ navigation, route }) {
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
 
-  const getSolutionsURL = 'https://exam-service-ubademy.herokuapp.com/api/solutions?courseId=' + exam.courseId + '&examNumber=' + exam.number
-  const publishExamURL = 'https://exam-service-ubademy.herokuapp.com/api/exams/publish?courseId=' + exam.courseId + '&examNumber=' + exam.number
+  const getSolutionsURL = apiGatewayBaseUrl + 'solutions?courseId=' + exam.courseId + '&examNumber=' + exam.number
+  const publishExamURL = apiGatewayBaseUrl + 'exams/publish?courseId=' + exam.courseId + '&examNumber=' + exam.number
 
   const tabIsFocused = useIsFocused()
 

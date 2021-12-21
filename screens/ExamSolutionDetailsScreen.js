@@ -15,6 +15,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { postCorrection } from '../common/ApiCommunication'
 import session from '../session/token'
 
+const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
+
 export default function ExamSolutionDetailsScreen ({ navigation, route }) {
   const { exam, solution } = route.params
 
@@ -27,7 +29,7 @@ export default function ExamSolutionDetailsScreen ({ navigation, route }) {
   const [validCorrection, setValidCorrection] = React.useState(false)
   const [pressedButton, setPressedButton] = React.useState(false)
 
-  const postCorrectionURL = 'https://exam-service-ubademy.herokuapp.com/api/solutions/corrections'
+  const postCorrectionURL = apiGatewayBaseUrl + 'solutions/corrections'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken

@@ -15,6 +15,8 @@ import session from '../session/token'
 import ConfirmationAlert from '../components/ConfirmationAlert'
 import { getStudentSolutionForExam, postSolution } from '../common/ApiCommunication'
 
+const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
+
 export function ExamCompletionScreen ({ navigation, route }) {
   const { exam } = route.params
   const studentId = session.userData[0].id
@@ -27,8 +29,8 @@ export function ExamCompletionScreen ({ navigation, route }) {
   const [alreadyAnswered, setAlreadyAnswered] = React.useState(false)
   const [savedSolution, setSavedSolution] = React.useState([{ answers: [{ number: -1, correct: null }], correctAnswers: 0 }])
 
-  const postSolutionURL = 'https://exam-service-ubademy.herokuapp.com/api/solutions'
-  const getStudentSolutionForExamURL = 'https://exam-service-ubademy.herokuapp.com/api/solutions?courseId=' + exam.courseId + '&examNumber=' + exam.number + '&userId=' + studentId
+  const postSolutionURL = apiGatewayBaseUrl + 'solutions'
+  const getStudentSolutionForExamURL = apiGatewayBaseUrl + 'solutions?courseId=' + exam.courseId + '&examNumber=' + exam.number + '&userId=' + studentId
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken

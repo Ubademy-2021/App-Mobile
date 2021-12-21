@@ -16,6 +16,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { postExam } from '../common/ApiCommunication'
 import session from '../session/token'
 
+const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
+
 export default function ExamCreationScreen ({ navigation, route }) {
   const { course } = route.params
 
@@ -26,7 +28,7 @@ export default function ExamCreationScreen ({ navigation, route }) {
   const [description, setDescription] = React.useState('')
   let keys = 0
 
-  const postExamURL = 'https://exam-service-ubademy.herokuapp.com/api/exams'
+  const postExamURL = apiGatewayBaseUrl + 'exams'
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
