@@ -33,6 +33,7 @@ import ExamSolutionDetailsScreen from './screens/ExamSolutionDetailsScreen'
 import CourseContentScreen from './screens/CourseContentScreen'
 import FriendProfileScreen from './Profile/FriendProfileScreen'
 import { ExamCompletionScreen } from './screens/ExamCompletionScreen'
+import { ExamEditScreen } from './screens/ExamEditScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -151,6 +152,7 @@ const App = () => {
           <Stack.Screen name="ExamSolution" component={ExamSolutionDetailsScreen} options={{ title: 'Solution Details' }} />
           <Stack.Screen name="CourseContent" component={CourseContentScreen} options={{ title: 'Course content' }} />
           <Stack.Screen name="ExamCompletion" component={ExamCompletionScreen} options={{ title: 'Exam Completion' }} />
+          <Stack.Screen name="ExamEdit" component={ExamEditScreen} options={{ title: 'Exam Edit' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -20,8 +20,8 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 
 export default function ExamDetailsScreen ({ navigation, route }) {
   const { exam } = route.params
+  console.log(exam)
 
-  const [questions, setQuestions] = React.useState(exam.questions)
   const [solutions, setSolutions] = React.useState([])
   const [students, setStudents] = React.useState([])
   const [isPublished, setIsPublished] = React.useState(exam.published)
@@ -78,10 +78,29 @@ export default function ExamDetailsScreen ({ navigation, route }) {
       <ScrollView>
         <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
           <Heading>
+            Description
+          </Heading>
+          <Box
+            safeArea p="2" w="100%"
+            bg='transparent'
+            borderColor="gray.900"
+            rounded="4"
+          >
+            <Text
+              _dark={{
+                color: 'warmGray.50'
+              }}
+              color="coolGray.800"
+              bold
+            >
+              {exam.description}
+            </Text>
+          </Box>
+          <Heading>
             Questions
           </Heading>
           <VStack width="80%" space={4}>
-            { questions.map(item => {
+            { exam.questions.map(item => {
               return (
                   <Box
                     key={item.number}
@@ -113,9 +132,15 @@ export default function ExamDetailsScreen ({ navigation, route }) {
             }) }
           </VStack>
           <Collapse isOpen={!isPublished}>
-            <Button onPress={() => { publish() }}>
-              Publish
-            </Button>
+            <VStack space={1}>
+              <Button onPress={() => { navigation.navigate('ExamEdit', { exam: exam }) }}>
+                Edit
+              </Button>
+              <Spacer/>
+              <Button onPress={() => { publish() }}>
+                Publish
+              </Button>
+            </VStack>
           </Collapse>
           <Heading>
             Solutions
