@@ -254,9 +254,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
             onPress={handleFavClick}
           />
           <Heading fontSize="xl">{course.courseName}</Heading>
-          <Heading fontSize="lg">Price: {course.inscriptionPrice}</Heading>
           <Heading fontSize="lg">Duration: {course.duration} hours</Heading>
-          <Heading fontSize="lg">Video id: {course.videos}</Heading>
           <Heading fontSize="lg">Subscription: {subscription}</Heading>
           <Heading fontSize="lg">Categories: {categories}</Heading>
         </VStack>
