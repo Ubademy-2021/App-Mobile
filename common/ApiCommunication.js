@@ -1,7 +1,6 @@
 import React from 'react'
 import session from '../session/token'
 
-// Can be used to get categories, subscriptions from API
 export function getResourcesFromApi (endpoint, tokenHeader, sessionToken, navigation) {
   return fetch(endpoint,
     { headers: { [tokenHeader]: sessionToken } })
@@ -27,6 +26,31 @@ export function getResourcesFromApi (endpoint, tokenHeader, sessionToken, naviga
     })
 }
 
+export function getStudentSolutionForExam (getSolutionURL, tokenHeader, sessionToken, examInfo, studentId, navigation) {
+  return fetch(getSolutionURL,
+    { headers: { [tokenHeader]: sessionToken } })
+    .then((response) => {
+      if (!response.ok) {
+        if (response.status === 403) {
+          window.alert('Session expired')
+          session.facebookSession = false
+          session.firebaseSession = false
+          navigation.navigate('Login')
+        } else {
+          return null
+        }
+      }
+
+      return response.json()
+    })
+    .then((json) => {
+      return json
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
 export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken, body, ownerId, suscriptionId, categoryIds, navigation) {
   return fetch(postNewCourseURL, {
     method: 'POST',
@@ -39,7 +63,6 @@ export function postNewCourseToApi (postNewCourseURL, tokenHeader, sessionToken,
       courseName: body.courseName,
       duration: body.duration,
       // No deberia tener este campo,pero tampoco me toma la request si le pongo 0
-      inscriptionPrice: 10,
       description: body.description,
       ownerId: ownerId,
       suscriptionId: suscriptionId,
@@ -79,8 +102,6 @@ export function putCourseToApi (putCourseURL, tokenHeader, sessionToken, body, s
     body: JSON.stringify({
       courseName: body.courseName,
       duration: body.duration,
-      // No deberia tener este campo,pero tampoco me toma la request si le pongo 0
-      inscriptionPrice: 10,
       description: body.description,
       suscriptionId: suscriptionId
     })
@@ -253,6 +274,41 @@ export function postExam (postExamURL, tokenHeader, sessionToken, description, c
     } else {
       window.alert('Exam created succesfully')
       navigation.navigate('CreatorCourse', { course: courseInfo, creator: true })
+    }
+
+    return response.json()
+  })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+export function postSolution (postSolutionURL, tokenHeader, sessionToken, examInfo, userId, answers, navigation) {
+  return fetch(postSolutionURL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      courseId: examInfo.courseId,
+      examNumber: examInfo.number,
+      userId: userId,
+      answers: answers
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert(response.json().detail)
+      }
+    } else {
+      window.alert('Solution processed successfully')
     }
 
     return response.json()
