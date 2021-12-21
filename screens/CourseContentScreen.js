@@ -13,13 +13,23 @@ import {
 import { StyleSheet , View, Alert} from 'react-native'
 import React, { useState, useCallback, useRef } from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
+import CourseInSubscriptionCard from "../components/CourseInSubscriptionCard";
+import CustomVideo from "../components/CustomVideo"
 
-export default function ProfileEditionForm ({ navigation, route }) {
+export default function CourseContentScreen ({ navigation, route }) {
 
     const [playing, setPlaying] = useState(false);
-
+    //const [videosArrayInfo, setVideosArrayInfo] =useState([]);
+    const videosInfo= [];
     const { course } = route.params
+    const videosArray=course.videos.split(":");
 
+    var i=0;
+    for (var video in videosArray){
+        videosInfo.push({key: i, videoId: videosArray[i], videoDescription: "Class "+i})
+        i++;
+    }
+    console.log("Videos info es:",videosInfo);
     const onStateChange = useCallback((state) => {
         if (state === "ended") {
             setPlaying(false);
@@ -29,9 +39,13 @@ export default function ProfileEditionForm ({ navigation, route }) {
     const togglePlaying = useCallback(() => {
         setPlaying((prev) => !prev);
     }, []);
+
+
+
     return (
         <NativeBaseProvider>
             <ScrollView>
+                <Text numberOfLines={1}></Text>
                 <Center>
                     <Heading>
                         {course.courseName}
@@ -39,11 +53,22 @@ export default function ProfileEditionForm ({ navigation, route }) {
                 </Center>
                 <Text numberOfLines={1}></Text>
                 <Text numberOfLines={1}></Text>
-                <Center>
-                    <Heading>
-                        Class 01
-                    </Heading>
-                </Center>
+                <Heading>
+                    Class Videos
+                </Heading>
+                <Text numberOfLines={1}></Text>
+                <Text numberOfLines={1}></Text>
+                { videosInfo.map(item => {
+                    return (
+                        <YoutubePlayer
+                            key={item.key}
+                            height={300}
+                            play={playing}
+                            videoId={item.videoId}
+                            onChangeState={onStateChange}
+                        />
+                    )
+                }) }
                 <Text numberOfLines={1}></Text>
                 <Text numberOfLines={1}></Text>
                 <YoutubePlayer
