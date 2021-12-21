@@ -1,19 +1,18 @@
 import React from 'react'
-import {Box, Button, Collapse, Heading, VStack} from 'native-base'
+import { Box, Button, Collapse, Heading, HStack, Spacer, VStack } from 'native-base'
 import { NativeBaseProvider } from 'native-base/src/core/NativeBaseProvider'
 import Notification from '../components/Notification'
 import session from '../session/token'
 import { AntDesign } from '@expo/vector-icons'
 import EnrrollAndUnenrrollButtonWithConfirmation from '../components/EnrrollAndUnenrrollButtonWithConfirmation'
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { getResourcesFromApi } from '../common/ApiCommunication'
-
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
 export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const { course } = route.params
-  console.log(course)
   const studentId = session.userData[0].id
 
   const [subscription, setSubscription] = React.useState('None')
@@ -27,12 +26,14 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const [favButtonName, setFavButtonName] = React.useState('staro')
   const [addedToFavs, setAddedToFavs] = React.useState(false)
   const [studentSub, setStudentSub] = React.useState({})
+  const [exams, setExams] = React.useState([])
 
   const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
   const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
   const getStudentCoursesURL = apiGatewayBaseUrl + 'courses?user_id='
   const getStudentSubURL = apiGatewayBaseUrl + 'suscriptions/inscription/' + studentId
   const favsURL = apiGatewayBaseUrl + 'users/favorites'
+  const getExamsURL = apiGatewayBaseUrl + 'exams?courseId='
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
@@ -97,7 +98,9 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   React.useEffect(() => {
     async function fetchSub () {
       const sub = await getResourcesFromApi(getStudentSubURL, tokenHeader, sessionToken, navigation)
+      const exms = await getResourcesFromApi(getExamsURL + course.id, tokenHeader, sessionToken, navigation)
       setStudentSub(sub)
+      setExams(exms)
     }
 
     if (course.suscriptions.length > 0) {
@@ -258,16 +261,6 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
           <Heading fontSize="lg">Categories: {categories}</Heading>
         </VStack>
       </Box>
-      <Collapse isOpen={activeCourse && alreadyEnrrolled}>
-          <TouchableOpacity
-              style={styles.button}
-              onPress={ () => {
-                navigation.navigate('CourseContent', {course: course})
-              }}
-          >
-            <Text style={{color: "#ffffff"}}>Course content</Text>
-          </TouchableOpacity>
-      </Collapse>
       <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
         <EnrrollAndUnenrrollButtonWithConfirmation
           activeCourse={activeCourse}
@@ -294,6 +287,64 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
             message={'You dont have the necessary subscription\n to enroll to this course'}
           />
         </Collapse>
+      <Collapse isOpen={activeCourse && alreadyEnrrolled}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={ () => {
+            navigation.navigate('CourseContent', { course: course })
+          }}
+        >
+          <Text style={{ color: '#ffffff' }}>Course content</Text>
+        </TouchableOpacity>
+        <Heading>Exams</Heading>
+        <VStack space={4} >
+          { exams.map(item => {
+            return (
+              <Pressable
+                key={item.number}
+                onPress={() => {
+                  navigation.navigate('ExamCompletion', { exam: item })
+                }}
+              >
+                <Box
+                  safeArea flex={1} p="3" w="90%"
+                  bg='transparent'
+                  borderColor="gray.900"
+                  rounded="4"
+                >
+                  <HStack space={3} justifyContent="space-between">
+                    <Text
+                      _dark={{
+                        color: 'warmGray.50'
+                      }}
+                      color="coolGray.800"
+                      bold
+                    >
+                      Exam {item.number} : {item.description}
+                    </Text>
+                    <Spacer />
+                    <Text
+                      _dark={{
+                        color: 'warmGray.50'
+                      }}
+                      color="coolGray.800"
+                      alignSelf="flex-start"
+                    >
+                      Questions: {item.questions.length}
+                    </Text>
+                  </HStack>
+                </Box>
+              </Pressable>
+            )
+          }) }
+        </VStack>
+        <Collapse isOpen={exams.length === 0}>
+          <Notification
+            status='info'
+            message='Currently there are no exams added to this course'
+          />
+        </Collapse>
+      </Collapse>
       </Box>
     </NativeBaseProvider>
   )
@@ -302,17 +353,17 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: 10
   },
   button: {
-    alignItems: "center",
-    backgroundColor: "#5869b6",
+    alignItems: 'center',
+    backgroundColor: '#5869b6',
     padding: 10,
-    color: "#bf2d2d"
+    color: '#bf2d2d'
   },
   countContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     padding: 10
   }
-});
+})

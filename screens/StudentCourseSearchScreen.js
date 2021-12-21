@@ -145,7 +145,7 @@ export default function StudentCourseSearchScreen ({ navigation }) {
             window.alert('There was an error while handling your request')
           }
         } else {
-          //console.log("CURSOS:",response)
+          // console.log("CURSOS:",response)
           return response.json()
         }
       })
@@ -225,7 +225,6 @@ export default function StudentCourseSearchScreen ({ navigation }) {
 
       setSubscriptions(formatForSubscriptions(subs))
       setCategories(formatForCategories(cats))
-      console.log(categories)
     }
 
     fetchData()

@@ -6,12 +6,11 @@ import {
   Box,
   VStack,
   NativeBaseProvider,
-  Button, Heading,
+  Heading,
   ScrollView,
   Collapse
 } from 'native-base'
 import session from '../session/token'
-import Notification from '../components/Notification'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
@@ -70,6 +69,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                     body='Are u sure u want to unenroll from this course?'
                     confirmButtonLabel='Unenroll'
                     onConfirm={console.log('hola')}
+                    hasNecessarySub={true}
                 />
             </View>
     )
@@ -148,6 +148,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                                 body='Are u sure u want to pay this subscription?'
                                 confirmButtonLabel='Subscribe'
                                 onConfirm={onConfirm_}
+                                hasNecessarySub={true}
                             />
                         </VStack>
                     </Box>

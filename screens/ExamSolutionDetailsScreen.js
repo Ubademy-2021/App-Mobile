@@ -90,6 +90,9 @@ export default function ExamSolutionDetailsScreen ({ navigation, route }) {
                     <TextArea
                       isDisabled={true}
                       defaultValue={item.answer}
+                      w={{
+                        base: '85%'
+                      }}
                     />
                     <Spacer/>
                     <Collapse isOpen={enableGrading}>
