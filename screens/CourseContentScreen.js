@@ -29,7 +29,7 @@ export default function CourseContentScreen ({ navigation, route }) {
         videosInfo.push({key: i, videoId: videosArray[i], videoDescription: "Class "+i})
         i++;
     }
-    console.log("Videos info es:",videosInfo);
+    console.log("Videos info es",videosInfo);
     const onStateChange = useCallback((state) => {
         if (state === "ended") {
             setPlaying(false);
@@ -39,9 +39,6 @@ export default function CourseContentScreen ({ navigation, route }) {
     const togglePlaying = useCallback(() => {
         setPlaying((prev) => !prev);
     }, []);
-
-
-
     return (
         <NativeBaseProvider>
             <ScrollView>
@@ -71,12 +68,13 @@ export default function CourseContentScreen ({ navigation, route }) {
                 }) }
                 <Text numberOfLines={1}></Text>
                 <Text numberOfLines={1}></Text>
-                <YoutubePlayer
+{/*                <YoutubePlayer
+                    key={4}
                     height={300}
                     play={playing}
-                    videoId={course.videos}
+                    videoId="z1QZqYuiGa8"
                     onChangeState={onStateChange}
-                />
+                />*/}
             </ScrollView>
         </NativeBaseProvider>
     )

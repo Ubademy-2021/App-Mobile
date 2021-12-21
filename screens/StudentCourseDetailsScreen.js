@@ -13,7 +13,6 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 
 export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const { course } = route.params
-  console.log(course)
   const studentId = session.userData[0].id
 
   const [subscription, setSubscription] = React.useState('None')
