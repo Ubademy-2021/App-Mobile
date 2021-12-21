@@ -26,48 +26,82 @@ export default function SignUpScreen ({ navigation }) {
         name: 'name is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.name
+      setErrors(copyErrors)
     }
+
     if (newUser.surname === undefined) {
       setErrors({
         ...errors,
         surname: 'Surname is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.surname
+      setErrors(copyErrors)
     }
+
     if (newUser.username === undefined) {
       setErrors({
         ...errors,
         username: 'Username is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.username
+      setErrors(copyErrors)
     }
+
     if (newUser.email === undefined) {
       setErrors({
         ...errors,
         email: 'Email is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.email
+      setErrors(copyErrors)
     }
+
     if (newUser.password === undefined) {
       setErrors({
         ...errors,
         password: 'Password is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.password
+      setErrors(copyErrors)
     }
+
     if (newUser.repeatPassword === undefined) {
       setErrors({
         ...errors,
         repeatPassword: 'Please type your password again'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.repeatPassword
+      setErrors(copyErrors)
     }
+
     if (newUser.password !== newUser.repeatPassword) {
       setErrors({
         ...errors,
         password: 'Passwords did not match'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.password
+      setErrors(copyErrors)
     }
 
     return true

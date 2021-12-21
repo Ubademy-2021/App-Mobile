@@ -1,5 +1,4 @@
 
-
 import * as React from 'react'
 
 import {
@@ -24,7 +23,7 @@ export default function SignUpForm ({ navigation, route }) {
   })
 
   const putLocation = () => {
-      //console.log("USER ID ACA ES:",user.id);
+    // console.log("USER ID ACA ES:",user.id);
     fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + user.id, {
       method: 'PUT',
       mode: 'no-cors',
@@ -53,28 +52,48 @@ export default function SignUpForm ({ navigation, route }) {
         country: 'Country is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.country
+      setErrors(copyErrors)
     }
+
     if (locationData.state === undefined) {
       setErrors({
         ...errors,
         state: 'State is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.state
+      setErrors(copyErrors)
     }
+
     if (locationData.city === undefined) {
       setErrors({
         ...errors,
         city: 'City is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.city
+      setErrors(copyErrors)
     }
+
     if (locationData.address === undefined) {
       setErrors({
         ...errors,
         address: 'Address is required'
       })
       return false
+    } else {
+      const copyErrors = errors
+      delete copyErrors.address
+      setErrors(copyErrors)
     }
+
     return true
   }
 
