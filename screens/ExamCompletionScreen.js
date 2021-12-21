@@ -80,10 +80,10 @@ export function ExamCompletionScreen ({ navigation, route }) {
                       }}
                     />
                     <Spacer/>
-                    <Collapse isOpen={savedSolution[0].answers[0].correct !== null}>
+                    <Collapse isOpen={savedSolution[0].answers[0].correct !== null && savedSolution[0].answers[0].correct === true}>
                       <CheckIcon size="sm" color='#0F9D58' />
                     </Collapse>
-                    <Collapse isOpen={savedSolution[0].answers[0].correct === null}>
+                    <Collapse isOpen={savedSolution[0].answers[0].correct !== null && savedSolution[0].answers[0].correct === false}>
                       <CloseIcon size="sm" color='#DB4437' />
                     </Collapse>
                   </HStack>

@@ -348,6 +348,7 @@ export function postSolution (postSolutionURL, tokenHeader, sessionToken, examIn
       }
     } else {
       window.alert('Solution processed successfully')
+      navigation.goBack()
     }
 
     return response.json()

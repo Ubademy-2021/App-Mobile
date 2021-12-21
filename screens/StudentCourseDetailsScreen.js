@@ -296,8 +296,10 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
         </TouchableOpacity>
         <Heading>Exams</Heading>
         <VStack space={4} >
+          {/* eslint-disable-next-line array-callback-return */}
           { exams.map(item => {
-            return (
+            if (item.published) {
+              return (
               <Pressable
                 key={item.number}
                 onPress={() => {
@@ -333,7 +335,8 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                   </HStack>
                 </Box>
               </Pressable>
-            )
+              )
+            }
           }) }
         </VStack>
         <Collapse isOpen={exams.length === 0}>
