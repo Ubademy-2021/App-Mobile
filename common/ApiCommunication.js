@@ -283,6 +283,45 @@ export function postExam (postExamURL, tokenHeader, sessionToken, description, c
     })
 }
 
+export function putExam (putExamURL, tokenHeader, sessionToken, description, courseId, examNumber, questions, navigation) {
+  return fetch(putExamURL, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      [tokenHeader]: sessionToken
+    },
+    body: JSON.stringify({
+      description: description,
+      courseId: courseId,
+      questions: questions,
+      number: examNumber
+    })
+  }).then((response) => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        window.alert('Session expired')
+        session.facebookSession = false
+        session.firebaseSession = false
+        navigation.navigate('Login')
+      } else {
+        window.alert(response.json().detail)
+      }
+    } else {
+      window.alert('Exam edited succesfully')
+      for (let i = 0; i < questions.length; i++) {
+        questions[i].number = i + 1
+      }
+      navigation.navigate('ExamDetails', { exam: { courseId: courseId, description: description, number: examNumber, published: false, questions: questions } })
+    }
+
+    return response.json()
+  })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
 export function postSolution (postSolutionURL, tokenHeader, sessionToken, examInfo, userId, answers, navigation) {
   return fetch(postSolutionURL, {
     method: 'POST',
