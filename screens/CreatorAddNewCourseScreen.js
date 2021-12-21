@@ -127,7 +127,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
              <FormControl isRequired isInvalid={'courseName' in errors}>
                <FormControl.Label>Title</FormControl.Label>
                <Input
-                 placeholder="Ej:Python 101"
+                 placeholder="Ex:Python 101"
                  onChangeText={(value) => setData({ ...formData, courseName: value })}
                />
                <FormControl.HelperText>
@@ -138,7 +138,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
              <FormControl isRequired isInvalid={'description' in errors}>
                <FormControl.Label>Description</FormControl.Label>
                <TextArea
-                 placeholder="Ej:In this course you will learn the python basics"
+                 placeholder="Ex:In this course you will learn the python basics"
                  onChangeText={(value) => setData({ ...formData, description: value })}
                />
                <FormControl.HelperText>
@@ -149,7 +149,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
              <FormControl isRequired isInvalid={'duration' in errors}>
                <FormControl.Label>Duration</FormControl.Label>
                <Input
-                 placeholder="Ej:22:05:42"
+                 placeholder="Ex: 22:05:42"
                  onChangeText={(value) => setData({ ...formData, duration: value })}
                />
                <FormControl.HelperText>
@@ -160,7 +160,7 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
              <FormControl isRequired isInvalid={'videosId' in errors}>
                <FormControl.Label>Video</FormControl.Label>
                <Input
-                   placeholder="2IsF7DEtVjg"
+                   placeholder="Ex: 2IsF7DEtVjg"
                    onChangeText={(value) => setData({ ...formData, videosId: value })}
                />
                <FormControl.HelperText>

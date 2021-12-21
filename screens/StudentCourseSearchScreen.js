@@ -35,14 +35,14 @@ function SearchBar () {
       <VStack width="100%" space={5} alignItems="center">
         <Heading fontSize="lg">Courses</Heading>
         <Input
-          placeholder="Search"
+          placeholder="Ex: Search"
           variant="filled"
           width="100%"
           bg="transparent"
           borderRadius="10"
           py="1"
           px="2"
-          placeholderTextColor="gray.500"
+          TextColor="gray.500"
           _hover={{ bg: 'gray.200', borderWidth: 0 }}
           borderWidth="0"
           _web={{

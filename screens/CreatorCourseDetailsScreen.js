@@ -189,7 +189,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isDisabled={!editEnabled} isInvalid={'courseName' in errors}>
                <FormControl.Label>Title</FormControl.Label>
                <Input
-                 placeholder="Ej:Python 101"
+                 placeholder="Ex:Python 101"
                  onChangeText={(value) => setData({ ...formData, courseName: value })}
                  defaultValue={formData.courseName}
                />
@@ -198,7 +198,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isDisabled={!editEnabled} isInvalid={'description' in errors}>
                <FormControl.Label>Description</FormControl.Label>
                <TextArea
-                 placeholder="Ej:In this course you will learn the python basics"
+                 placeholder="Ex:In this course you will learn the python basics"
                  onChangeText={(value) => setData({ ...formData, description: value })}
                  defaultValue={formData.description}
                />
@@ -207,7 +207,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isDisabled={!editEnabled} isInvalid={'duration' in errors}>
                <FormControl.Label>Duration</FormControl.Label>
                <Input
-                 placeholder="Ej:22:05:42"
+                 placeholder="Ex: 22:05:42"
                  onChangeText={(value) => setData({ ...formData, duration: value })}
                  defaultValue={formData.duration}
                />
@@ -340,7 +340,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
              <FormControl isRequired isInvalid={'newCollaborator' in errors}>
                <FormControl.Label>User Id</FormControl.Label>
                <Input
-                 placeholder="Ej:1"
+                 placeholder="Ex:1"
                  onChangeText={(value) => setNewCollaboratorId(value)}
                  defaultValue='0'
                  keyboardType='numeric'

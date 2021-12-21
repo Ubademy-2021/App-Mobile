@@ -117,7 +117,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 Country
                             </FormControl.Label>
                             <Input
-                                placeholder="Argentina"
+                                placeholder="Ex: Argentina"
                                 onChangeText={(value) => setLocationData({ ...locationData, country: value })}
                             />
                             {'country' in errors
@@ -132,7 +132,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 State/Province
                             </FormControl.Label>
                             <Input
-                                placeholder="Buenos Aires"
+                                placeholder="Ex: Buenos Aires"
                                 onChangeText={(value) => setLocationData({ ...locationData, state: value })}
                             />
                             {'state' in errors
@@ -147,7 +147,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 City
                             </FormControl.Label>
                             <Input
-                                placeholder="CABA"
+                                placeholder="Ex: CABA"
                                 onChangeText={(value) => setLocationData({ ...locationData, city: value })}
                             />
                             {'city' in errors
@@ -162,7 +162,7 @@ export default function SignUpForm ({ navigation, route }) {
                                 Address Line
                             </FormControl.Label>
                             <Input
-                                placeholder="Juncal 521"
+                                placeholder="Ex: Juncal 521"
                                 onChangeText={(value) => setLocationData({ ...locationData, address: value })}
                             />
                             {'address' in errors

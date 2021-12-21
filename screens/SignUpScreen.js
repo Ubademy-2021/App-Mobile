@@ -166,7 +166,7 @@ export default function SignUpScreen ({ navigation }) {
                                 Name
                             </FormControl.Label>
                             <Input
-                                placeholder='Jamie'
+                                placeholder='Ex: Jamie'
                                 onChangeText={(value) => setNewUser({ ...newUser, name: value })}
                             />
                             {'name' in errors
@@ -181,7 +181,7 @@ export default function SignUpScreen ({ navigation }) {
                                 Surname
                             </FormControl.Label>
                             <Input
-                                placeholder='Banks'
+                                placeholder='Ex: Banks'
                                 onChangeText={(value) => setNewUser({ ...newUser, surname: value })}
                             />
                             {'surname' in errors
@@ -196,7 +196,7 @@ export default function SignUpScreen ({ navigation }) {
                                 Username
                             </FormControl.Label>
                             <Input
-                                placeholder='Jamie_13'
+                                placeholder='Ex: Jamie_13'
                                 onChangeText={(value) => setNewUser({ ...newUser, username: value })}
                             />
                             {'username' in errors
@@ -211,7 +211,7 @@ export default function SignUpScreen ({ navigation }) {
                                 Email
                             </FormControl.Label>
                             <Input
-                                placeholder='jamiebanks@example.com'
+                                placeholder='Ex: amiebanks@example.com'
                                 onChangeText={(value) => setNewUser({ ...newUser, email: value })}
                             />
                             {'email' in errors
