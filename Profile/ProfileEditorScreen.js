@@ -174,7 +174,7 @@ export default function ProfileEditionForm ({ navigation }) {
                             <Button
                                 onPress={() => {
                                   putLocation()
-                                  navigation.goBack()
+                                  navigation.navigate("ProfileSelection")
                                 }
                                 }
                             >
