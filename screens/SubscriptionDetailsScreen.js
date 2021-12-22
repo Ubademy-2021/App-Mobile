@@ -80,8 +80,6 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   }
 
   const onConfirm_ = () => {
-    console.log('user id es:', session.userData[0].id)
-    console.log('subs id es:', subscription.key)
     fetch('https://course-service-ubademy.herokuapp.com/api/suscriptions/inscription', {
       method: 'POST',
       mode: 'no-cors',
@@ -98,15 +96,14 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
       .then((response) => {
         if (!response.ok) {
           window.alert("You don't have enough keth")
-          console.log('Status:', response.status)
+          //console.log('Status:', response.status)
         } else {
-          console.log('POST OK')
           window.alert('Payment successful')
         }
         navigation.navigate('Suscribe')
       })
       .then((json) => {
-        console.log('json:', json)
+        //console.log('json:', json)
       })
       .catch((error) => {
         console.error(error)

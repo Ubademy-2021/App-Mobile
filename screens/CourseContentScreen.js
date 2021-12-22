@@ -30,7 +30,6 @@ export default function CourseContentScreen ({ navigation, route }) {
         videosInfo.push({key: i, videoId: videosArray[i], videoDescription: "Class "+i})
         i++;
     }
-    console.log("Videos info es",videosInfo);
     const onStateChange = useCallback((state) => {
         console.log("Cambio de estado");
         if (state === "ended") {

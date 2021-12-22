@@ -31,16 +31,13 @@ export default function LogInScreen ({ navigation }) {
   const getLogInFacebook = async () => {
     const response = await fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
       { headers: { facebook_authentication: session.facebookToken } })
-    console.log('Response status:', response.status)
     if (response.status === 200) {
       response.json().then(data => {
         if (data[0].isBlock === true) {
           window.alert('This user has been blocked')
         } else {
-          //console.log('json nuevo:', data)
           session.userData = data
           session.facebookSession = true
-          // console.log(session.userData)
           navigation.navigate('ProfileSelection')
         }
       })
@@ -58,7 +55,7 @@ export default function LogInScreen ({ navigation }) {
         await auth.signInWithEmailAndPassword(email, password)
         const aux = await Firebase.auth().currentUser.getIdTokenResult()
         session.token = aux.token
-        console.log(session.token)
+        //console.log(session.token)
         getLogIn()
       }
     } catch (error) {
@@ -70,16 +67,13 @@ export default function LogInScreen ({ navigation }) {
   const getLogIn = async () => {
     const response = await fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/login',
       { headers: { firebase_authentication: session.token } })
-    console.log('Response status:', response.status)
     if (response.status === 200) {
       response.json().then(data => {
         if (data[0].isBlock === true) {
           window.alert('This user has been blocked')
         } else {
-          //console.log('json nuevo:', data)
           session.userData = data
           session.firebaseSession = true
-          // console.log(session.userData)
           navigation.navigate('ProfileSelection')
         }
       })
@@ -107,7 +101,7 @@ export default function LogInScreen ({ navigation }) {
       })
       if (type === 'success') {
         session.facebookToken = token
-        console.log(session.facebookToken)
+        //console.log(session.facebookToken)
         /* En esta url, con el token, obtengo los datos del usuario */
         const response = await fetch(`https://graph.facebook.com/me?access_token=${session.facebookToken}`)
         // window.alert(`Hi ${(await response.json()).name}!`)

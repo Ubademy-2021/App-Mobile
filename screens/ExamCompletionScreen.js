@@ -100,7 +100,7 @@ export function ExamCompletionScreen ({ navigation, route }) {
               buttonStatus='primary'
               buttonLabel='Submit'
               header='Submit Answers'
-              body='Are u sure to submit your answers? Remember that once you submit your answers you will not be able to change them'
+              body='Are you sure you want to submit your answers? Remember that once you submit your answers you will not be able to change them'
               confirmButtonLabel='Submit'
               onConfirm={handleSubmit}
               hasNecessarySub={true}

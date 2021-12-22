@@ -23,7 +23,6 @@ export default function SignUpForm ({ navigation, route }) {
   })
 
   const putLocation = () => {
-    // console.log("USER ID ACA ES:",user.id);
     fetch('https://ubademy-api-gateway.herokuapp.com/api-gateway/users/' + user.id, {
       method: 'PUT',
       mode: 'no-cors',

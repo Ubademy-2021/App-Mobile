@@ -111,7 +111,6 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
 
   const addNewCollaborator = async () => {
     const status = await postNewCollaborator(postNewCollaboratorURL, tokenHeader, sessionToken, course.id, newCollaboratorId, navigation)
-    console.log(status)
     if (status === 201) {
       const collabs = await getResourcesFromApi(getCollaboratorsURL + course.id, tokenHeader, sessionToken, navigation)
       setCollaborators(formatForCollaborations(collabs))

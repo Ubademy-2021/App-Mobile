@@ -30,7 +30,6 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
     } else {
         alert('Must use physical device for Push Notifications');
     }
@@ -54,12 +53,10 @@ export default function ProfileSelectionScreen ({ navigation }) {
         registerForPushNotificationsAsync()
             .then((token) => {
                     setExpoPushToken(token);
-                    console.log("Token aca es", token);
                     tokensRef.doc(token).set({
                         userId: session.userData[0].id,
                         token: token
                     }).then(() => {
-                        console.log("Token added!")
                     })
                 }
             );
