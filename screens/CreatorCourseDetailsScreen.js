@@ -35,7 +35,7 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
   const [errors, setErrors] = React.useState({})
   const [submittedForm, setSubmittedForm] = React.useState(false)
   const [subscriptions, setSubscriptions] = React.useState([])
-  const [selectedSubscription, setSelectedSubscription] = React.useState('Any')
+  const [selectedSubscription, setSelectedSubscription] = React.useState(course.suscriptions[0].id)
   const [categories, setCategories] = React.useState([])
   const [students, setStudents] = React.useState([])
   const [collaborators, setCollaborators] = React.useState([])
@@ -123,12 +123,16 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
     setSubmittedForm(true)
   }
 
-  // TODO Revisar el editar porque habia errores
   React.useEffect(() => {
+    async function test () {
+      const result = await putCourseToApi(putCourseURL, tokenHeader, sessionToken, formData, selectedSubscription, navigation)
+    }
+
     if (submittedForm) {
       setSubmittedForm(false)
       if (validate()) {
-        putCourseToApi(putCourseURL, tokenHeader, sessionToken, formData, selectedSubscription, navigation)
+        // putCourseToApi(putCourseURL, tokenHeader, sessionToken, formData, selectedSubscription, navigation)
+        test()
         setEditEnabled(false)
       }
     }
@@ -292,6 +296,9 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                           }}
                           color="coolGray.800"
                           bold
+                          w={{
+                            base: '70%'
+                          }}
                         >
                           {item.name !== 'null' ? item.name + ' ' + item.surname : item.userName}
                         </Text>
@@ -372,6 +379,9 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                            }}
                            color="coolGray.800"
                            bold
+                           w={{
+                             base: '70%'
+                           }}
                          >
                            {item.name !== 'null' ? item.name + ' ' + item.surname : item.userName}
                          </Text>
@@ -438,6 +448,9 @@ export default function CreatorCourseDetailsScreen ({ navigation, route }) {
                            }}
                            color="coolGray.800"
                            bold
+                           w={{
+                             base: '70%'
+                           }}
                          >
                            Exam {item.number} : {item.description}
                          </Text>

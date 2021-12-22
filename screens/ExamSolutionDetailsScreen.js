@@ -97,7 +97,7 @@ export default function ExamSolutionDetailsScreen ({ navigation, route }) {
                       }}
                     />
                     <Spacer/>
-                    <Collapse isOpen={enableGrading}>
+                    <Collapse isOpen={enableGrading || item.correct === true}>
                       <IconButton
                         size='sm'
                         variant={item.correct === true ? 'solid' : 'outline'}
@@ -107,13 +107,12 @@ export default function ExamSolutionDetailsScreen ({ navigation, route }) {
                           name: 'check'
                         }}
                         onPress={() => {
-                          console.log('correct')
                           item.correct = true
                           setPressedButton(!pressedButton)
                         }}
                       />
                     </Collapse>
-                    <Collapse isOpen={enableGrading}>
+                    <Collapse isOpen={enableGrading || item.correct === false}>
                       <IconButton
                         size='sm'
                         variant={item.correct === false ? 'solid' : 'outline'}
@@ -123,7 +122,6 @@ export default function ExamSolutionDetailsScreen ({ navigation, route }) {
                           name: 'close'
                         }}
                         onPress={() => {
-                          console.log('incorrect')
                           item.correct = false
                           setPressedButton(!pressedButton)
                         }}

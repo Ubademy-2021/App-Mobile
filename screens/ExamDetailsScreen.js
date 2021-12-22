@@ -20,7 +20,6 @@ const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway
 
 export default function ExamDetailsScreen ({ navigation, route }) {
   const { exam } = route.params
-  console.log(exam)
 
   const [solutions, setSolutions] = React.useState([])
   const [students, setStudents] = React.useState([])
@@ -168,6 +167,9 @@ export default function ExamDetailsScreen ({ navigation, route }) {
                         }}
                         color="coolGray.800"
                         bold
+                        w={{
+                          base: '85%'
+                        }}
                       >
                         Completed By {item.studentInfo[0].name !== 'null' ? item.studentInfo[0].name + ' ' + item.studentInfo[0].surname : item.studentInfo[0].userName }
                       </Text>

@@ -164,8 +164,8 @@ export default function CreatorAddNewCourseScreen ({ navigation }) {
                    onChangeText={(value) => setData({ ...formData, videosId: value })}
                />
                <FormControl.HelperText>
-                 Indicate the id of the video you want to add to the course, if you want to add more than one,
-                 separate the videos with :
+                 Indicate the id of the video ( the id of https://www.youtube.com/watch?v=Z8zAKYLZBqc is what comes after the =, Z8zAKYLZBqc)
+                 you want to add to the course, if you want to add more than one, separate the videos with :
                </FormControl.HelperText>
                <FormControl.ErrorMessage>{errors.videosId}</FormControl.ErrorMessage>
              </FormControl>

@@ -30,7 +30,8 @@ export function ExamCompletionScreen ({ navigation, route }) {
   const [savedSolution, setSavedSolution] = React.useState([{ answers: [{ number: -1, correct: null }], correctAnswers: 0 }])
 
   const postSolutionURL = apiGatewayBaseUrl + 'solutions'
-  const getStudentSolutionForExamURL = apiGatewayBaseUrl + 'solutions?courseId=' + exam.courseId + '&examNumber=' + exam.number + '&userId=' + studentId
+  // const getStudentSolutionForExamURL = apiGatewayBaseUrl + 'solutions?courseId=' + exam.courseId + '&examNumber=' + exam.number + '&userId=' + studentId
+  const getStudentSolutionForExamURL = 'https://exam-service-ubademy.herokuapp.com/api/solutions?courseId=' + exam.courseId + '&examNumber=' + exam.number + '&userId=' + studentId
 
   const tokenHeader = (session.firebaseSession) ? 'firebase_authentication' : 'facebook_authentication'
   const sessionToken = (session.firebaseSession) ? session.token : session.facebookToken
@@ -82,10 +83,10 @@ export function ExamCompletionScreen ({ navigation, route }) {
                       }}
                     />
                     <Spacer/>
-                    <Collapse isOpen={savedSolution[0].answers[0].correct !== null && savedSolution[0].answers[0].correct === true}>
+                    <Collapse isOpen={savedSolution[0].answers[0].correct !== null && savedSolution[0].answers[item.number - 1].correct === true}>
                       <CheckIcon size="sm" color='#0F9D58' />
                     </Collapse>
-                    <Collapse isOpen={savedSolution[0].answers[0].correct !== null && savedSolution[0].answers[0].correct === false}>
+                    <Collapse isOpen={savedSolution[0].answers[0].correct !== null && savedSolution[0].answers[item.number - 1].correct === false}>
                       <CloseIcon size="sm" color='#DB4437' />
                     </Collapse>
                   </HStack>

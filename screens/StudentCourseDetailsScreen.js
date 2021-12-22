@@ -27,6 +27,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
   const [addedToFavs, setAddedToFavs] = React.useState(false)
   const [studentSub, setStudentSub] = React.useState({})
   const [exams, setExams] = React.useState([])
+  const [noExamsPublished, setNoExamsPublished] = React.useState(true)
 
   const postCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription'
   const putCancelCourseInscriptionURL = apiGatewayBaseUrl + 'courses/inscription/cancel'
@@ -101,6 +102,12 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
       const exms = await getResourcesFromApi(getExamsURL + course.id, tokenHeader, sessionToken, navigation)
       setStudentSub(sub)
       setExams(exms)
+      for (let i = 0; i < exms.length; i++) {
+        if (exms[i].published) {
+          setNoExamsPublished(false)
+          break
+        }
+      }
     }
 
     if (course.suscriptions.length > 0) {
@@ -319,6 +326,9 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                       }}
                       color="coolGray.800"
                       bold
+                      w={{
+                        base: '70%'
+                      }}
                     >
                       Exam {item.number} : {item.description}
                     </Text>
@@ -329,6 +339,7 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                       }}
                       color="coolGray.800"
                       alignSelf="flex-start"
+
                     >
                       Questions: {item.questions.length}
                     </Text>
@@ -339,10 +350,10 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
             }
           }) }
         </VStack>
-        <Collapse isOpen={exams.length === 0}>
+        <Collapse isOpen={exams.length === 0 || noExamsPublished}>
           <Notification
             status='info'
-            message='Currently there are no exams added to this course'
+            message='Currently there are no exams published in this course'
           />
         </Collapse>
       </Collapse>

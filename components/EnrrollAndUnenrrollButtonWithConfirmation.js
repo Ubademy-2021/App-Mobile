@@ -10,7 +10,7 @@ export default function EnrrollAndUnenrrollButtonWithConfirmation (props) {
         buttonStatus='primary'
         buttonLabel='Enroll'
         header='Enroll to this course'
-        body='Are u sure u want to enroll in this course?'
+        body='Are you sure you want to enroll in this course?'
         confirmButtonLabel='Enroll'
         onConfirm={props.handleEnrollment}
         hasNecessarySub={props.hasNecessarySub}
@@ -22,7 +22,7 @@ export default function EnrrollAndUnenrrollButtonWithConfirmation (props) {
           buttonStatus='danger'
           buttonLabel='Unenroll'
           header='Unenroll to this course'
-          body='Are u sure u want to unenroll from this course?'
+          body='Are you sure you want to unenroll from this course?'
           confirmButtonLabel='Unenroll'
           onConfirm={props.handleUnenrollment}
           hasNecessarySub={true}
