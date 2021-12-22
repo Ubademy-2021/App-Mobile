@@ -68,7 +68,6 @@ export default function SignUpOptionsScreen ({ navigation }) {
         /* TODO: Este token lo tiene que recibir el back */
         // token = token;
         session.facebookToken = token
-        console.log(session.facebookToken)
         /* En esta url, con el token, obtengo los datos del usuario */
         const response = await fetch(`https://graph.facebook.com/me?fields=name,email&access_token=${session.facebookToken}`)
         const jsonData = (await response.json())

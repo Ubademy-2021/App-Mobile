@@ -41,7 +41,6 @@ const ListOfConversationsScreen = ({ navigation }) => {
                         continue
                     }
                     users__.push(user)
-                    //console.log("Username: userId:",user.userName, user.id)
                 }
                 //setUsers_(usersIds)
                 return users__
@@ -58,10 +57,7 @@ const ListOfConversationsScreen = ({ navigation }) => {
 
         // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
-            //navigation.navigate("Conversation", { senderId: 4, receiverId: session.userData[0].id });
             navigation.navigate("Messages");
-            //console.log("ACA REDIRECCIONO")
         });
 
         async function fetchData(){
@@ -76,7 +72,6 @@ const ListOfConversationsScreen = ({ navigation }) => {
     }, [])
 
     const enterChat = (senderId,receiverId, userInfo) => {
-        //console.log("SENDER ID:",senderId,receiverId)
         navigation.navigate("Conversation", { senderId: senderId, receiverId: receiverId, userInfo: userInfo });
     }
 

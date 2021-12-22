@@ -66,8 +66,8 @@ const SubscriptionScreen = ({ navigation }) => {
       })
       .then((json) => {
         for (let i = 0; i < json.length; i++) {
-          console.log('Currently in subs:', subscriptionDetails.id)
-          console.log('Subscription iterating:', json[i])
+          //console.log('Currently in subs:', subscriptionDetails.id)
+          //console.log('Subscription iterating:', json[i])
           if (json[i].id === subscriptionDetails.id) {
             continue
           }
@@ -81,7 +81,6 @@ const SubscriptionScreen = ({ navigation }) => {
   }
 
   function renderCurrentSubs () {
-    console.log('SUBS DET ES:', subsDet)
     return (
             <View>
                 <Text numberOfLines={1}></Text>

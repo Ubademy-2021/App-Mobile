@@ -101,17 +101,12 @@ export default function ConversationScreen ({ navigation, route }) {
 
     //Me manda los mensajes a la DB
     async function handleSend(messages){
-        console.log("Messages es",messages)
-        console.log("Message text es",messages[0].text)
         const writes = messages.map(m => chatsRef.add(m))
         await Promise.all(writes)
         tokensRef.where('userId','==',route.params.receiverId).get().then(querySnapshot => {
 
-            console.log("TOtal users:",querySnapshot.size);
 
             querySnapshot.forEach(documentSnapshot => {
-                console.log("Datos del usuario al que le voy a enviar el msg:",documentSnapshot.data())
-                console.log("Token:",documentSnapshot.data().token)
                 sendPushNotification(documentSnapshot.data().token, messages[0].text, session.userData[0].userName);
             })
         })
