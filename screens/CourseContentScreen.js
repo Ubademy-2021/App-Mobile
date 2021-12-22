@@ -10,11 +10,12 @@ import {
     Button,
     ScrollView, Text, Center
 } from 'native-base'
-import { StyleSheet , View, Alert} from 'react-native'
+import { StyleSheet , View, Alert, Clipboard} from 'react-native'
 import React, { useState, useCallback, useRef } from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
 import CourseInSubscriptionCard from "../components/CourseInSubscriptionCard";
 import CustomVideo from "../components/CustomVideo"
+
 
 export default function CourseContentScreen ({ navigation, route }) {
 
@@ -31,13 +32,17 @@ export default function CourseContentScreen ({ navigation, route }) {
     }
     console.log("Videos info es",videosInfo);
     const onStateChange = useCallback((state) => {
+        console.log("Cambio de estado");
         if (state === "ended") {
             setPlaying(false);
             Alert.alert("video has finished playing!");
         }
+        Clipboard.setString("You can't share this link");
     }, []);
     const togglePlaying = useCallback(() => {
+        console.log("playing");
         setPlaying((prev) => !prev);
+        Clipboard.setString("You can't share this link");
     }, []);
     return (
         <NativeBaseProvider>
