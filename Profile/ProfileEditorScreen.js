@@ -1,22 +1,20 @@
 
 import session from '../session/token'
 import {
-    NativeBaseProvider,
-    Box,
-    Heading,
-    VStack,
-    FormControl,
-    Input,
-    Button,
-    ScrollView, Text, Center
+  NativeBaseProvider,
+  Box,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Button,
+  ScrollView, Text, Center
 } from 'native-base'
-import { StyleSheet , View, Alert} from 'react-native'
-import React, { useState, useCallback, useRef } from "react";
+import { StyleSheet, View, Alert } from 'react-native'
+import React, { useState, useCallback, useRef } from 'react'
 
 export default function ProfileEditionForm ({ navigation }) {
-
-
-    const newUserData = {}
+  const newUserData = {}
 
   function reAssignUserData (data) {
     session.userData[0].userName = data.userName
@@ -89,101 +87,98 @@ export default function ProfileEditionForm ({ navigation }) {
 
   return (
         <NativeBaseProvider>
-            <ScrollView>
-                <Box safeArea flex={1} p="2" w="90%" mx="auto" py="8">
-                    <VStack alignItems="center">
-                        <Heading size="lg" color="coolGray.800" fontWeight="600" textalign="center">
-                            Profile Editor
-                        </Heading>
-                    </VStack>
-
-                    <VStack space={3} mt="5">
-                        <FormControl>
-                            <FormControl.Label
-                                _text={styles.formControlText}>
-                                Username
-                            </FormControl.Label>
-                            <Input
-                                placeholder="e.g: Jorge06"
-                                onChangeText={(value) => setLocationData({ ...locationData, userName: value })}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormControl.Label
-                                _text={styles.formControlText}>
-                                Name
-                            </FormControl.Label>
-                            <Input
-                                placeholder="e.g: Jorge"
-                                onChangeText={(value) => setLocationData({ ...locationData, name: value })}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormControl.Label
-                                _text={styles.formControlText}>
-                                Surname
-                            </FormControl.Label>
-                            <Input
-                                placeholder="e.g: Perez"
-                                onChangeText={(value) => setLocationData({ ...locationData, surname: value })}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormControl.Label
-                                _text={styles.formControlText}>
-                                Address
-                            </FormControl.Label>
-                            <Input
-                                placeholder="e.g: Moldes 2032"
-                                onChangeText={(value) => setLocationData({ ...locationData, address: value })}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormControl.Label
-                                _text={styles.formControlText}>
-                                City
-                            </FormControl.Label>
-                            <Input
-                                placeholder="e.g: CABA"
-                                onChangeText={(value) => setLocationData({ ...locationData, city: value })}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormControl.Label
-                                _text={styles.formControlText}>
-                                State
-                            </FormControl.Label>
-                            <Input
-                                placeholder="e.g: Buenos Aires"
-                                onChangeText={(value) => setLocationData({ ...locationData, state: value })}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormControl.Label
-                                _text={styles.formControlText}>
-                                Country
-                            </FormControl.Label>
-                            <Input
-                                placeholder="e.g: Argentina"
-                                onChangeText={(value) => setLocationData({ ...locationData, country: value })}
-                            />
-                        </FormControl>
-                        <Button.Group
-                            direction="column"
-                        >
-                            <Button
-                                onPress={() => {
-                                  putLocation()
-                                  navigation.navigate("ProfileSelection")
-                                }
-                                }
-                            >
-                                Continue
-                            </Button>
-                        </Button.Group>
-                    </VStack>
+                <Box safeArea flex={0} p="2" w="90%" mx="auto" py="8" alignItems='center'>
+                    <Heading size="lg" color="coolGray.800" fontWeight="600" textalign="center">
+                        Profile Editor
+                    </Heading>
                 </Box>
-            </ScrollView>
+                <ScrollView>
+                    <Box safeArea flex={0} p="2" w="90%" mx="auto" py="8">
+                        <VStack space={3} mt="5">
+                            <FormControl>
+                                <FormControl.Label
+                                    _text={styles.formControlText}>
+                                    Username
+                                </FormControl.Label>
+                                <Input
+                                    placeholder="e.g: Jorge06"
+                                    onChangeText={(value) => setLocationData({ ...locationData, userName: value })}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormControl.Label
+                                    _text={styles.formControlText}>
+                                    Name
+                                </FormControl.Label>
+                                <Input
+                                    placeholder="e.g: Jorge"
+                                    onChangeText={(value) => setLocationData({ ...locationData, name: value })}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormControl.Label
+                                    _text={styles.formControlText}>
+                                    Surname
+                                </FormControl.Label>
+                                <Input
+                                    placeholder="e.g: Perez"
+                                    onChangeText={(value) => setLocationData({ ...locationData, surname: value })}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormControl.Label
+                                    _text={styles.formControlText}>
+                                    Address
+                                </FormControl.Label>
+                                <Input
+                                    placeholder="e.g: Moldes 2032"
+                                    onChangeText={(value) => setLocationData({ ...locationData, address: value })}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormControl.Label
+                                    _text={styles.formControlText}>
+                                    City
+                                </FormControl.Label>
+                                <Input
+                                    placeholder="e.g: CABA"
+                                    onChangeText={(value) => setLocationData({ ...locationData, city: value })}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormControl.Label
+                                    _text={styles.formControlText}>
+                                    State
+                                </FormControl.Label>
+                                <Input
+                                    placeholder="e.g: Buenos Aires"
+                                    onChangeText={(value) => setLocationData({ ...locationData, state: value })}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormControl.Label
+                                    _text={styles.formControlText}>
+                                    Country
+                                </FormControl.Label>
+                                <Input
+                                    placeholder="e.g: Argentina"
+                                    onChangeText={(value) => setLocationData({ ...locationData, country: value })}
+                                />
+                            </FormControl>
+                        </VStack>
+                    </Box>
+                </ScrollView>
+                <Box safeArea flex={0} p="2" w="90%" mx="auto" py="8">
+                        <Button
+                            onPress={() => {
+                              putLocation()
+                              navigation.navigate('ProfileSelection')
+                            }
+                            }
+                        >
+                            Continue
+                        </Button>
+                </Box>
         </NativeBaseProvider>
   )
 }

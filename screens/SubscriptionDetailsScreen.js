@@ -115,7 +115,6 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
 
   return (
         <NativeBaseProvider>
-            <ScrollView>
                 <Collapse isOpen={confirmation}>
                     {confirmation ? renderConfirmation() : renderVoid()}
                 </Collapse>
@@ -126,9 +125,10 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                             <Heading fontSize="lg">Subscription price: {subscription.price}</Heading>
                             <Text numberOfLines={1}></Text>
                             <Heading fontSize="lg">Courses included in this subscription:</Heading>
-                            <Text numberOfLines={1}></Text>
-                            <Text numberOfLines={1}></Text>
-
+                        </VStack>
+                    </Box>
+                    <ScrollView>
+                        <Box safeArea flex={0} p="2" w="90%" mx="auto" py="8">
                             { courses.map(item => {
                               return (
                                     <CourseInSubscriptionCard
@@ -138,6 +138,10 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                                         duration={item.duration}/>
                               )
                             }) }
+                        </Box>
+                    </ScrollView>
+                    <Box safeArea flex={0} p="2" w="90%" mx="auto" py="8">
+                        <VStack>
                             <Text numberOfLines={1}></Text>
                             <Text numberOfLines={1}></Text>
 
@@ -154,7 +158,6 @@ export default function StudentCourseDetailsScreen ({ navigation, route }) {
                     </Box>
                 </Collapse>
 
-                </ScrollView>
         </NativeBaseProvider>
   )
 }
