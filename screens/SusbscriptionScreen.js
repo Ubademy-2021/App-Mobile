@@ -1,18 +1,13 @@
-import React, {useRef, useState} from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import SubscriptionCard from '../components/SubscriptionCard'
 
 import {
-  Avatar,
-  Box,
   Center,
   Text,
-  VStack,
-  IconButton,
-  HStack,
   NativeBaseProvider,
   ScrollView,
-  Button, Heading
+  Heading
 } from 'native-base'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import session from '../session/token'
@@ -20,10 +15,7 @@ import { useIsFocused } from '@react-navigation/native'
 
 const apiGatewayBaseUrl = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/'
 
-
 const SubscriptionScreen = ({ navigation }) => {
-
-
   const [subscriptions, setSubscriptions] = React.useState([])
   const getSuscriptionsURL = apiGatewayBaseUrl + 'suscriptions'
   // const suscriptionCoursesURL = 'https://ubademy-api-gateway.herokuapp.com/api-gateway/courses?suscription_id='
@@ -66,8 +58,8 @@ const SubscriptionScreen = ({ navigation }) => {
       })
       .then((json) => {
         for (let i = 0; i < json.length; i++) {
-          console.log('Currently in subs:', subscriptionDetails.id)
-          console.log('Subscription iterating:', json[i])
+          // console.log('Currently in subs:', subscriptionDetails.id)
+          // console.log('Subscription iterating:', json[i])
           if (json[i].id === subscriptionDetails.id) {
             continue
           }
@@ -81,7 +73,6 @@ const SubscriptionScreen = ({ navigation }) => {
   }
 
   function renderCurrentSubs () {
-    console.log('SUBS DET ES:', subsDet)
     return (
             <View>
                 <Text numberOfLines={1}></Text>
@@ -96,7 +87,6 @@ const SubscriptionScreen = ({ navigation }) => {
     if (tabIsFocused) {
       getSuscriptions()
     }
-
   }, [tabIsFocused])
 
   return (

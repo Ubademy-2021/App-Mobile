@@ -1,9 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { StyleSheet, Text, TextInput, View, YellowBox, Button } from 'react-native'
+import React, { useRef, useState } from 'react'
 import session from '../session/token'
-import { ListItem, Avatar } from 'react-native-elements'
 import CustomListItem from '../components/CustomListItem'
-import Constants from 'expo-constants'
 import * as Notifications from 'expo-notifications'
 
 import {
@@ -41,7 +38,6 @@ const ListOfConversationsScreen = ({ navigation }) => {
             continue
           }
           users__.push(user)
-          // console.log("Username: userId:",user.userName, user.id)
         }
         // setUsers_(usersIds)
         return users__
@@ -52,51 +48,47 @@ const ListOfConversationsScreen = ({ navigation }) => {
   }
 
   React.useEffect(() => {
-    /* notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            setNotification(notification);
-        });
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification)
+    })
 
-        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
-            //navigation.navigate("Conversation", { senderId: 4, receiverId: session.userData[0].id });
-            navigation.navigate("Messages");
-            //console.log("ACA REDIRECCIONO")
-        }); */
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      navigation.navigate('Messages')
+    })
 
     async function fetchData () {
       const users = await getUsersFromApi()
       setChats(users)
     }
     fetchData()
-    /* return () => {
-            Notifications.removeNotificationSubscription(notificationListener.current);
-            Notifications.removeNotificationSubscription(responseListener.current);
-        }; */
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current)
+      Notifications.removeNotificationSubscription(responseListener.current)
+    }
   }, [])
 
   const enterChat = (senderId, receiverId, userInfo) => {
-    // console.log("SENDER ID:",senderId,receiverId)
     navigation.navigate('Conversation', { senderId: senderId, receiverId: receiverId, userInfo: userInfo })
   }
 
   return (
-        <NativeBaseProvider>
-            <ScrollView>
+    <NativeBaseProvider>
+      <ScrollView>
 
-                {chats.map(item => (
-                    <CustomListItem
-                        key={item.id}
-                    senderId={session.userData[0].id}
-                    receiverId={item.id}
-                        username={item.userName}
-                        userInfo={item}
-                    enterChat = {enterChat}
-                    />
-                ))}
+        {chats.map(item => (
+          <CustomListItem
+            key={item.id}
+            senderId={session.userData[0].id}
+            receiverId={item.id}
+            username={item.userName}
+            userInfo={item}
+            enterChat = {enterChat}
+          />
+        ))}
 
-            </ScrollView>
-        </NativeBaseProvider>
+      </ScrollView>
+    </NativeBaseProvider>
   )
 }
 
