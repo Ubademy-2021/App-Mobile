@@ -2,12 +2,28 @@
 
 ## Screenshots
 
-## Requirements
-### Dependencies
 
-First install firebase with expo : expo install firebase
+![alt text for screen readers](screenshots/login.png "Text to show on mouseover")
 
-Install all dependencies : yarn install
+![alt text for screen readers](screenshots/profileselection.png "Text to show on mouseover")
+
+![alt text for screen readers](screenshots/subdetails.png "Text to show on mouseover")
+
+![alt text for screen readers](screenshots/chatroom.png "Text to show on mouseover")
+
+![alt text for screen readers](screenshots/creatorcourseview2.png "Text to show on mouseover")
+
+
+### Requirements
+
+Last versions of Node, npm and yarn installed
+
+### Install all dependencies 
+
+yarn install
+
+
+#### In order to fix some warnings:
 
 WARNING: After installing all dependencies you must modify  the node_modules/react-native-selectmultiple-button/libraries/SelectMultipleButton.js file
 You must replace constructor and componentDidMount functions and replace componentWillReceiveProps for getDerivedStateFromProps
@@ -62,24 +78,3 @@ To fix this issue...
 
     Save the changes (with auto format turned off) and re-build your app.
 
-### Installation of Native Base library:
-
-In the root of the project execute the following commands:
-
-expo install react-native-svg
-
-expo install react-native-safe-area-context
-
-### Using react-navigation (https://reactnavigation.org/docs/getting-started/)
-
-Install the required packages in your React Native project: yarn add @react-navigation/native
-
-Installing dependencies into an Expo managed project: expo install react-native-screens react-native-safe-area-context
-
-Installing the native stack navigator library: yarn add @react-navigation/native-stack
-
-### For Facebook integration:
-
-yarn add react-native-fbsdk-next
-
-expo install expo-facebook
